@@ -25,7 +25,7 @@ function Play() {
     }
 
     return questions.length > 0 ?
-        (<div className='h-screen w-full flex justify-center'>
+        (<div className='h-screen w-full flex justify-center md:text-sm text-xs lg:text-base'>
             <div className='h-[85%] w-full flex justify-center relative'>
                 <div className='h-[20%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
                     <div className='w-9/12 flex justify-between absolute'>
