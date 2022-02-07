@@ -2,6 +2,18 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Questionare from './Questionare';
 
+function randomHexColor() {
+    // Generate a random 2 digit hex number, padded with a 0 if necessary
+    const part = () =>
+        Math.floor(Math.random() * 256)
+            .toString(16)
+            .padStart(2, '0');
+    const r = part();
+    const g = part();
+    const b = part();
+    return `#${r}${g}${b}`;
+}
+
 function Play() {
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,6 +35,8 @@ function Play() {
             setScore(score + 1);
         }
     }
+
+    const randomColors = Array(4).fill(0).map(v=>randomHexColor()).map(v=>`bg-[${v}]`);
 
     return questions.length > 0 ?
         (<div className='h-screen w-full flex justify-center md:text-sm text-xs lg:text-base'>
@@ -46,7 +60,7 @@ function Play() {
                         </div>
                     </div>
                 </div>
-                <Questionare data={questions[currentIndex]} handleAnswer={handleAnswer} />
+                <Questionare data={questions[currentIndex]} handleAnswer={handleAnswer} randomColors={randomColors}/>
             </div>
         </div>)
         : (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Loading...</div>);
