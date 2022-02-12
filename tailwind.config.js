@@ -24,12 +24,22 @@ module.exports = {
         random2: randomHexColor(),
         random3: randomHexColor(),
         random4: randomHexColor(),
+<<<<<<< HEAD
         random5: randomHexColor(),
         random6: randomHexColor(),
         random7: randomHexColor(),
         random8: randomHexColor(),
         random9: randomHexColor(),
+=======
+        blue: {
+            dark: "#2E5185",
+        }
+>>>>>>> config/choosequiz
       },
+      boxShadow: {
+          quiz: "0px 5px 30px 26px rgba(152, 152, 152, 0.15)",
+          answer: "0px 0px 30px 3px rgba(196, 207, 235, 0.3)",
+      }
     },
   },
   plugins: [require('@tailwindcss/typography')],
