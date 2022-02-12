@@ -1,44 +1,41 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Clock from './Clock';
 import Questionare from './Questionare';
-
-function randomHexColor() {
-    // Generate a random 2 digit hex number, padded with a 0 if necessary
-    const part = () =>
-        Math.floor(Math.random() * 256)
-            .toString(16)
-            .padStart(2, '0');
-    const r = part();
-    const g = part();
-    const b = part();
-    return `#${r}${g}${b}`;
-}
 
 function Play() {
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
+    const [isNext, setIsNext] = useState(false);
 
     useEffect(() => {
         fetch('https://opentdb.com/api.php?amount=10')
             .then(res => res.json())
-            .then(data => setQuestions(data.results))
+            .then(data => setQuestions(data.results));
     }, []);
 
     function handleAnswer(answer) {
-        // show another question
         if (currentIndex != questions.length - 1) {
             setCurrentIndex(currentIndex + 1);
         }
-        // change score if correct
         if (answer === questions[currentIndex].correct_answer) {
             setScore(score + 1);
         }
+        setIsNext(true);
     }
 
-    const randomColors = Array(4).fill(0).map(v=>randomHexColor()).map(v=>`bg-[${v}]`);
+    function timeUp() {
+        if (currentIndex != questions.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        }
+    }
 
-    return questions.length > 0 ?
+    const times = Array(questions.length).fill(0).map((v, index) => (index + 4));
+
+    return currentIndex == questions.length - 1 ? 
+    (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Your score: {score}</div>)
+     : questions.length > 0 ?
         (<div className='h-screen w-full flex justify-center md:text-sm text-xs lg:text-base'>
             <div className='h-[85%] w-full flex justify-center relative'>
                 <div className='h-[20%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
@@ -53,14 +50,10 @@ function Play() {
                                 {score}
                             </div>
                         </div>
-                        <div>
-                            <div className='text-white font-bold flex items-center gap-2'>
-                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd"></path></svg>                            00:07
-                            </div>
-                        </div>
+                        <Clock duration={times[currentIndex]} nextQuestion={timeUp} isNext={isNext} setIsNext={setIsNext} />
                     </div>
                 </div>
-                <Questionare data={questions[currentIndex]} handleAnswer={handleAnswer} randomColors={randomColors}/>
+                <Questionare data={questions[currentIndex]} handleAnswer={handleAnswer} questionProgress={`${currentIndex + 1}/${questions.length}`} />
             </div>
         </div>)
         : (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Loading...</div>);
