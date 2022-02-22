@@ -1,8 +1,7 @@
 {
   "rules": {
     "semi":"warn",
-    "no-console":"warn",
-    
+    "no-console":"warn"
   },
   "extends": "next/core-web-vitals"
 }
