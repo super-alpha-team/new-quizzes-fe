@@ -34,6 +34,20 @@ function Question({ id, isChoosing, setIsChoosing }) {
                             <p>Answer A</p>
                         </div>
                     </div>
+                    {isEdit ?
+                        <div className="mt-4 flex gap-8">
+                            <input
+                                placeholder="điểm"
+                                className="p-2 w-32 outline-none border border-white focus:border-gray-light transition rounded-md"
+                                type="number"
+                            />
+                            <input
+                                placeholder="thời gian"
+                                className="p-2 w-32 outline-none border border-white focus:border-gray-light transition rounded-md"
+                                type="number"
+                            />
+                        </div>
+                        : ""}
                 </div>
                 <div>
                     <div
