@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import useCollapse from "react-collapsed";
 import Link from "next/link";
+import axios from "axios";
 
-function SingleQuiz({ id, isChoosing, setIsChoosing }) {
+function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
     const [quizClicked, setQuizClicked] = useState(false);
 
@@ -25,7 +26,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing }) {
                 }
             >
                 <p className="cursor-pointer" onClick={handleChoosingQuiz}>
-                    Quiz 1
+                    {title}
                 </p>
                 {isExpanded ? (
                     <svg
@@ -50,7 +51,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing }) {
                         {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
-                            fillRule="evenodd"
+                            fillRule="evenodd"d
                             d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                             clipRule="evenodd"
                         />
@@ -75,6 +76,21 @@ function SingleQuiz({ id, isChoosing, setIsChoosing }) {
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
+    const [listQuiz, setListQuiz] = useState([]);
+
+    useEffect(() => {
+        const getAllQuizzes = async () => {
+            const response = await axios.get("http://localhost:5000/lti/quiz/list", 
+                { headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybVVybCI6Imh0dHA6Ly8xOTIuMTY4LjEuMTMiLCJjbGllbnRJZCI6IlhPRUpTT3pXc2xPYkZsayIsImRlcGxveW1lbnRJZCI6IjIiLCJwbGF0Zm9ybUNvZGUiOiJsdGlhSFIwY0Rvdkx6RTVNaTR4TmpndU1TNHhNMWhQUlVwVFQzcFhjMnhQWWtac2F6SSUzRCIsImNvbnRleHRJZCI6Imh0dHAlM0ElMkYlMkYxOTIuMTY4LjEuMTNYT0VKU096V3NsT2JGbGsyMl80IiwidXNlciI6IjIiLCJzIjoiNjdhNTgwYjc1YTUyNmJlMWEzMWM2MDAxNGE1ZmIwMzA3MTAyYmFhZmZmYTA3M2NiMDAiLCJpYXQiOjE2NDcxNjA4NjV9.h_xh_6ldZBVnlnhm02Nk5N5vH478hU8PsNESLatWwww"}});
+
+            setListQuiz(response.data.data.quiz_list)
+        }
+
+        getAllQuizzes();
+    }, [])
+
+    console.log(listQuiz)
+    
     return (
         <div className="w-screen h-screen">
             <Header />
@@ -82,26 +98,16 @@ function ChooseQuiz() {
             <p className="w-9/12 m-auto mt-4 mb-4">Chọn bộ câu hỏi</p>
             <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl">
                 <div className="h-[100%] flex flex-col pt-6 pb-4 overflow-hidden overflow-y-scroll">
-                    <SingleQuiz
-                        id={1}
-                        isChoosing={isChoosing}
-                        setIsChoosing={setIsChoosing}
-                    />
-                    <SingleQuiz
-                        id={2}
-                        isChoosing={isChoosing}
-                        setIsChoosing={setIsChoosing}
-                    />
-                    <SingleQuiz
-                        id={3}
-                        isChoosing={isChoosing}
-                        setIsChoosing={setIsChoosing}
-                    />
-                    <SingleQuiz
-                        id={4}
-                        isChoosing={isChoosing}
-                        setIsChoosing={setIsChoosing}
-                    />
+                    {listQuiz.map((quizInfo) => 
+                        <SingleQuiz
+                            id={1}
+                            key={quizInfo.id}
+                            isChoosing={isChoosing}
+                            setIsChoosing={setIsChoosing}
+                            title={quizInfo.name}
+                        />
+                    )}
+                    
                 </div>
             </div>
             <div className="w-9/12 m-auto justify-end flex mt-4 ">
