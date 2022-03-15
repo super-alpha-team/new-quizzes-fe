@@ -78,7 +78,7 @@ function ChooseQuiz() {
         <div className="w-screen h-screen">
             <Header />
 
-            <p className="w-9/12 m-auto mt-4 mb-4">Chọn bộ câu hỏi</p>
+            <p className="w-9/12 m-auto mt-24 mb-4">Chọn bộ câu hỏi</p>
             <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl">
                 <div className="h-[100%] flex flex-col pt-6 pb-4 overflow-hidden overflow-y-scroll">
                     <SingleQuiz
