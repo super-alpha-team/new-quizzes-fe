@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import useCollapse from "react-collapsed";
+import Link from "next/link";
 
 function SingleQuiz({ id, isChoosing, setIsChoosing }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
@@ -104,15 +105,21 @@ function ChooseQuiz() {
                 </div>
             </div>
             <div className="w-9/12 m-auto justify-end flex mt-4 ">
-                <div
-                    className={
-                        isChoosing != -1
-                            ? "bg-blue-700 hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer"
-                            : "bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300"
-                    }
-                >
-                    Button
-                </div>
+                {isChoosing != -1 ?
+                    <Link href="/conf/1">
+                        <div
+                            className="bg-blue-lightDark hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer"
+                        >
+                            Button
+                        </div>
+                    </Link>
+                    : <div
+                        className=
+                        "bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300"
+                    >
+                        Tiếp tục
+                    </div>
+                }
             </div>
         </div>
     );
