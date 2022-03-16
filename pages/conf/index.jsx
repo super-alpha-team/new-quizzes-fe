@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import useCollapse from "react-collapsed";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
@@ -77,19 +78,22 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
     const [listQuiz, setListQuiz] = useState([]);
-
+    const router = useRouter();
+ 
     useEffect(() => {
         const getAllQuizzes = async () => {
             const response = await axios.get("http://localhost:5000/lti/quiz/list", 
-                { headers: { "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybVVybCI6Imh0dHA6Ly8xOTIuMTY4LjEuMTMiLCJjbGllbnRJZCI6IlhPRUpTT3pXc2xPYkZsayIsImRlcGxveW1lbnRJZCI6IjIiLCJwbGF0Zm9ybUNvZGUiOiJsdGlhSFIwY0Rvdkx6RTVNaTR4TmpndU1TNHhNMWhQUlVwVFQzcFhjMnhQWWtac2F6SSUzRCIsImNvbnRleHRJZCI6Imh0dHAlM0ElMkYlMkYxOTIuMTY4LjEuMTNYT0VKU096V3NsT2JGbGsyMl80IiwidXNlciI6IjIiLCJzIjoiNjdhNTgwYjc1YTUyNmJlMWEzMWM2MDAxNGE1ZmIwMzA3MTAyYmFhZmZmYTA3M2NiMDAiLCJpYXQiOjE2NDcxNjA4NjV9.h_xh_6ldZBVnlnhm02Nk5N5vH478hU8PsNESLatWwww"}});
+                { headers: { "Authorization": `Bearer ${router.query.ltik}`}});
 
             setListQuiz(response.data.data.quiz_list)
+        } 
+        if(router.query.ltik){
+            getAllQuizzes()
         }
+        
+    }, [router.query.ltik])
 
-        getAllQuizzes();
-    }, [])
-
-    console.log(listQuiz)
+    console.log(router.query.ltik)
     
     return (
         <div className="w-screen h-screen">
@@ -100,7 +104,7 @@ function ChooseQuiz() {
                 <div className="h-[100%] flex flex-col pt-6 pb-4 overflow-hidden overflow-y-scroll">
                     {listQuiz.map((quizInfo) => 
                         <SingleQuiz
-                            id={1}
+                            id={quizInfo.id}
                             key={quizInfo.id}
                             isChoosing={isChoosing}
                             setIsChoosing={setIsChoosing}
