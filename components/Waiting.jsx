@@ -1,7 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { io } from 'socket.io-client';
+
+const socket = io('ws://localhost:5000');
 
 function Waiting({ startOnClick }) {
+
+    useEffect(() => {
+
+        socket.on('connect', () => {
+            console.log(`my socket id: ${socket.id}`);
+        });
+
+        socket.emit('start_quiz', {});
+
+        return () => socket.disconnect();
+    }, []);
+
+
     return (
         <div className='w-full h-screen bg-[#2E5185] flex justify-center items-center'>
             <button className='relative w-32 h-12' onClick={startOnClick} >

@@ -19,8 +19,8 @@ function Questionare({ data: { question, correct_answer, incorrect_answers }, ha
             <div className={shuffledAnswers.length < 4 ? `w-11/12 h-1/2 grid gap-4 grid-rows-2` : `w-11/12 h-1/2 grid gap-4 grid-cols-4`}>
                 {shuffledAnswers.map((answer, index) =>
                     <button className='relative' onClick={() => handleAnswer(answer)} key={index}>
-                        <div className='w-full h-full bg-black absolute top-1 left-1 rounded-md text-justify text-sm' />
-                        <div className='w-full h-full p-1 absolute top-0 border-black border-2 rounded-md text-left' style={{backgroundColor: randomHexColor()}} dangerouslySetInnerHTML={{ __html: answer }} />
+                        {/* <div className='w-full h-full bg-black absolute top-1 left-1 rounded-md text-justify text-sm' /> */}
+                        <div className='w-full h-full p-1 absolute top-0 border-black border-2 rounded-md text-left shadow-answer' style={{backgroundColor: randomHexColor()}} dangerouslySetInnerHTML={{ __html: answer }} />
                     </button>
                 )}
             </div>
