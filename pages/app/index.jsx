@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import Header from '../../components/Header';
-import Image from 'next/image';
 import Link from 'next/link';
 import Router from 'next/router';
 import Popover from '../../components/helpers/Popover';
