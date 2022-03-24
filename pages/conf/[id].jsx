@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../../components/Header'
+import { useRouter } from "next/router"
+import axios from "axios"
+import parse from 'html-react-parser'
 
-function Question({ id, isChoosing, setIsChoosing }) {
+function Question({ id, isChoosing, setIsChoosing, questionText, answerList, number }) {
     const [isEdit, setIsEdit] = useState(false);
 
     function handleChooseQuestion() {
@@ -20,28 +23,26 @@ function Question({ id, isChoosing, setIsChoosing }) {
                     : "p-6 mb-4 flex justify-between"
             }>
                 <div className="">
-                    <h1 className="pb-3">1. Question title</h1>
+                    {/* <h1 className="mb-4" >{number + 1}. {questionText}</h1> */}
+                    <div className="flex justify-between gap-2 mb-3">
+                        <p> {number + 1}. </p>
+                        {parse(questionText)}
+                    </div>
                     <div className="gap-1 flex flex-col">
-                        <div className="flex flex-row gap-2">
-                            <div className="w-6 h-6 bg-green-light rounded-full flex justify-center items-center">A</div>
-                            <p>Answer A</p>
-                        </div>
-                        <div className="flex flex-row gap-2">
-                            <div className="w-6 h-6 bg-green-light rounded-full flex justify-center items-center">A</div>
-                            <p>Answer A</p>
-                        </div>
-                        <div className="flex flex-row gap-2">
+                        {answerList.map((answer) => 
+                            <div className="flex flex-row gap-2">
+                                <div className="w-6 h-6 bg-green-light rounded-full flex justify-center items-center">A</div>
+                                <p >{parse(answer.answer)}</p>
+                            </div>
+                        )}        
+
+                        {/* <div className="flex flex-row gap-2">
                             <div className="w-6 h-6 bg-gray-light rounded-full flex justify-center items-center">A</div>
                             <p>Answer A</p>
-                        </div>
+                        </div> */}
                     </div>
                     {isChoosing == id && isEdit ?
                         <div className="mt-4 flex gap-8">
-                            <input
-                                placeholder="điểm"
-                                className="p-2 w-32 outline-none border border-white focus:border-gray-light transition rounded-md"
-                                type="number"
-                            />
                             <input
                                 placeholder="thời gian"
                                 className="p-2 w-32 outline-none border border-white focus:border-gray-light transition rounded-md"
@@ -82,25 +83,46 @@ function Question({ id, isChoosing, setIsChoosing }) {
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
+    const router = useRouter();
+    const [listQuestions, setListQuestions] = useState([])
+    
+    console.log(listQuestions)
+
+    useEffect(() => {
+        const getAllQuizzes = async () => {
+            const response = await axios.get(`http://localhost:5000/lti/quiz/list/${router.query.id}`, 
+                { headers: { "Authorization": `Bearer ${router.query.ltik}`}});
+
+            setListQuestions(response.data.data.question_data)
+            console.log(response.data.data)
+        } 
+        if(router.query.ltik){
+            getAllQuizzes()
+        }
+        
+    }, [router.query.ltik])
+
     return (
         <div className="w-screen h-screen">
             <Header />
-            <div className="w-9/12 m-auto">
+            <div className="w-9/12 m-auto pt-20 pb-12">
                 <div className="mt-6 mb-6 text-xl p-4 border border-gray-300 w-full rounded-lg">
                     <p> Quiz title </p>
                 </div>
 
-                <Question
-                    id={1}
-                    isChoosing={isChoosing}
-                    setIsChoosing={setIsChoosing}
-                />
+                {listQuestions.map((question, index) => 
+                    <Question
+                        key={question.id}
+                        id={question.id}
+                        isChoosing={isChoosing}
+                        setIsChoosing={setIsChoosing}
+                        questionText={question.questiontext}
+                        number={index}
+                        answerList={question.answers}
+                    />
+                )}
+                
 
-                <Question
-                    id={2}
-                    isChoosing={isChoosing}
-                    setIsChoosing={setIsChoosing}
-                />
 
                 <div
                     className=

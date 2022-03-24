@@ -1,20 +1,31 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import useCollapse from "react-collapsed";
-import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
+import parse from 'html-react-parser'
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
     const [quizClicked, setQuizClicked] = useState(false);
+    const [listQuestions, setListQuestions] = useState([]);
+    const router = useRouter();
 
-    const handleExpandQuizClick = () => {
+    const handleExpandQuizClick = async () => {
+        const response = await axios.get(`http://localhost:5000/lti/quiz/list/${id}`, 
+            { headers: { "Authorization": `Bearer ${router.query.ltik}`}});
+
+        setListQuestions(response.data.data.question_data)
         setQuizClicked(!quizClicked);
     };
 
-    const handleChoosingQuiz = () => {
+    const handleChoosingQuiz = async () => {
         setIsChoosing(id);
+        const response = await axios.get(`http://localhost:5000/lti/quiz/list/${id}`, 
+            { headers: { "Authorization": `Bearer ${router.query.ltik}`}});
+
+        setListQuestions(response.data.data.question_data)
+        setQuizClicked(!quizClicked);
     };
 
     return (
@@ -26,7 +37,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         : "w-9/12 h-12 mb-2 border-blue-dark border-[1px] rounded-lg m-auto flex justify-between pl-4 pr-4 items-center hover:bg-[#C4CFEB] duration-300"
                 }
             >
-                <p className="cursor-pointer" onClick={handleChoosingQuiz}>
+                <p className="cursor-pointer" {...getToggleProps({ onClick: handleChoosingQuiz })}>
                     {title}
                 </p>
                 {isExpanded ? (
@@ -35,7 +46,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        {...getToggleProps({ onClick: handleExpandQuizClick })}
+                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"
@@ -49,7 +60,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        {...getToggleProps({ onClick: handleExpandQuizClick })}
+                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"d
@@ -62,12 +73,15 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
             <div {...getCollapseProps()}>
                 <div className="w-9/12 h-[200px] shadow-answer m-auto border-2 border-[#CED5DF] rounded-xl mb-5 overflow-hidden overflow-y-scroll">
                     <div className="h-9 pl-4 pr-4 ">
-                        <p className="h-full items-center flex">Answer 01</p>
-                        <p className="h-full items-center flex">Answer 02</p>
-                        <p className="h-full items-center flex">Answer 03</p>
-                        <p className="h-full items-center flex">Answer 04</p>
-                        <p className="h-full items-center flex">Answer 05</p>
-                        <p className="h-full items-center flex">Answer 06</p>
+                        {listQuestions.map((question, index) => 
+                            <div
+                                className="flex break-all h-auto pb-2 pt-1 gap-2" 
+                                key={question.id}
+                            >
+                                <p>{index + 1}. </p>
+                                {parse(question.questiontext)}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -93,7 +107,9 @@ function ChooseQuiz() {
         
     }, [router.query.ltik])
 
-    console.log(router.query.ltik)
+    const goToListQuestions = () => {
+        router.push(`/conf/${isChoosing}?ltik=${router.query.ltik}`)
+    }
     
     return (
         <div className="w-screen h-screen">
@@ -116,13 +132,12 @@ function ChooseQuiz() {
             </div>
             <div className="w-9/12 m-auto justify-end flex mt-4 ">
                 {isChoosing != -1 ?
-                    <Link href="/conf/1">
-                        <div
-                            className="bg-blue-lightDark hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer"
-                        >
-                            Button
-                        </div>
-                    </Link>
+                    <div
+                        className="bg-blue-lightDark hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer"
+                        onClick={goToListQuestions}
+                    >
+                        Tiếp tục
+                    </div>
                     : <div
                         className=
                         "bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300"
