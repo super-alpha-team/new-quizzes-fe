@@ -41,7 +41,7 @@ function Play() {
                                         {score}
                                     </div>
                                 </div>
-                                <Clock duration={currentIndex + 10} handleTimeUp={() => handleAnswer(null)} />
+                                <Clock duration={currentIndex+3} handleTimeUp={() => handleAnswer(null)} />
                             </div>
                         </div>
                         <Questionare question={questions[currentIndex].question} questionProgress={`${currentIndex + 1}/${questions.length}`}>

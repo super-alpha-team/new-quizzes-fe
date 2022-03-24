@@ -7,10 +7,11 @@ import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const [isStarted, setIsStarted] = useState(false);
-  return ( isStarted ?
-    <Play /> : <Waiting startOnClick={() => setIsStarted(true)} />
-  );
-  // return (
-  //   <Test />
+  // return ( isStarted ?
+  //   <Play /> : <Waiting startOnClick={() => setIsStarted(true)} />
   // );
+  return (
+    <Play />
+    // <Test />
+  );
 }

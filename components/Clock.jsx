@@ -8,7 +8,7 @@ function Clock({ duration, handleTimeUp }) {
     function tick() {
         const remainedTime = Math.round(deadTime - new Date().getTime() / 1000);
         setTimeRemaining(remainedTime);
-        console.log(`currentInterval-${currentInterval}:`, duration, deadTime);
+        // console.log(`currentInterval-${currentInterval}:`, duration, deadTime);
     }
 
     function initClock() {
