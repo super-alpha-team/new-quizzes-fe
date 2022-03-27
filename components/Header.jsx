@@ -2,7 +2,7 @@ import React from "react";
 
 function Header() {
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-blue-dark p-5 absolute top-0 w-full">
+        <nav className="flex items-center justify-between flex-wrap bg-blue-dark p-5 top-0 w-full">
             <div className="w-full block flex-grow lg:flex lg:items-center lg:justify-end lg:w-auto">
                 <div>
                     <svg

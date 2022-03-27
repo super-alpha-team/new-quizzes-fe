@@ -151,7 +151,7 @@ function ConfigQuestion() {
 
         const newErrorConfigTimeList = errorConfigTimeList;
         const eIndex = newErrorConfigTimeList.indexOf(id);
-        if (eIndex !== -1) {
+        if (eIndex !== -1 && time != '') {
             newErrorConfigTimeList.splice(eIndex, 1);
             setErrorConfigTimeList(newErrorConfigTimeList);
         }
@@ -161,6 +161,9 @@ function ConfigQuestion() {
         const errorCheckList = returnListWithTime
             .filter((question) => question.time == null)
             .map((question) => question.id);
+        if(errorCheckList.length == 0){
+            router.push(`/home?ltik=${router.query.ltik}`);
+        }
         setErrorConfigTimeList(errorCheckList);
     }
 
@@ -186,7 +189,7 @@ function ConfigQuestion() {
     return (
         <div className="w-screen h-screen">
             <Header />
-            <div className="w-9/12 m-auto pt-20 pb-12">
+            <div className="w-9/12 m-auto pt-4 pb-12">
                 <div className="mt-6 text-xl p-4 border border-gray-300 w-full rounded-lg">
                     <p> Quiz title </p>
                 </div>
