@@ -159,13 +159,17 @@ function ConfigQuestion() {
 
     function handleSaveQuizWithTime() {
         const errorCheckList = returnListWithTime
-            .filter((question) => question.time == null)
+            .filter((question) => question.time_answer == null)
             .map((question) => question.id);
-        if(errorConfigTimeList.length == 0){
+
+        // console.log(errorConfigTimeList);
+        // console.log(errorCheckList);
+        if(errorConfigTimeList.length == 0 && errorCheckList == 0){
             router.push(`/home?ltik=${router.query.ltik}`);
         }
         setErrorConfigTimeList(errorCheckList);
     }
+    
 
     function checkIfQuestionWithNoTime(id) {
         return errorConfigTimeList.includes(id);
