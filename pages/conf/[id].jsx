@@ -146,7 +146,7 @@ function ConfigQuestion() {
             (question) => question.id === id
         );
         let newReturnList = returnListWithTime.slice();
-        newReturnList[index]['time'] = time;
+        newReturnList[index]['time_answer'] = time;
         setReturnListWithTime(newReturnList);
 
         const newErrorConfigTimeList = errorConfigTimeList;
@@ -161,7 +161,7 @@ function ConfigQuestion() {
         const errorCheckList = returnListWithTime
             .filter((question) => question.time == null)
             .map((question) => question.id);
-        if(errorCheckList.length == 0){
+        if(errorConfigTimeList.length == 0){
             router.push(`/home?ltik=${router.query.ltik}`);
         }
         setErrorConfigTimeList(errorCheckList);

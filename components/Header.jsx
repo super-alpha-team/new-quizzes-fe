@@ -1,10 +1,24 @@
-import React from "react";
+import React from 'react';
+import { useRouter } from 'next/router';
 
 function Header() {
+    const router = useRouter();
+    console.log(router.pathname);
     return (
         <nav className="flex items-center justify-between flex-wrap bg-blue-dark p-5 top-0 w-full">
-            <div className="w-full block flex-grow lg:flex lg:items-center lg:justify-end lg:w-auto">
-                <div>
+            <div className="w-full flex-grow grid grid-cols-3 lg:items-center lg:w-auto">
+                <div></div>
+                {router.pathname == '/home' ? (
+                    <div className="flex gap-4 text-white justify-center">
+                        <div>Launch</div>
+                        <div>Reports</div>
+                        <div>Live Result</div>
+                    </div>
+                ) : (
+                    <div></div>
+                )}
+                <div className="flex items-center gap-2 justify-end">
+                    <p className="text-white">Name</p>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-10 w-10 cursor-pointer text-white"
