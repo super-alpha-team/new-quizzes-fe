@@ -33,7 +33,6 @@ export default function PlayGame() {
         const quiz_data = data.isQuiz;
         const socket_id = quiz_data.socket_id;
         const status = quiz_data.status;
-        console.log(']> socket_id: ', socket_id);
         if (status === QuizStatusEnum.PLAYING) {
           setRoomId(socket_id);
           setGame('play');

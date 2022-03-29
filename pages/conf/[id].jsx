@@ -191,6 +191,7 @@ function ConfigQuestion() {
             { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
 
         console.log("]> lti/quiz/edit data response", response.data);
+        alert('Quiz started!');
     }
 
 

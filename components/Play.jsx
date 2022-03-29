@@ -4,7 +4,6 @@ import Multichoice from './questionares/Multichoice';
 import Questionare from './questionares/Questionare';
 
 import { io } from 'socket.io-client';
-const socket = io('ws://localhost:5000');
 
 function Play({ room_id }) {
     const [questions, setQuestions] = useState([]);
@@ -18,9 +17,9 @@ function Play({ room_id }) {
     // }, []);
 
     useEffect(() => {
+        const socket = io('ws://localhost:5000');
 
         socket.on('connect', () => {
-            console.log(`my socket id: ${socket.id}`);
             socket.emit('join', { username: 'chloe', room: room_id });
         });
 
