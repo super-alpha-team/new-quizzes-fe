@@ -53,7 +53,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
+                    // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"
@@ -67,7 +67,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
+                    // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"
@@ -107,6 +107,13 @@ function ChooseQuiz() {
                 'http://localhost:5000/lti/quiz/list',
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } }
             );
+            
+            console.log("]> get list quiz: ", response.data.data);
+            const data = response.data.data;
+            if (data.isQuiz) {
+                const quiz_id = data.isQuiz.id;
+                return router.push(`/conf/${quiz_id}?ltik=${router.query.ltik}`);
+            }
 
             setListQuiz(response.data.data.quiz_list);
         };
@@ -116,12 +123,17 @@ function ChooseQuiz() {
     }, [router.query.ltik]);
 
     const goToListQuestions = async () => {
-        // console.log("add")
-        // const response = await axios.get("http://localhost:5000/lti/quiz/add",
-        //         { headers: { "Authorization": `Bearer ${router.query.ltik}`}});
+        const dataSend = {
+            quiz_id: isChoosing,
+            name: "test name",
+            additional_info: "",
+        }
+        const response = await axios.post("http://localhost:5000/lti/quiz/add", dataSend,
+            { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
 
-        // console.log(response.data.new_quiz)
-        router.push(`/conf/${isChoosing}?ltik=${router.query.ltik}`);
+        console.log("]> lti/quiz/add data response", response.data);
+        const dataResponse = response.data.data.new_quiz;
+        router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
     };
 
     return (

@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import parse from 'html-react-parser';
+import { Base64 } from 'js-base64';
 import { StringIdGenerator } from '../../utils/AlphabetGenerator';
 
 function Question({
@@ -13,10 +14,11 @@ function Question({
     answerList,
     number,
     setTimeFn,
-    isSetTimeError
+    isSetTimeError,
+    timeAnswer,
 }) {
     const [isEdit, setIsEdit] = useState(false);
-    const [time, setTime] = useState('');
+    const [time, setTime] = useState(timeAnswer);
     const ids = new StringIdGenerator();
 
     function handleChooseQuestion() {
@@ -157,19 +159,40 @@ function ConfigQuestion() {
         }
     }
 
-    function handleSaveQuizWithTime() {
+    async function handleSaveQuizWithTime() {
         const errorCheckList = returnListWithTime
             .filter((question) => question.time_answer == null)
             .map((question) => question.id);
 
         // console.log(errorConfigTimeList);
         // console.log(errorCheckList);
-        if(errorConfigTimeList.length == 0 && errorCheckList == 0){
+        if (errorConfigTimeList.length == 0 && errorCheckList == 0) {
+            // call edit api
+            console.log('edit');
+            console.log(returnListWithTime);
+            const question_string = JSON.stringify(returnListWithTime);
+            const question_string_encoded = Base64.encode(question_string);
+            const dataSend = {
+                new_quiz_id: router.query.id,
+                question_string_encoded: question_string_encoded,
+            };
+
+            const response = await axios.put(`http://localhost:5000/lti/quiz/${router.query.id}/edit`, dataSend,
+                { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
+
+            console.log("]> lti/quiz/edit data response", response.data);
             router.push(`/home?ltik=${router.query.ltik}`);
         }
         setErrorConfigTimeList(errorCheckList);
     }
-    
+
+    async function handleStartQuiz() {
+        const response = await axios.post(`http://localhost:5000/lti/quiz/${router.query.id}/start`, {},
+            { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
+
+        console.log("]> lti/quiz/edit data response", response.data);
+    }
+
 
     function checkIfQuestionWithNoTime(id) {
         return errorConfigTimeList.includes(id);
@@ -178,12 +201,13 @@ function ConfigQuestion() {
     useEffect(() => {
         const getAllQuizzes = async () => {
             const response = await axios.get(
-                `http://localhost:5000/lti/quiz/list/${router.query.id}`,
+                `http://localhost:5000/lti/quiz/${router.query.id}/get`,
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } }
             );
-
-            setListQuestions(response.data.data.question_data);
-            setReturnListWithTime(response.data.data.question_data);
+            const new_quiz = response.data.data.new_quiz;
+            const list_question = JSON.parse(new_quiz.question);
+            setListQuestions(list_question);
+            setReturnListWithTime(list_question);
         };
         if (router.query.ltik) {
             getAllQuizzes();
@@ -213,6 +237,7 @@ function ConfigQuestion() {
                         answerList={question.answers}
                         setTimeFn={setTimeToSingleQuestion}
                         isSetTimeError={checkIfQuestionWithNoTime(question.id)}
+                        timeAnswer={question.time_answer}
                     />
                 ))}
 
@@ -221,6 +246,13 @@ function ConfigQuestion() {
                     className="bg-blue-lightDark w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
                 >
                     <p>Hoàn thành</p>
+                </div>
+                <p>Or</p>
+                <div
+                    onClick={handleStartQuiz}
+                    className="bg-blue-lightDark w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
+                >
+                    <p>Bắt đầu game</p>
                 </div>
             </div>
         </div>
