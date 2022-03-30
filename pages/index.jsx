@@ -2,15 +2,15 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Play from '../components/Play';
 import Test from '../components/Test';
-import Waiting from '../components/Waiting';
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Loading from '../components/helpers/Loading';
 
 const RoleEnum = {
   ADMIN: "admin",
   MEMBER: "member",
-}
+};
 
 export default function Home() {
   const router = useRouter();

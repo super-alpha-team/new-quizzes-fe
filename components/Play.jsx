@@ -1,72 +1,47 @@
-import { useState, useEffect } from 'react';
-import Clock from './Clock';
+import { useState, useEffect, Component } from 'react';
 import Multichoice from './questionares/Multichoice';
 import Questionare from './questionares/Questionare';
+import Loading from './helpers/Loading';
+import Clock from './Clock';
+import { socket } from '../utils/socket';
 
-import { io } from 'socket.io-client';
-import { randomHexColor } from '../utils/helpers';
 
-function Play({ total_questions, room_id }) {
-    const [question, setQuestion] = useState('');
-    const [answers, setAnswers] = useState([]);
+function Play({ total_questions, quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [questionData, setQuestionData] = useState(null);
     const [score, setScore] = useState(0);
-    const [timeRemaining, setTimeRemaining] = useState(0);
     const [finish, setFinish] = useState(false);
-    const [waiting, setWaiting] = useState(true);
-
-    // useEffect(() => {
-    //     fetch('https://opentdb.com/api.php?amount=10')
-    //         .then(res => res.json())
-    //         .then(data => setQuestions(data.results));
-    // }, []);
+    const [waitingMsg, setWaitingMsg] = useState('Loading...');
 
     useEffect(() => {
-        const socket = io('ws://localhost:5000');
-
-        socket.on('connect', () => {
-            socket.emit('join', { username: 'chloe', room: room_id });
-        });
-
-        socket.on('data', data => {
-            console.log(']> socket data: ', data);
-        });
+        socket.emit('join', { username: 'chloe', room: room_id });
 
         socket.on('question', data => {
-            console.log('question data', data);
             const { current_question_index, question } = data;
+            setCurrentIndex(current_question_index);
 
             if (current_question_index < 0) {
                 setFinish(true);
             } else {
                 setFinish(false);
-                setWaiting(false);
-                const { questiontext, answers, time_answer } = question;
-                setCurrentIndex(current_question_index);
-                setTimeRemaining(Number(time_answer));
-                setQuestion(questiontext);
-                setAnswers(answers);
+                setQuestionData(question);
+                setWaitingMsg('');
             }
         });
-
-        // socket.emit('send', { room: socket.id, new_quiz_id: 'bla', idtoken_id: 'bla', answer_log_data: 'bla' });
 
         return () => socket.disconnect();
     }, []);
 
     function handleAnswer(answer) {
-        // if (currentIndex != questions.length - 1) {
-        //     setCurrentIndex(currentIndex + 1);
-        // }
-        // if (answer === questions[currentIndex].correct_answer) {
-        //     setScore(score + 1);
-        // }
-        setWaiting(true);
+        socket.emit('send', { room: room_id, new_quiz_id: quizId, idtoken_id: 'bla', answer_log_data: answer });
+
+        setWaitingMsg('Great! Let\'s wait for your mates');
     }
 
     return finish ?
         (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Your score: {score}</div>)
-        : !waiting ?
+        : waitingMsg ?
+            <Loading message={waitingMsg} /> :
             (<div className='block h-screen overflow-auto'>
                 <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base overflow-hidden'>
                     <div className='h-[85%] w-full flex justify-center relative'>
@@ -82,21 +57,16 @@ function Play({ total_questions, room_id }) {
                                         {score}
                                     </div>
                                 </div>
-                                <Clock duration={timeRemaining} handleTimeUp={() => { }} currentIndex={currentIndex} />
+                                <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
                             </div>
                         </div>
-                        <Questionare question={question} questionProgress={`${currentIndex + 1}/${total_questions}`}>
-                            <Multichoice answers={answers} handleAnswer={handleAnswer} />
+                        <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${total_questions}`}>
+                            <Multichoice answers={questionData.answers} handleAnswer={handleAnswer} />
                         </Questionare>
                     </div>
                 </div>
-            </div>)
-            : (<div className='w-full h-screen bg-[#2E5185] flex justify-center items-center'>
-                <button type="button" className="flex px-4 py-3 rounded-sm font-bold shadow-answer" style={{ backgroundColor: randomHexColor() }} disabled>
-                    <svg className="animate-spin mr-3 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" /></svg>
-                    Loading...
-                </button>
             </div>);
+
 }
 
 export default Play;

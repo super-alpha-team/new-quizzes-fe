@@ -2,6 +2,7 @@ import { data } from 'autoprefixer';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
+import Loading from '../../components/helpers/Loading';
 import Play from '../../components/Play';
 
 const QuizStatusEnum = {
@@ -10,7 +11,7 @@ const QuizStatusEnum = {
   PLAYING: 'playing',
   DONE: 'done',
   array: ['editing', 'pending', 'playing', 'done']
-}
+};
 
 export default function PlayGame() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function PlayGame() {
   // state for room_id
   const [room_id, setRoomId] = useState("");
   const [numQuestions, setNumQuestions] = useState(0);
+  const [quizId, setQuizId] = useState(null);
 
   useEffect(() => {
     const getAllQuizzes = async () => {
@@ -29,13 +31,15 @@ export default function PlayGame() {
       );
 
       // setListQuiz(response.data.data.quiz_list);
-      console.log(']> get quiz data: ', response.data.data);
+      // console.log(']> get quiz data: ', response.data.data);
       const data = response.data.data;
       if (data.quiz_list) {
-        setNumQuestions(data.quiz_list.length)
+        setNumQuestions(data.quiz_list.length);
       }
       if (data.isQuiz) {
         const quiz_data = data.isQuiz;
+        setQuizId(quiz_data.quiz_id);
+        // console.log('quiz_data', quiz_data);
         const socket_id = quiz_data.socket_id;
         const status = quiz_data.status;
         if (status === QuizStatusEnum.PLAYING) {
@@ -55,10 +59,10 @@ export default function PlayGame() {
   return (
     <>
       {
-        game === "waiting" && <p>Wating game</p>
+        game === "waiting" && <Loading message='Wating game' />
       }
       {
-        game === "play" && <Play total_questions={numQuestions} room_id={room_id}/>
+        game === "play" && <Play quizId={quizId} total_questions={numQuestions} room_id={room_id}/>
       }
     </>
 
