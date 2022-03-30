@@ -1,3 +1,4 @@
+import { data } from 'autoprefixer';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
@@ -18,6 +19,7 @@ export default function PlayGame() {
   const [game, setGame] = useState("waiting");
   // state for room_id
   const [room_id, setRoomId] = useState("");
+  const [numQuestions, setNumQuestions] = useState(0);
 
   useEffect(() => {
     const getAllQuizzes = async () => {
@@ -29,6 +31,9 @@ export default function PlayGame() {
       // setListQuiz(response.data.data.quiz_list);
       console.log(']> get quiz data: ', response.data.data);
       const data = response.data.data;
+      if (data.quiz_list) {
+        setNumQuestions(data.quiz_list.length)
+      }
       if (data.isQuiz) {
         const quiz_data = data.isQuiz;
         const socket_id = quiz_data.socket_id;
@@ -53,7 +58,7 @@ export default function PlayGame() {
         game === "waiting" && <p>Wating game</p>
       }
       {
-        game === "play" && <Play room_id={room_id}/>
+        game === "play" && <Play total_questions={numQuestions} room_id={room_id}/>
       }
     </>
 

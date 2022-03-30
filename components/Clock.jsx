@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-function Clock({ duration, handleTimeUp }) {
+function Clock({ duration, handleTimeUp, currentIndex }) {
     const [timeRemaining, setTimeRemaining] = useState(duration);
     let deadTime = new Date().getTime() / 1000 + duration;
     let currentInterval = null;
@@ -26,7 +26,7 @@ function Clock({ duration, handleTimeUp }) {
         setTimeRemaining(duration);
         initClock();
         return () => clearInterval(currentInterval);
-    }, [duration]);
+    }, [currentIndex]);
 
     return (
         <>
