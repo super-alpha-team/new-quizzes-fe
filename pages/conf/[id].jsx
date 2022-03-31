@@ -54,12 +54,11 @@ function Question({
                                 : 'flex justify-between gap-2 pb-3'
                         }
                     >
-                        <p> {number + 1}. </p>
-                        {parse(questionText)}
+                        {number + 1}{"."}{parse(questionText)}
                     </div>
                     {isSetTimeError ? (
                         <p className="text-red-600 italic text-sm pb-3">
-                            * Chưa thêm thời gian cho câu hỏi!!
+                            * Chưa thêm thời gian cho câu hỏi (thời gian phải lớn hơn 0)!!
                         </p>
                     ) : (
                         ''
@@ -73,7 +72,7 @@ function Question({
                                 <div className="w-6 h-6 bg-green-light rounded-full flex justify-center items-center">
                                     {ids.next()}
                                 </div>
-                                <p>{parse(answer.answer)}</p>
+                                {parse(answer.answer)}
                             </div>
                         ))}
 
@@ -161,15 +160,11 @@ function ConfigQuestion() {
 
     async function handleSaveQuizWithTime() {
         const errorCheckList = returnListWithTime
-            .filter((question) => question.time_answer == null)
+            .filter((question) => question.time_answer == 0)
             .map((question) => question.id);
 
-        // console.log(errorConfigTimeList);
-        // console.log(errorCheckList);
         if (errorConfigTimeList.length == 0 && errorCheckList == 0) {
             // call edit api
-            console.log('edit');
-            console.log(returnListWithTime);
             const question_string = JSON.stringify(returnListWithTime);
             const question_string_encoded = Base64.encode(question_string);
             const dataSend = {
@@ -180,20 +175,14 @@ function ConfigQuestion() {
             const response = await axios.put(`http://localhost:5000/lti/quiz/${router.query.id}/edit`, dataSend,
                 { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
 
-            console.log("]> lti/quiz/edit data response", response.data);
-            router.push(`/home?ltik=${router.query.ltik}`);
+            console.log(router.query.id)
+            router.push({
+                pathname: `/home`,
+                query: {id: `${router.query.id}`, ltik: `${router.query.ltik}`}
+            });
         }
         setErrorConfigTimeList(errorCheckList);
     }
-
-    async function handleStartQuiz() {
-        const response = await axios.post(`http://localhost:5000/lti/quiz/${router.query.id}/start`, {},
-            { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
-
-        console.log("]> lti/quiz/edit data response", response.data);
-        alert('Quiz started!');
-    }
-
 
     function checkIfQuestionWithNoTime(id) {
         return errorConfigTimeList.includes(id);
@@ -247,13 +236,6 @@ function ConfigQuestion() {
                     className="bg-blue-lightDark w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
                 >
                     <p>Hoàn thành</p>
-                </div>
-                <p>Or</p>
-                <div
-                    onClick={handleStartQuiz}
-                    className="bg-blue-lightDark w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
-                >
-                    <p>Bắt đầu game</p>
                 </div>
             </div>
         </div>

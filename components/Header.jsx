@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 
 function Header() {
     const router = useRouter();
-    console.log(router.pathname);
     return (
         <nav className="flex items-center justify-between flex-wrap bg-blue-dark p-5 top-0 w-full">
             <div className="w-full flex-grow grid grid-cols-3 lg:items-center lg:w-auto">
