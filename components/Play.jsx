@@ -25,6 +25,7 @@ function Play({ total_questions, quizId, room_id }) {
             } else {
                 setFinish(false);
                 setQuestionData(question);
+                console.log('question', question);
                 setWaitingMsg('');
             }
         });
