@@ -4,14 +4,14 @@ import { useRouter } from 'next/router';
 function Header() {
     const router = useRouter();
     return (
-        <nav className="flex items-center justify-between flex-wrap bg-blue-dark p-5 top-0 w-full">
-            <div className="w-full flex-grow grid grid-cols-3 lg:items-center lg:w-auto">
+        <nav className="flex items-center justify-between flex-wrap bg-blue-dark h-20 top-0 w-full">
+            <div className="w-full flex-grow grid grid-cols-3 lg:items-center lg:w-auto h-full">
                 <div></div>
                 {router.pathname == '/home' ? (
-                    <div className="flex gap-4 text-white justify-center">
-                        <div>Launch</div>
-                        <div>Reports</div>
-                        <div>Live Result</div>
+                    <div className="flex text-white justify-center h-full">
+                        <div className="cursor-pointer items-center flex w-24 justify-center hover:bg-blue-lightDark duration-300 rounded-md">Launch</div>
+                        <div className="cursor-pointer items-center flex w-24 justify-center hover:bg-blue-lightDark duration-300 rounded-md">Reports</div>
+                        <div className="cursor-pointer items-center flex w-24 justify-center hover:bg-blue-lightDark duration-300 rounded-md">Live Result</div>
                     </div>
                 ) : (
                     <div></div>
