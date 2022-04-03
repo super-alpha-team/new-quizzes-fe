@@ -31,7 +31,7 @@ function SettingLaunch({ closeModal }) {
     }
 
     return (
-        <div className="overflow-x-hidden overflow-y-auto fixed inset-0 ">
+        <div className="overflow-x-hidden overflow-y-auto fixed inset-0">
             <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
                 <form
                     className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
