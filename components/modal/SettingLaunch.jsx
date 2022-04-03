@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { useRef, useState, useEffect } from 'react';
 import Button from '../helpers/Button';
 import ToggleSwitch from '../helpers/ToggleSwitch';
@@ -20,6 +21,14 @@ function useOutsideCollapse(ref, closeModal) {
 function SettingLaunch({ closeModal }) {
     const wrapperRef = useRef(null);
     useOutsideCollapse(wrapperRef, closeModal);
+    const router = useRouter();
+
+    function goToLiveResult () {
+        router.push({
+            pathname: `/result`,
+            query: {id: `${router.query.id}`, ltik: `${router.query.ltik}`}
+        });
+    }
 
     return (
         <div className="overflow-x-hidden overflow-y-auto fixed inset-0 ">
@@ -50,7 +59,7 @@ function SettingLaunch({ closeModal }) {
                         <Button type="button" variants="secondary" onClick={closeModal}>
                             Hủy
                         </Button>
-                        <Button type="button" variants="primary">
+                        <Button type="button" variants="primary" onClick={goToLiveResult}>
                             Bắt đầu
                         </Button>
                     </div>
