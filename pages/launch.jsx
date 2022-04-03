@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Image from 'next/image';
 import SettingLaunch from '../components/modal/SettingLaunch';
+import Button from '../components/helpers/Button';
 
 function HomePage() {
     const router = useRouter();
@@ -34,7 +35,7 @@ function HomePage() {
             <Header />
 
             <div className="flex gap-20 justify-center mt-20">
-                <div>
+                <div className="flex flex-col justify-center items-center">
                     <Image
                         src="/image/18915856.jpg"
                         width={400}
@@ -42,15 +43,17 @@ function HomePage() {
                         alt="team"
                         className="cursor-pointer"
                     />
-                    <div
-                        className="bg-blue-lightDark m-auto mt-4 w-32  hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
+                    <Button
+                        type="button"
+                        variants="primary"
                         onClick={handleOpenModal}
+                        className="w-32"
                     >
-                        <p>Start Quiz</p>
-                    </div>
+                        Start quiz
+                    </Button>
                 </div>
 
-                <div>
+                <div className="flex flex-col justify-center items-center">
                     <Image
                         src="/image/54950.jpg"
                         width={400}
@@ -58,9 +61,9 @@ function HomePage() {
                         alt="team"
                         className="cursor-pointer"
                     />
-                    <div className="bg-blue-lightDark m-auto mt-4 w-32  hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center">
-                        <p>Play team</p>
-                    </div>
+                    <Button type="button" variants="primary" className="w-32">
+                        Start quiz
+                    </Button>
                 </div>
             </div>
             {isModalVisible ? (

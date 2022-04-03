@@ -177,7 +177,7 @@ function ConfigQuestion() {
 
             console.log(router.query.id)
             router.push({
-                pathname: `/home`,
+                pathname: `/launch`,
                 query: {id: `${router.query.id}`, ltik: `${router.query.ltik}`}
             });
         }

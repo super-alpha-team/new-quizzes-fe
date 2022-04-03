@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Button from '../helpers/Button';
+import ToggleSwitch from '../helpers/ToggleSwitch';
 
 function useOutsideCollapse(ref, closeModal) {
     useEffect(() => {
@@ -18,29 +20,39 @@ function useOutsideCollapse(ref, closeModal) {
 function SettingLaunch({ closeModal }) {
     const wrapperRef = useRef(null);
     useOutsideCollapse(wrapperRef, closeModal);
-    const [isToggle, setIsToggle] = useState(false);
-
-    const toggleClass = ' transform translate-x-5';
 
     return (
         <div className="overflow-x-hidden overflow-y-auto fixed inset-0 ">
             <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
                 <form
-                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+                    className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
                     ref={wrapperRef}
                 >
-                    <div
-                        className="md:w-14 md:h-7 w-12 h-6 flex items-center bg-gray-300 rounded-full p-1 cursor-pointer"
-                        onClick={() => {
-                            setIsToggle(!isToggle);
-                        }}
-                    >
-                        <div
-                            className={
-                                'md:w-6 md:h-6 h-5 w-5 rounded-full shadow-md transform duration-300 ease-in-out' +
-                                (!isToggle ? ' bg-white' : ' bg-black transform translate-x-5')
-                            }
-                        ></div>
+                    <p className="text-xl font-bold mb-1">
+                        Cài đặt chế độ hiển thị kết quả{' '}
+                    </p>
+                    <hr />
+                    <div className="flex flex-col gap-4 mt-6">
+                        <div className="flex justify-between items-center">
+                            <p>Hiển thị tên</p>
+                            <ToggleSwitch />
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <p>Xáo trộn câu hỏi</p>
+                            <ToggleSwitch />
+                        </div>
+                        <div className="flex justify-between items-center">
+                            <p>Xáo trộn câu trả lời</p>
+                            <ToggleSwitch />
+                        </div>
+                    </div>
+                    <div className="flex gap-2 mt-8 justify-end">
+                        <Button type="button" variants="secondary" onClick={closeModal}>
+                            Hủy
+                        </Button>
+                        <Button type="button" variants="primary">
+                            Bắt đầu
+                        </Button>
                     </div>
                 </form>
             </div>
