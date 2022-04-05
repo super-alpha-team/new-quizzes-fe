@@ -5,7 +5,6 @@ import Loading from './helpers/Loading';
 import Clock from './Clock';
 import { socket } from '../utils/socket';
 
-
 function Play({ total_questions, quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
@@ -43,9 +42,9 @@ function Play({ total_questions, quizId, room_id }) {
         (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Your score: {score}</div>)
         : waitingMsg ?
             <Loading message={waitingMsg} /> :
-            (<div className='block h-screen overflow-auto'>
-                <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base overflow-hidden'>
-                    <div className='h-[85%] w-full flex justify-center relative'>
+            (<div className='h-screen'>
+                <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
+                    <div className='h-full w-full flex justify-center relative'>
                         <div className='h-[20%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
                             <div className='w-9/12 flex justify-between absolute'>
                                 <div className='flex gap-4'>
