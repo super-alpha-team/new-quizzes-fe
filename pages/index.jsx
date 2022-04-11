@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import Loading from '../components/helpers/Loading';
+import { SERVER_URL } from '../utils/config';
 
 const RoleEnum = {
   ADMIN: "admin",
@@ -18,13 +19,13 @@ export default function Home() {
   useEffect(() => {
     async function getInfo() {
       const responseInfo = await axios.get(
-        'http://localhost:5000/lti/sync/info',
+        `${SERVER_URL}/lti/sync/info`,
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
       
       console.log(']> start up page: ', responseInfo.data);
       const data = responseInfo.data.data;
-
+      // check is member or teacher class
       if (data.alpha_roles.indexOf(RoleEnum.ADMIN) != -1 ) {
         return router.push(`/conf?ltik=${router.query.ltik}`);
       }
@@ -32,7 +33,11 @@ export default function Home() {
       if (data.alpha_roles.indexOf(RoleEnum.MEMBER) != -1 ) {
         return router.push(`/play?ltik=${router.query.ltik}`);
       }
-      
+
+      return (
+        <p>Permission denied</p>
+      );
+
     }
     if (router.query.ltik) {
       getInfo();
