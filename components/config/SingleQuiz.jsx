@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import useCollapse from 'react-collapsed';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();

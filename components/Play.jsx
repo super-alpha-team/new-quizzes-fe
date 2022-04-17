@@ -4,6 +4,8 @@ import Questionare from './questionares/Questionare';
 import Loading from './helpers/Loading';
 import Clock from './Clock';
 import { socket } from '../utils/socket';
+import axios from 'axios';
+// import { BE_URL } from '../utils/config';
 
 function Play({ total_questions, quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -13,7 +15,12 @@ function Play({ total_questions, quizId, room_id }) {
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
 
     useEffect(() => {
-        socket.emit('join', { username: 'chloe', room: room_id });
+        axios.post(`/lti/play/${quizId}/join`, {
+            "username": "chloe",
+            "is_teacher": false
+        }).then(response => console.log(response));
+        console.log('play screen');
+        // socket.emit('join', { username: 'chloe', room: room_id });
 
         socket.on('question', data => {
             const { current_question_index, question } = data;

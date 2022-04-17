@@ -65,7 +65,7 @@ function ConfigQuestion() {
             );
             const new_quiz = response.data.data.new_quiz;
             const list_question = JSON.parse(new_quiz.question);
-            console.log(list_question)
+            // console.log(list_question)
             setListQuestions(list_question);
             setReturnListWithTime(list_question);
         };

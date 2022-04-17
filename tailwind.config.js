@@ -23,7 +23,7 @@ module.exports = {
       },
       boxShadow: {
           quiz: "0px 5px 30px 26px rgba(152, 152, 152, 0.15)",
-          answer: "5px 5px"
+          answer: "5px 5px black"
       }
     },
   },

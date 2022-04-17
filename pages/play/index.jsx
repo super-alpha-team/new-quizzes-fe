@@ -36,10 +36,11 @@ export default function PlayGame() {
       if (data.isQuiz) {
         const quiz_data = data.isQuiz;
         setQuizId(quiz_data.quiz_id);
-        // console.log('quiz_data question', JSON.parse(quiz_data.question));
+        console.log('quiz_data question', JSON.parse(quiz_data.question));
         setNumQuestions(JSON.parse(quiz_data.question).length);
         const socket_id = quiz_data.socket_id;
         const status = quiz_data.status;
+        console.log('status', status);
         if (status === QuizStatusEnum.PLAYING) {
           setRoomId(socket_id);
           setGame('play');
