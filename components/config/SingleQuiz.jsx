@@ -3,6 +3,7 @@ import useCollapse from 'react-collapsed';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { SERVER_URL } from '../../utils/config';
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
@@ -10,20 +11,20 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     const [listQuestions, setListQuestions] = useState([]);
     const router = useRouter();
 
-    const handleExpandQuizClick = async () => {
-        const response = await axios.get(
-            `http://localhost:5000/lti/quiz/list/${id}`,
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
+    // const handleExpandQuizClick = async () => {
+    //     const response = await axios.get(
+    //         `http://localhost:5000/lti/quiz/list/${id}`,
+    //         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+    //     );
 
-        setListQuestions(response.data.data.question_data);
-        setQuizClicked(!quizClicked);
-    };
+    //     setListQuestions(response.data.data.question_data);
+    //     setQuizClicked(!quizClicked);
+    // };
 
     const handleChoosingQuiz = async () => {
         setIsChoosing(id);
         const response = await axios.get(
-            `http://localhost:5000/lti/quiz/list/${id}`,
+            `${SERVER_URL}/lti/quiz/moodle_quiz/get/${id}`,
             { headers: { Authorization: `Bearer ${router.query.ltik}` } }
         );
 

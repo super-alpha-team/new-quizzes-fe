@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Base64 } from 'js-base64';
 import Question from '../../components/config/Question';
+import { SERVER_URL } from '../../utils/config';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -58,16 +59,24 @@ function ConfigQuestion() {
     }
 
     useEffect(() => {
+        console.log('asdf')
         const getAllQuizzes = async () => {
-            const response = await axios.get(
-                `http://localhost:5000/lti/quiz/${router.query.id}/get`,
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            );
-            const new_quiz = response.data.data.new_quiz;
-            const list_question = JSON.parse(new_quiz.question);
-            // console.log(list_question)
-            setListQuestions(list_question);
-            setReturnListWithTime(list_question);
+            try {
+                console.log('asdfsgd')
+                const newQuizInstance = await axios.get(
+                    `${SERVER_URL}/lti/quiz/new_quiz_instance/get/${router.query.id}`,
+                    { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+                );
+                let newQuizInstanceData = newQuizInstance.data.data;
+    
+                const list_question = newQuizInstanceData.question_list;
+    
+                console.log(']> new_question list: ', list_question)
+                setListQuestions(list_question);
+                setReturnListWithTime(list_question);
+            } catch (err) {
+                console.log('err: ', err);
+            }
         };
         if (router.query.ltik) {
             getAllQuizzes();
