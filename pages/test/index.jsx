@@ -7,7 +7,7 @@ import Multichoice from '../../components/questionares/Multichoice';
 import Questionare from '../../components/questionares/Questionare';
 import ShortAnswer from '../../components/questionares/ShortAnswer';
 
-const answers = Array(10).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
+const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => {
         return { ...e, id: i };
     });
@@ -36,21 +36,18 @@ function Test() {
                                 <Clock duration={10} handleTimeUp={() => {}} />
                             </div>
                         </div>
-                        {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
+                        <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                             <ShortAnswer />
-                        </Questionare> */}
+                        </Questionare>
                         {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                             <Essay />
                         </Questionare> */}
                         {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
-                            <Matching data={data} />
-                        </Questionare> */}
-                        {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                             <Multichoice answers={answers} handleAnswer={() => { }} />
                         </Questionare> */}
-                        <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
+                        {/* <Questionare question='' questionProgress='3/5'>
                             <Matching data={answers} />
-                        </Questionare>
+                        </Questionare> */}
                     </div>
                 </div>
             </div>
