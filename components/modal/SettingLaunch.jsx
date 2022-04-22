@@ -18,17 +18,25 @@ function useOutsideCollapse(ref, closeModal) {
     }, [ref]);
 }
 
-function SettingLaunch({ closeModal }) {
+function SettingLaunch({ data, closeModal, settingStartQuiz }) {
     const wrapperRef = useRef(null);
     useOutsideCollapse(wrapperRef, closeModal);
     const router = useRouter();
 
     function goToLiveResult () {
-        router.push({
-            pathname: `/result`,
-            query: {id: `${router.query.id}`, ltik: `${router.query.ltik}`}
+        settingStartQuiz({
+            showNameSetting,
+            shuffleQuestionSetting,
+            shuffleAnswerSetting,
         });
     }
+
+    // state show name setting
+    const [showNameSetting, setShowNameSetting] = useState(data.showNameSetting || true);
+    // state shuffle question setting
+    const [shuffleQuestionSetting, setShuffleQuestionSetting] = useState(data.shuffleQuestionSetting || false);
+    // state shuffle answer setting
+    const [shuffleAnswerSetting, setShuffleAnswerSetting] = useState(data.shuffleAnswerSetting || false);
 
     return (
         <div className="overflow-x-hidden overflow-y-auto fixed inset-0">
@@ -44,15 +52,15 @@ function SettingLaunch({ closeModal }) {
                     <div className="flex flex-col gap-4 mt-6">
                         <div className="flex justify-between items-center">
                             <p>Hiển thị tên</p>
-                            <ToggleSwitch />
+                            <ToggleSwitch isToggle={showNameSetting} setIsToggle={setShowNameSetting} />
                         </div>
                         <div className="flex justify-between items-center">
                             <p>Xáo trộn câu hỏi</p>
-                            <ToggleSwitch />
+                            <ToggleSwitch isToggle={shuffleQuestionSetting} setIsToggle={setShuffleQuestionSetting}/>
                         </div>
                         <div className="flex justify-between items-center">
                             <p>Xáo trộn câu trả lời</p>
-                            <ToggleSwitch />
+                            <ToggleSwitch isToggle={shuffleAnswerSetting} setIsToggle={setShuffleAnswerSetting}/>
                         </div>
                     </div>
                     <div className="flex gap-2 mt-8 justify-end">

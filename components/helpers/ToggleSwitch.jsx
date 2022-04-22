@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-function ToggleSwitch() {
-    const [isToggle, setIsToggle] = useState(false);
+function ToggleSwitch( {
+    isToggle,
+    setIsToggle
+}) {
 
     return (
         <div
