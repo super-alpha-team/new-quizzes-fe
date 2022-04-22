@@ -12,6 +12,8 @@ function ConfigQuestion() {
     const [listQuestions, setListQuestions] = useState([]);
     const [returnListWithTime, setReturnListWithTime] = useState([]);
     const [errorConfigTimeList, setErrorConfigTimeList] = useState([]);
+    // state newQuizInstance
+    const [newQuizInstance, setNewQuizInstance] = useState({});
 
     function setTimeToSingleQuestion(id, time) {
         const index = returnListWithTime.findIndex(
@@ -43,8 +45,8 @@ function ConfigQuestion() {
                 question_string_encoded: question_string_encoded,
             };
 
-            const response = await axios.put(`http://localhost:5000/lti/quiz/${router.query.id}/edit`, dataSend,
-                { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
+            // const response = await axios.put(`http://localhost:5000/lti/quiz/${router.query.id}/edit`, dataSend,
+            //     { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
 
             router.push({
                 pathname: `/launch`,
@@ -59,19 +61,18 @@ function ConfigQuestion() {
     }
 
     useEffect(() => {
-        console.log('asdf')
-        const getAllQuizzes = async () => {
+        const getQuizzData = async () => {
             try {
-                console.log('asdfsgd')
                 const newQuizInstance = await axios.get(
-                    `${SERVER_URL}/lti/quiz/new_quiz_instance/get/${router.query.id}`,
+                    `${SERVER_URL}/lti/quiz/new_quiz_instance/get_and_question_list/${router.query.id}`,
                     { headers: { Authorization: `Bearer ${router.query.ltik}` } }
                 );
                 let newQuizInstanceData = newQuizInstance.data.data;
-    
+                console.log("config | useEffect[], new_quiz_instance", newQuizInstanceData);
+
+                setNewQuizInstance(newQuizInstanceData.new_quiz_instance)
+                
                 const list_question = newQuizInstanceData.question_list;
-    
-                console.log(']> new_question list: ', list_question)
                 setListQuestions(list_question);
                 setReturnListWithTime(list_question);
             } catch (err) {
@@ -79,7 +80,7 @@ function ConfigQuestion() {
             }
         };
         if (router.query.ltik) {
-            getAllQuizzes();
+            getQuizzData();
         }
     }, [router.query.id, router.query.ltik]);
 
@@ -88,7 +89,7 @@ function ConfigQuestion() {
             <Header />
             <div className="w-9/12 m-auto pt-4 pb-12">
                 <div className="mt-6 text-xl p-4 border border-gray-300 w-full rounded-lg">
-                    <p> Quiz title </p>
+                    <p>{newQuizInstance.name || "Quiz Untitle"}</p>
                 </div>
                 <p className="mb-6 mt-2">
                     * Thêm thời gian bạn muốn cho từng câu hỏi hoặc lựa chọn

@@ -32,6 +32,10 @@ function Question({
         setTime(e.target.value);
     }
 
+    function updateQuestion() {
+        // PUT /new_question/update/:new_question_id
+    }
+
     return (
         <>
             <hr />
@@ -52,7 +56,7 @@ function Question({
                     >
                         {number + 1}
                         {'.'}
-                        {parse(questionText)}
+                        {parse(questionText || "")}
                     </div>
                     {isSetTimeError ? (
                         <p className="text-red-600 italic text-sm pb-3">

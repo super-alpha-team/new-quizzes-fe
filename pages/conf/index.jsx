@@ -61,8 +61,8 @@ function ChooseQuiz() {
 
         const chooseQuizData = chooseQuiz.data.data;
         console.log("]> lti/quiz/choose: ", chooseQuizData);
-        const dataResponse = chooseQuizData.new_quiz;
-        // router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
+        const dataResponse = chooseQuizData.instance;
+        router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
     };
 
     return (
