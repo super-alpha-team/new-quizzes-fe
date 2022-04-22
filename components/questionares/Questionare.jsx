@@ -6,7 +6,7 @@ function Questionare(props) {
     const progressPercent = +progress[0] / +progress[1] * 100;
 
     return (
-        <div className='h-[75%] w-[75%] bg-[#91A8ED] absolute bottom-[11%] border-2 border-black rounded-md grid justify-items-center content-around'>
+        <div className='min-h-[75%] w-[75%] py-4 bg-[#91A8ED] absolute top-[14%] border-2 border-black rounded-md grid justify-items-center content-around'>
             <div className='w-11/12 row-span-1 h-[0.375rem] bg-white rounded-md'>
                 <div className='h-full bg-black rounded-md' style={{ width: `${progressPercent}%` }} />
             </div>
