@@ -15,10 +15,18 @@ function ConfigQuestion() {
     // state newQuizInstance
     const [newQuizInstance, setNewQuizInstance] = useState({});
 
-    function setTimeToSingleQuestion(id, time) {
+    async function setTimeToSingleQuestion(id, time) {
         const index = returnListWithTime.findIndex(
             (question) => question.id === id
         );
+        
+        listQuestions[index].time_answer = time;
+        const response = await axios.put(`http://localhost:5000/lti/quiz/new_question/update/${listQuestions[index].id}`, {
+            time_answer: time
+        },
+                { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
+
+
         let newReturnList = returnListWithTime.slice();
         newReturnList[index]['time_answer'] = time;
         setReturnListWithTime(newReturnList);
@@ -44,10 +52,7 @@ function ConfigQuestion() {
                 new_quiz_id: router.query.id,
                 question_string_encoded: question_string_encoded,
             };
-
-            // const response = await axios.put(`http://localhost:5000/lti/quiz/${router.query.id}/edit`, dataSend,
-            //     { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
-
+            
             router.push({
                 pathname: `/launch`,
                 query: {id: `${router.query.id}`, ltik: `${router.query.ltik}`}
