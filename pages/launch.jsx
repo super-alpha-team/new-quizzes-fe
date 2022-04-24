@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Image from 'next/image';
 import SettingLaunch from '../components/modal/SettingLaunch';
 import Button from '../components/helpers/Button';
-import { SERVER_URL } from '../utils/config';
+import { LOCALHOST, SERVER_URL } from '../utils/config';
 
 function HomePage() {
     const router = useRouter();
@@ -47,7 +47,7 @@ function HomePage() {
 
     async function handleStartQuiz() {
         const response = await axios.post(
-            `http://localhost:5000/lti/quiz/${router.query.id}/start`,
+            `${LOCALHOST}/lti/quiz/${router.query.id}/start`,
             {},
             { headers: { Authorization: `Bearer ${router.query.ltik}` } }
         );

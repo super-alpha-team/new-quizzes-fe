@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { Base64 } from 'js-base64';
 import Question from '../../components/config/Question';
-import { SERVER_URL } from '../../utils/config';
+import { LOCALHOST, SERVER_URL } from '../../utils/config';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -21,7 +21,7 @@ function ConfigQuestion() {
         );
         
         listQuestions[index].time_answer = time;
-        const response = await axios.put(`http://localhost:5000/lti/quiz/new_question/update/${listQuestions[index].id}`, {
+        const response = await axios.put(`${LOCALHOST}/lti/quiz/new_question/update/${listQuestions[index].id}`, {
             time_answer: time
         },
                 { headers: { "Authorization": `Bearer ${router.query.ltik}` } });

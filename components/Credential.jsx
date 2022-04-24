@@ -1,23 +1,24 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { LOCALHOST, LTI_URL, SERVER_URL } from '../utils/config';
 import Alert from './helpers/Alert';
 
 const instructions = [
   {
     title: 'Target Link URL',
-    link: 'http://192.168.1.4:5000/lti'
+    link: `${SERVER_URL}/lti`,
   },
   {
     title: 'Public JWK URL',
-    link: 'http://192.168.1.4:5000/lti/keys'
+    link: `${SERVER_URL}/lti/keys`,
   },
   {
     title: 'Login Initiation URL',
-    link: 'http://192.168.1.4:5000/lti/login'
+    link: `${SERVER_URL}/lti/login`,
   },
   {
     title: 'Tool Redirect URL',
-    link: 'http://192.168.1.4:5000/lti'
+    link: `${SERVER_URL}/lti`,
   },
 ];
 
@@ -35,16 +36,16 @@ function Credential({ name }) {
   async function handleCreate(e) {
     if (clientId && accessToken) {
       const data = {
-        url: `http://192.168.1.4`,
+        url: `${LTI_URL}`,
         name,
         clientId,
-        authenticationEndpoint: `http://192.168.1.4/mod/lti/auth.php`,
-        accesstokenEndpoint: `http://192.168.1.4/mod/lti/token.php`,
-        authConfigKey: `http://192.168.1.4/mod/lti/certs.php`,
+        authenticationEndpoint: `${LTI_URL}/mod/lti/auth.php`,
+        accesstokenEndpoint: `${LTI_URL}/mod/lti/token.php`,
+        authConfigKey: `${LTI_URL}/mod/lti/certs.php`,
         accesstoken: accessToken,
       };
 
-      const response = await axios.post(`http://localhost:5000/plat/register`, data);
+      const response = await axios.post(`${LOCALHOST}/plat/register`, data);
     }
   }
 
@@ -67,11 +68,11 @@ function Credential({ name }) {
           <p className='text-gray-500 italic'>Please copy the Moodle tool <b>Client ID</b>, and paste it into the LTI Advantage <b>Client ID</b> field.</p>
           <div>
             <p className='font-semibold'>Client ID</p>
-            <input value={clientId} onChange={({target}) => setClientId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
+            <input value={clientId} onChange={({ target }) => setClientId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
           </div>
           <div>
             <p className='font-semibold'>Access Token</p>
-            <input value={accessToken} onChange={({target}) => setAccessToken(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
+            <input value={accessToken} onChange={({ target }) => setAccessToken(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
           </div>
           <button className='self-end text-blue-dark rounded-md hover:bg-blue-dark hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-blue-dark'>Save</button>
         </div>

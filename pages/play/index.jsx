@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import Loading from '../../components/helpers/Loading';
 import Play from '../../components/Play';
+import { LOCALHOST } from '../../utils/config';
 
 const QuizStatusEnum = {
   EDITING: 'editing',
@@ -26,7 +27,7 @@ export default function PlayGame() {
   useEffect(() => {
     const getAllQuizzes = async () => {
       const response = await axios.get(
-        'http://localhost:5000/lti/quiz/list',
+        `${LOCALHOST}/lti/quiz/list`,
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
 
