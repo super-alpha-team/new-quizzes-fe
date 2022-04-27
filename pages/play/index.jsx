@@ -26,22 +26,23 @@ export default function PlayGame() {
 
   useEffect(() => {
     const getAllQuizzes = async () => {
-      const response = await axios.get(
-        `${LOCALHOST}/lti/quiz/list`,
+
+      const checkNewQuiz = await axios.get(
+        `${SERVER_URL}/lti/sync/lti`,
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
+      let checkNewQuizResp = checkNewQuiz.data.data;
+      console.log("]> check newQuiz: ", checkNewQuizResp);
 
-      // setListQuiz(response.data.data.quiz_list);
-      // console.log(']> get quiz data: ', response.data.data);
-      const data = response.data.data;
-      if (data.isQuiz) {
-        const quiz_data = data.isQuiz;
-        setQuizId(quiz_data.quiz_id);
-        console.log('quiz_data question', JSON.parse(quiz_data.question));
-        setNumQuestions(JSON.parse(quiz_data.question).length);
-        const socket_id = quiz_data.socket_id;
-        const status = quiz_data.status;
-        console.log('status', status);
+      let newQuizInstance = checkNewQuizResp.instance;
+
+      if (newQuizInstance) {
+        setQuizId(newQuizInstance.id);
+        // TODO fix tamp
+        setNumQuestions(10);
+        const socket_id = newQuizInstance.socket_id;
+        const status = newQuizInstance.status;
+
         if (status === QuizStatusEnum.PLAYING) {
           setRoomId(socket_id);
           setGame('play');
