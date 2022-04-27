@@ -5,6 +5,7 @@ import Loading from './helpers/Loading';
 import Clock from './Clock';
 import { socket } from '../utils/socket';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 // import { BE_URL } from '../utils/config';
 
 function Play({ total_questions, quizId, room_id }) {
@@ -13,19 +14,25 @@ function Play({ total_questions, quizId, room_id }) {
     const [score, setScore] = useState(0);
     const [finish, setFinish] = useState(false);
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
-
+    const router = useRouter();
+   
     useEffect(() => {
-        axios.post(`/lti/play/${quizId}/join`, {
+        axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
             "username": "chloe",
             "is_teacher": false
-        }).then(response => console.log(response));
+        },
+        { headers: { Authorization: `Bearer ${router.query.ltik}` } })
+        .then((response) => 
+            {
+                console.log(response);
+            
         console.log('play screen');
-        // socket.emit('join', { username: 'chloe', room: room_id });
-
+        socket.emit('join', { username: 'chloe', room: room_id, token: response.data.alpha_token});
+        });
         socket.on('question', data => {
             const { current_question_index, question } = data;
             setCurrentIndex(current_question_index);
-
+            console.log(data);
             if (current_question_index < 0) {
                 setFinish(true);
             } else {
