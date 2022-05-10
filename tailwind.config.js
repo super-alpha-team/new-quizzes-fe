@@ -1,3 +1,4 @@
+const plugin = require('tailwindcss/plugin');
 
 module.exports = {
   content: [
@@ -19,13 +20,28 @@ module.exports = {
         },
         light: {
           medium: "#F5F7F8"
+        },
+        background: {
+          mid: "#F5F7FB"
         }
       },
       boxShadow: {
-          quiz: "0px 5px 30px 26px rgba(152, 152, 152, 0.15)",
+          quiz: "0px 5px 50px 26px rgba(152, 152, 152, 0.15)",
           answer: "5px 5px black"
       }
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(function({ addUtilities }) {
+      addUtilities({
+        '.no-scrollbar::-webkit-scrollbar': {
+          'display': 'none'
+        },
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none',  /* IE and Edge */
+          'scrollbar-width': 'none' 
+        }
+      })
+    })
+  ]
 };

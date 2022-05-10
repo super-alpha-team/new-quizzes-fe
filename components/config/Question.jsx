@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StringIdGenerator } from '../../utils/AlphabetGenerator';
 import parse from 'html-react-parser';
 
@@ -11,7 +11,8 @@ function Question({
     number,
     setTimeFn,
     isSetTimeError,
-    timeAnswer
+    timeAnswer,
+    isDisableEditTime
 }) {
     const [isEdit, setIsEdit] = useState(false);
     const [time, setTime] = useState(timeAnswer);
@@ -43,15 +44,15 @@ function Question({
                 className={
                     isChoosing == id && isEdit
                         ? 'p-6 pb-4 flex justify-between bg-light-medium h-full w-full rounded-xl'
-                        : 'p-6 pb-4 flex justify-between'
+                        : 'p-6 pb-4 flex justify-between overflow-hidden'
                 }
             >
                 <div className="">
                     <div
                         className={
                             isSetTimeError
-                                ? 'flex justify-between gap-2'
-                                : 'flex justify-between gap-2 pb-3'
+                                ? 'flex gap-2'
+                                : 'flex gap-2 pb-3'
                         }
                     >
                         {number + 1}
@@ -99,9 +100,24 @@ function Question({
                     )}
                 </div>
                 <div>
-                    {isChoosing == id && isEdit ? (
+                    {isDisableEditTime ? 
                         <div
-                            className="w-8 h-8 bg-green-600 flex justify-center items-center hover:cursor-pointer rounded-md"
+                        className="w-8 h-8 bg-gray-400 duration-200 flex justify-center items-center rounded-md"
+                        // onClick={handleChooseQuestion}
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 text-white"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                    </div>
+                    : 
+                    isChoosing == id && isEdit ? (
+                        <div
+                            className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
                             onClick={handleSaveTime}
                         >
                             <svg
@@ -116,10 +132,11 @@ function Question({
                                     clipRule="evenodd"
                                 />
                             </svg>
+                            
                         </div>
                     ) : (
                         <div
-                            className="w-8 h-8 bg-blue-dark flex justify-center items-center hover:cursor-pointer rounded-md"
+                            className="w-8 h-8 bg-blue-lightDark hover:bg-blue-dark duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
                             onClick={handleChooseQuestion}
                         >
                             <svg
@@ -132,6 +149,8 @@ function Question({
                             </svg>
                         </div>
                     )}
+                    
+                    
                 </div>
             </div>
         </>

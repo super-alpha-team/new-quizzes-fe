@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Base64 } from 'js-base64';
 import Question from '../../components/config/Question';
 import { LOCALHOST, SERVER_URL } from '../../utils/config';
+import ToggleSwitch from '../../components/helpers/ToggleSwitch';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -14,6 +15,8 @@ function ConfigQuestion() {
     const [errorConfigTimeList, setErrorConfigTimeList] = useState([]);
     // state newQuizInstance
     const [newQuizInstance, setNewQuizInstance] = useState({});
+    const [isAddTimeForAllQuestion, setIsAddTimeForAllQuestion] = useState(false);
+    const [time, setTime] = useState(0);
 
     async function setTimeToSingleQuestion(id, time) {
         const index = returnListWithTime.findIndex(
@@ -89,17 +92,60 @@ function ConfigQuestion() {
         }
     }, [router.query.id, router.query.ltik]);
 
+    function onChangeTime(e) {
+        setTime(e.target.value);
+    }
+
+    function handleSaveTimeForAllQuestion() {
+        
+    }
+
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen overflow-scroll overflow-x-hidden">
             <Header />
             <div className="w-9/12 m-auto pt-4 pb-12">
                 <div className="mt-6 text-xl p-4 border border-gray-300 w-full rounded-lg">
                     <p>{newQuizInstance.name || "Quiz Untitle"}</p>
                 </div>
-                <p className="mb-6 mt-2">
+                <p className="mb-4 mt-2">
                     * Thêm thời gian bạn muốn cho từng câu hỏi hoặc lựa chọn
                     thêm tất cả câu hỏi với cùng một thời gian
                 </p>
+
+                <div className='flex gap-2 mb-2'>
+                    <ToggleSwitch isToggle={isAddTimeForAllQuestion} setIsToggle={setIsAddTimeForAllQuestion}/>
+                    <p>Thêm thời gian cho toàn bộ bài kiểm tra</p>
+                </div>
+                {isAddTimeForAllQuestion ?
+                    <div className='flex gap-2 items-center mb-4'>
+                        <input
+                            placeholder="thời gian (s)"
+                            className="p-2 w-32 outline-none border border-gray-300  focus:border-gray-light transition rounded-md"
+                            type="number"
+                            value={time}
+                            onChange={(e) => onChangeTime(e)}
+                        />
+                        <div
+                            className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                            onClick={handleSaveTimeForAllQuestion}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-white"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                            
+                        </div>
+                    </div>
+                : ""
+                }
 
                 {listQuestions.map((question, index) => (
                     <Question
@@ -113,6 +159,7 @@ function ConfigQuestion() {
                         setTimeFn={setTimeToSingleQuestion}
                         isSetTimeError={checkIfQuestionWithNoTime(question.id)}
                         timeAnswer={question.time_answer}
+                        isDisableEditTime={isAddTimeForAllQuestion}
                     />
                 ))}
 

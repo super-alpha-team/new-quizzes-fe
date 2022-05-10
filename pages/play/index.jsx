@@ -28,7 +28,7 @@ export default function PlayGame() {
     const getAllQuizzes = async () => {
 
       const checkNewQuiz = await axios.get(
-        `${SERVER_URL}/lti/sync/lti`,
+        `http://localhost:5000/lti/sync/lti`,
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
       let checkNewQuizResp = checkNewQuiz.data.data;

@@ -5,6 +5,7 @@ import Loading from './helpers/Loading';
 import Clock from './Clock';
 import { socket } from '../utils/socket';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 // import { BE_URL } from '../utils/config';
 
 function Play({ total_questions, quizId, room_id }) {
@@ -13,19 +14,25 @@ function Play({ total_questions, quizId, room_id }) {
     const [score, setScore] = useState(0);
     const [finish, setFinish] = useState(false);
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
-
+    const router = useRouter();
+   
     useEffect(() => {
-        axios.post(`/lti/play/${quizId}/join`, {
+        axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
             "username": "chloe",
             "is_teacher": false
-        }).then(response => console.log(response));
+        },
+        { headers: { Authorization: `Bearer ${router.query.ltik}` } })
+        .then((response) => 
+            {
+                console.log(response);
+            
         console.log('play screen');
-        // socket.emit('join', { username: 'chloe', room: room_id });
-
+        socket.emit('join', { username: 'chloe', room: room_id, token: response.data.alpha_token});
+        });
         socket.on('question', data => {
             const { current_question_index, question } = data;
             setCurrentIndex(current_question_index);
-
+            console.log(data);
             if (current_question_index < 0) {
                 setFinish(true);
             } else {
@@ -52,7 +59,7 @@ function Play({ total_questions, quizId, room_id }) {
             (<div className='h-screen'>
                 <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                     <div className='h-full w-full flex justify-center relative'>
-                        <div className='h-[20%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
+                        <div className='h-[15%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
                             <div className='w-9/12 flex justify-between absolute'>
                                 <div className='flex gap-4'>
                                     <div className='text-white font-bold flex items-center gap-3'>

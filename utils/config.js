@@ -2,8 +2,8 @@
 const SERVER_PORT=5000;
 const CLIENT_PORT=3000;
 const BASE_URL = `http://localhost:${CLIENT_PORT}`;
-const LTI_URL = "http://192.168.1.4";
-const SERVER_URL = `http://192.168.1.4:${SERVER_PORT}`;
+const LTI_URL = "http://localhost";
+const SERVER_URL = `http://localhost:${SERVER_PORT}`;
 const LOCALHOST = `http://localhost:${SERVER_PORT}`;
 
 const QUIZ_STATUS = {
