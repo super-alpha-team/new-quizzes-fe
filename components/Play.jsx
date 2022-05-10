@@ -59,7 +59,7 @@ function Play({ total_questions, quizId, room_id }) {
             (<div className='h-screen'>
                 <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                     <div className='h-full w-full flex justify-center relative'>
-                        <div className='h-[20%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
+                        <div className='h-[15%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
                             <div className='w-9/12 flex justify-between absolute'>
                                 <div className='flex gap-4'>
                                     <div className='text-white font-bold flex items-center gap-3'>
