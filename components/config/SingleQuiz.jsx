@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { SERVER_URL } from '../../utils/config';
 
-function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
+function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
     const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
     const [quizClicked, setQuizClicked] = useState(false);
     const [listQuestions, setListQuestions] = useState([]);
@@ -33,19 +33,17 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
     };
 
     return (
-        <div className="collapsible">
+        <div className="collapsible w-10/12 mt-2 mx-auto">
             <div
                 className={
                     isChoosing == id
-                        ? 'w-9/12 h-12 mb-2 border-blue-dark border-[1px] rounded-lg m-auto flex justify-between pl-4 pr-4 items-center bg-[#C4CFEB] duration-300'
-                        : 'w-9/12 h-12 mb-2 border-blue-dark border-[1px] rounded-lg m-auto flex justify-between pl-4 pr-4 items-center hover:bg-[#C4CFEB] duration-300'
+                        ? 'h-16 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center bg-[#C4CFEB] duration-300'
+                        : 'h-14 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center hover:bg-[#C4CFEB] hover:h-16 duration-300'
                 }
+                {...getToggleProps({ onClick: handleChoosingQuiz })}
             >
-                <p
-                    className="cursor-pointer"
-                    {...getToggleProps({ onClick: handleChoosingQuiz })}
-                >
-                    {title}
+                <p className="text-lg">
+                    {index + 1}. {title}
                 </p>
                 {isExpanded ? (
                     <svg
@@ -53,7 +51,6 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"
@@ -67,7 +64,6 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                         className="h-6 w-6 text-blue-dark"
                         viewBox="0 0 20 20"
                         fill="currentColor"
-                        // {...getToggleProps({ onClick: handleExpandQuizClick })}
                     >
                         <path
                             fillRule="evenodd"
@@ -78,8 +74,8 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                 )}
             </div>
             <div {...getCollapseProps()}>
-                <div className="w-9/12 h-[200px] shadow-answer m-auto border-2 border-[#CED5DF] rounded-xl mb-5 overflow-hidden overflow-y-scroll">
-                    <div className="h-9 pl-4 pr-4 ">
+                <div className="border-2 border-[#CED5DF] rounded-xl overflow-hidden overflow-y-scroll">
+                    <div className="pl-4 pr-4 h-auto ">
                         {listQuestions.map((question, index) => (
                             <div
                                 className="flex break-all h-auto pb-2 pt-1 gap-2"
@@ -92,6 +88,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title }) {
                     </div>
                 </div>
             </div>
+            <hr />
         </div>
     );
 }

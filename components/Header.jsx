@@ -5,7 +5,7 @@ function Header() {
     const router = useRouter();
     return (
         <nav className="flex items-center justify-between flex-wrap bg-blue-dark h-20 top-0 w-full">
-            <div className="w-full flex-grow grid grid-cols-3 lg:items-center lg:w-auto h-full">
+            <div className=" flex-grow grid grid-cols-3 lg:items-center h-full">
                 <div></div>
                 {router.pathname == '/launch' || router.pathname == '/result' ? (
                     <div className="flex text-white justify-center h-full">
