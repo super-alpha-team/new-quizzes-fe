@@ -47,7 +47,7 @@ function Play({ total_questions, quizId, room_id }) {
     }, []);
 
     function handleAnswer(answer) {
-        socket.emit('send', { room: room_id, new_quiz_id: quizId, idtoken_id: 'bla', answer_log_data: answer });
+        socket.emit('send', { current_question_index: currentIndex, answer_log_data: answer });
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }
