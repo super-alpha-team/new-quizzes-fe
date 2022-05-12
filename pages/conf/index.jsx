@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import SingleQuiz from '../../components/config/SingleQuiz';
 import { SERVER_URL, QUIZ_STATUS } from '../../utils/config';
+import Button from '../../components/helpers/Button';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -65,38 +66,44 @@ function ChooseQuiz() {
         router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
     };
 
+    console.log("list quiz", listQuiz)
+
     return (
-        <div className="w-screen h-screen">
+        <div className="w-screen h-screen bg-background-mid">
             <Header />
 
-            <p className="w-9/12 m-auto pt-4 pb-4">Chọn bộ câu hỏi</p>
-            <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl">
-                <div className="h-[100%] flex flex-col pt-6 pb-4 overflow-hidden overflow-y-scroll">
-                    {listQuiz.map((quizInfo) => (
+            <p className="w-9/12 m-auto pt-4 pb-4 text-xl font-bold">Chọn bộ câu hỏi</p>
+            <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
+                    {listQuiz.map((quizInfo, index) => (
                         <SingleQuiz
                             id={quizInfo.id}
                             key={quizInfo.id}
                             isChoosing={isChoosing}
                             setIsChoosing={setIsChoosing}
                             title={quizInfo.name}
+                            index = {index}
                         />
                     ))}
                 </div>
             </div>
-            <div className="w-9/12 m-auto justify-end flex mt-4 ">
+            <div className="w-9/12 m-auto justify-end flex mt-8 ">
                 {isChoosing != -1 ? (
-                    <div
-                        className="bg-blue-lightDark hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer"
+                    <Button
+                        type="button"
+                        variants="primary"
                         onClick={goToListQuestions}
+                        className="w-32"
                     >
                         Tiếp tục
-                    </div>
+                    </Button>
                 ) : (
-                    <div className="bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300">
-                        Tiếp tục
+                    <div className="bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300 w-32 flex justify-center">
+                            Tiếp tục
                     </div>
                 )}
             </div>
+            
         </div>
     );
 }
