@@ -1,4 +1,7 @@
 import React from 'react';
+import MathJax from 'react-mathjax';
+
+const isMath = true;
 
 function Questionare(props) {
     const { question, questionProgress } = props;
@@ -13,7 +16,12 @@ function Questionare(props) {
                 </div>
                 <div className='w-11/12 flex flex-col items-center text-justify'>
                     <div className='italic uppercase font-semibold text-black text-xs'>question {questionProgress}</div>
-                    <div className='font-bold lg:text-base md:text-base text-xs text-black' dangerouslySetInnerHTML={{ __html: question }} />
+                    <div className='font-bold lg:text-base md:text-base text-xs text-black'>
+                        <MathJax.Provider>
+                            {isMath ? <MathJax.Node formula={question} /> : <p>{question}</p>}
+                        </MathJax.Provider>
+                    </div>
+
                 </div>
             </div>
             <div className='w-11/12 row-start-2 row-end-7'>
