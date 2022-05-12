@@ -7,7 +7,7 @@ import Multichoice from '../../components/questionares/Multichoice';
 import Questionare from '../../components/questionares/Questionare';
 import ShortAnswer from '../../components/questionares/ShortAnswer';
 
-const answers = Array(9).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
+const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => {
         return { ...e, id: i };
     });
