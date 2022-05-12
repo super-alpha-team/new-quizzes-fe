@@ -15,20 +15,19 @@ function Play({ total_questions, quizId, room_id }) {
     const [finish, setFinish] = useState(false);
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
     const router = useRouter();
-   
+
     useEffect(() => {
         axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
             "username": "chloe",
             "is_teacher": false
         },
-        { headers: { Authorization: `Bearer ${router.query.ltik}` } })
-        .then((response) => 
-            {
+            { headers: { Authorization: `Bearer ${router.query.ltik}` } })
+            .then((response) => {
                 console.log(response);
-            
-        console.log('play screen');
-        socket.emit('join', { username: 'chloe', room: room_id, token: response.data.alpha_token});
-        });
+
+                console.log('play screen');
+                socket.emit('join', { username: 'chloe', room: room_id, token: response.data.alpha_token });
+            });
         socket.on('question', data => {
             const { current_question_index, question } = data;
             setCurrentIndex(current_question_index);
@@ -47,7 +46,12 @@ function Play({ total_questions, quizId, room_id }) {
     }, []);
 
     function handleAnswer(answer) {
-        socket.emit('send', { current_question_index: currentIndex, answer_log_data: answer });
+        console.log(answer);
+        let answer_log_data = { answer_id: answer };
+        if (answer == null) {
+            answer_log_data.answer_id = -1;
+        }
+        socket.emit('send', { current_question_index: currentIndex, answer_log_data });
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }

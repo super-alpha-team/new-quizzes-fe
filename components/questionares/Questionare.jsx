@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MathJax from 'react-mathjax';
 
-const isMath = true;
-
 function Questionare(props) {
+    const [isMath, setIsMath] = useState(false);
     const { question, questionProgress } = props;
     const progress = questionProgress.split('/');
     const progressPercent = +progress[0] / +progress[1] * 100;
@@ -18,7 +17,7 @@ function Questionare(props) {
                     <div className='italic uppercase font-semibold text-black text-xs'>question {questionProgress}</div>
                     <div className='font-bold lg:text-base md:text-base text-xs text-black'>
                         <MathJax.Provider>
-                            {isMath ? <MathJax.Node formula={question} /> : <p>{question}</p>}
+                            {isMath ? <MathJax.Node formula={question} /> : <p dangerouslySetInnerHTML={{ __html: question }} />}
                         </MathJax.Provider>
                     </div>
 
