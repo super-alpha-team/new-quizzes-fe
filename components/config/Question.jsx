@@ -37,6 +37,10 @@ function Question({
         // PUT /new_question/update/:new_question_id
     }
 
+    useEffect(() => {
+        setTime(timeAnswer);
+    }, [timeAnswer]);
+    
     return (
         <>
             <hr />

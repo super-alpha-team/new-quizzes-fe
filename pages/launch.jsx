@@ -85,10 +85,10 @@ function HomePage() {
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } }
             );
             // redirect to live result
-            router.push({
-                pathname: `/result`,
-                query: {id: `${newQuizInstanceData.new_quiz_id}`, ltik: `${router.query.ltik}`}
-            });
+            // router.push({
+            //     pathname: `/result`,
+            //     query: {id: `${newQuizInstanceData.new_quiz_id}`, ltik: `${router.query.ltik}`}
+            // });
 
         } catch(err) {
             console.log('err', err);

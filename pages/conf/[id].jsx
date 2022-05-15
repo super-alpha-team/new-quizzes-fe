@@ -6,6 +6,7 @@ import { Base64 } from 'js-base64';
 import Question from '../../components/config/Question';
 import { LOCALHOST, SERVER_URL } from '../../utils/config';
 import ToggleSwitch from '../../components/helpers/ToggleSwitch';
+import useCollapse from 'react-collapsed';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -15,8 +16,9 @@ function ConfigQuestion() {
     const [errorConfigTimeList, setErrorConfigTimeList] = useState([]);
     // state newQuizInstance
     const [newQuizInstance, setNewQuizInstance] = useState({});
-    const [isAddTimeForAllQuestion, setIsAddTimeForAllQuestion] = useState(false);
     const [time, setTime] = useState(0);
+    const [isExpanded, setExpanded] = useState(false);
+    const { getCollapseProps, getToggleProps } = useCollapse({isExpanded});
 
     async function setTimeToSingleQuestion(id, time) {
         const index = returnListWithTime.findIndex(
@@ -27,7 +29,8 @@ function ConfigQuestion() {
         const response = await axios.put(`${LOCALHOST}/lti/quiz/new_question/update/${listQuestions[index].id}`, {
             time_answer: time
         },
-                { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
+                { headers: { "Authorization": `Bearer ${router.query.ltik}` } }
+        );
 
 
         let newReturnList = returnListWithTime.slice();
@@ -76,7 +79,6 @@ function ConfigQuestion() {
                     { headers: { Authorization: `Bearer ${router.query.ltik}` } }
                 );
                 let newQuizInstanceData = newQuizInstance.data.data;
-                console.log("config | useEffect[], new_quiz_instance", newQuizInstanceData);
 
                 setNewQuizInstance(newQuizInstanceData.new_quiz_instance)
                 
@@ -96,7 +98,19 @@ function ConfigQuestion() {
         setTime(e.target.value);
     }
 
-    function handleSaveTimeForAllQuestion() {
+    async function handleSaveTimeForAllQuestion() {
+        try {
+            const response = await axios.post(`${LOCALHOST}/lti/quiz/new_quiz_instance/set_time_all_question/${router.query.id}`,  
+                {
+                    "time_answer": time
+                },
+                        { headers: { "Authorization": `Bearer ${router.query.ltik}` } }
+                );
+
+            setListQuestions(response.data.data.question_list);
+        } catch(err) {
+            console.log('err', err);
+        }
         
     }
 
@@ -113,11 +127,12 @@ function ConfigQuestion() {
                 </p>
 
                 <div className='flex gap-2 mb-2'>
-                    <ToggleSwitch isToggle={isAddTimeForAllQuestion} setIsToggle={setIsAddTimeForAllQuestion}/>
+                    <ToggleSwitch isToggle={isExpanded} setIsToggle={setExpanded}  />
                     <p>Thêm thời gian cho toàn bộ bài kiểm tra</p>
                 </div>
-                {isAddTimeForAllQuestion ?
-                    <div className='flex gap-2 items-center mb-4'>
+                
+                <div {...getCollapseProps()}>
+                    <div className='flex gap-2 items-center mb-4' >
                         <input
                             placeholder="thời gian (s)"
                             className="p-2 w-32 outline-none border border-gray-300  focus:border-gray-light transition rounded-md"
@@ -144,8 +159,8 @@ function ConfigQuestion() {
                             
                         </div>
                     </div>
-                : ""
-                }
+                </div>
+              
 
                 {listQuestions.map((question, index) => (
                     <Question
@@ -159,7 +174,7 @@ function ConfigQuestion() {
                         setTimeFn={setTimeToSingleQuestion}
                         isSetTimeError={checkIfQuestionWithNoTime(question.id)}
                         timeAnswer={question.time_answer}
-                        isDisableEditTime={isAddTimeForAllQuestion}
+                        isDisableEditTime={isExpanded}
                     />
                 ))}
 
