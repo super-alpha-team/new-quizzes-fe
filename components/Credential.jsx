@@ -26,6 +26,7 @@ function Credential({ name }) {
   const [message, setMessage] = useState(null);
   const [clientId, setClientId] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [platformId, setPlatformId] = useState(null);
 
   function copyToClipboard(e) {
     navigator.clipboard.writeText(e.target.value);
@@ -34,18 +35,17 @@ function Credential({ name }) {
   }
 
   async function handleCreate(e) {
-    if (clientId && accessToken) {
+    if (platformId && clientId && accessToken) {
       const data = {
-        url: `${LTI_URL}`,
+        url: platformId,
         name,
         clientId,
-        authenticationEndpoint: `${LTI_URL}/mod/lti/auth.php`,
-        accesstokenEndpoint: `${LTI_URL}/mod/lti/token.php`,
-        authConfigKey: `${LTI_URL}/mod/lti/certs.php`,
         accesstoken: accessToken,
+        account_id: 1
       };
 
       const response = await axios.post(`${LOCALHOST}/plat/register`, data);
+      console.log(response);
     }
   }
 
@@ -67,6 +67,10 @@ function Credential({ name }) {
         <div className='flex flex-col gap-4'>
           <p className='text-gray-500 italic'>Please copy the Moodle tool <b>Client ID</b>, and paste it into the LTI Advantage <b>Client ID</b> field.</p>
           <div>
+            <p className='font-semibold'>Platform ID</p>
+            <input value={platformId} onChange={({ target }) => setPlatformId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
+          </div>
+          <div>
             <p className='font-semibold'>Client ID</p>
             <input value={clientId} onChange={({ target }) => setClientId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
           </div>
@@ -74,7 +78,7 @@ function Credential({ name }) {
             <p className='font-semibold'>Access Token</p>
             <input value={accessToken} onChange={({ target }) => setAccessToken(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
           </div>
-          <button className='self-end text-blue-dark rounded-md hover:bg-blue-dark hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-blue-dark'>Save</button>
+          <button onClick={handleCreate} className='self-end text-blue-dark rounded-md hover:bg-blue-dark hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-blue-dark'>Save</button>
         </div>
       </div>
     </div>
