@@ -24,11 +24,12 @@ function Questionare(props) {
                     <div className='w-11/12 flex flex-col items-center text-justify'>
                         <div className='italic uppercase font-semibold text-black text-xs'>question {questionProgress}</div>
                         <div className='font-bold lg:text-base md:text-base text-xs text-black'>
-                            <MathJax.Provider>
+                            {/* <MathJax.Provider>
                                 <div>
                                     <MathJax.Node formula={<p dangerouslySetInnerHTML={{__html: `<p dir="ltr" style="text-align: left;">\\(  \\sum{a,b}  \\)<br></p>`}}></p>.innerText} />
                                 </div>
-                            </MathJax.Provider>
+                            </MathJax.Provider> */}
+                            <p>{parse(question)}</p>
                         </div>
 
                     </div>
