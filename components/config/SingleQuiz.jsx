@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useCollapse from 'react-collapsed';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
@@ -6,7 +6,8 @@ import axios from 'axios';
 import { SERVER_URL } from '../../utils/config';
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
-    const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+    const [isExpanded, setExpanded] = useState(false);
+    const { getCollapseProps, getToggleProps } = useCollapse({isExpanded});
     const [quizClicked, setQuizClicked] = useState(false);
     const [listQuestions, setListQuestions] = useState([]);
     const router = useRouter();
@@ -21,6 +22,8 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
     //     setQuizClicked(!quizClicked);
     // };
 
+    
+
     const handleChoosingQuiz = async () => {
         setIsChoosing(id);
         const response = await axios.get(
@@ -30,6 +33,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
 
         setListQuestions(response.data.data.question_data);
         setQuizClicked(!quizClicked);
+        setExpanded(!isExpanded);
     };
 
     return (
@@ -73,6 +77,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
                     </svg>
                 )}
             </div>
+            
             <div {...getCollapseProps()}>
                 <div className="border-2 border-[#CED5DF] rounded-xl overflow-hidden overflow-y-scroll">
                     <div className="pl-4 pr-4 h-auto ">

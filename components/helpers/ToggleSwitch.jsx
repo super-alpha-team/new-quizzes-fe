@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 
 function ToggleSwitch( {
     isToggle,
-    setIsToggle
+    setIsToggle,
+    ...rest
 }) {
 
     return (
         <div
+            {...rest}
             className={
                 'md:w-14 md:h-7 w-12 h-6 flex items-center rounded-full p-1 cursor-pointer transform duration-300 ease-in-out ' +
                 (!isToggle ? 'bg-gray-300' : 'bg-blue-100')
