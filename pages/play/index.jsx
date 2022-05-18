@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-sync-scripts */
+/* eslint-disable @next/next/no-script-in-head */
+/* eslint-disable @next/next/no-unwanted-polyfillio */
 import { data } from 'autoprefixer';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -5,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import Loading from '../../components/helpers/Loading';
 import Play from '../../components/Play';
 import { LOCALHOST } from '../../utils/config';
+import Head from 'next/head';
 
 const QuizStatusEnum = {
   EDITING: 'editing',
@@ -56,15 +60,25 @@ export default function PlayGame() {
     if (router.query.ltik) {
       getAllQuizzes();
     }
+
   }, [router.query.ltik]);
+
+  function runTypeSetMathJax() {
+    window.MathJax.typeset(); 
+  }
 
   return (
     <>
+      <Head>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" onLoad={runTypeSetMathJax}></script>
+        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" onLoad={runTypeSetMathJax}></script>
+      </Head>
+
       {
         game === "waiting" && <Loading message='Wating game' />
       }
       {
-        game === "play" && <Play quizId={quizId} total_questions={numQuestions} room_id={room_id}/>
+        game === "play" && <Play quizId={quizId} total_questions={numQuestions} room_id={room_id} />
       }
     </>
 
