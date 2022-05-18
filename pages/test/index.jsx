@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Clock from '../../components/Clock';
 import Colors from '../../components/Colors';
+import InputUsername from '../../components/launch/InputUsername';
 import Essay from '../../components/questionares/Essay';
 import Matching from '../../components/questionares/Matching';
 import Multichoice from '../../components/questionares/Multichoice';
@@ -19,9 +20,10 @@ const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the
 
 function Test() {
     const [questions, setQuestions] = useState([]);
+    const [username, setUsername] = useState('');
 
     console.log(questions);
-    return (<div>
+    return username ? (<div>
         <div className='h-screen'>
             <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                 <div className='h-full w-full flex justify-center relative'>
@@ -56,8 +58,7 @@ function Test() {
             </div>
         </div>
     </div>
-    );
-    // return <Colors />;
+    ): <InputUsername usernameOnSubmit={setUsername} />;
 }
 
 export default Test;
