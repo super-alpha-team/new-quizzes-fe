@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import MathJax from 'react-mathjax';
 import parse from 'html-react-parser';
+// import MathJax
 
 function Questionare(props) {
     const [isMath, setIsMath] = useState(false);
@@ -24,8 +25,9 @@ function Questionare(props) {
                         <div className='italic uppercase font-semibold text-black text-xs'>question {questionProgress}</div>
                         <div className='font-bold lg:text-base md:text-base text-xs text-black'>
                             <MathJax.Provider>
-                                <MathJax.Node formula={"\\(  \\sqrt[a]{b+c}  \\)"} />
-                                <p>{parse(question || "")}</p>
+                                <div>
+                                    <MathJax.Node formula={<p dangerouslySetInnerHTML={{__html: `<p dir="ltr" style="text-align: left;">\\(  \\sum{a,b}  \\)<br></p>`}}></p>.innerText} />
+                                </div>
                             </MathJax.Provider>
                         </div>
 
