@@ -43,7 +43,7 @@ export default function PlayGame() {
         const socket_id = newQuizInstance.socket_id;
         const status = newQuizInstance.status;
 
-        if (status === QuizStatusEnum.PLAYING) {
+        if (status === QuizStatusEnum.PLAYING || status === QuizStatusEnum.PENDING) {
           setRoomId(socket_id);
           setGame('play');
         }
