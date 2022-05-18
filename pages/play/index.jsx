@@ -35,6 +35,7 @@ export default function PlayGame() {
       console.log("]> check newQuiz: ", checkNewQuizResp);
 
       let newQuizInstance = checkNewQuizResp.instance;
+      console.log('quizInstance: ', newQuizInstance);
 
       if (newQuizInstance) {
         setQuizId(newQuizInstance.id);
