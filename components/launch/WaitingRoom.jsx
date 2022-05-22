@@ -25,8 +25,8 @@ function WaitingRoom({ listStudentJoined, startGameFn }) {
             </div>
             <div className="flex justify-center">
                 <div className="flex-wrap gap-6 mt-6 flex justify-center">
-                    {listStudentName.map((name, index) => (
-                        <JoiningCard name={name} key={index} />
+                    {listStudentName.map((student, index) => (
+                        <JoiningCard name={student.name} key={index} />
                     ))}
                 </div>
             </div>

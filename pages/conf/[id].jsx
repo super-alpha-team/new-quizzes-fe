@@ -85,6 +85,11 @@ function ConfigQuestion() {
                 const list_question = newQuizInstanceData.question_list;
                 setListQuestions(list_question);
                 setReturnListWithTime(list_question);
+                // const errorTmp = list_question.filter((question) => question.time_answer == 0)
+                //                                 .map((question) => question.id)
+                // console.log(errorTmp);
+                // setErrorConfigTimeList(errorTmp);
+
             } catch (err) {
                 console.log('err: ', err);
             }
@@ -108,6 +113,14 @@ function ConfigQuestion() {
                 );
 
             setListQuestions(response.data.data.question_list);
+            setReturnListWithTime(response.data.data.question_list);
+            setExpanded(false);
+            if(time != 0){
+                setErrorConfigTimeList([]);
+            } else {
+                const errorTmp = response.data.data.question_list.map((error) => error.id);
+                setErrorConfigTimeList(errorTmp);
+            }
         } catch(err) {
             console.log('err', err);
         }
