@@ -23,7 +23,7 @@ function Multichoice({ answers, handleAnswer }) {
         <>
             <div className={`w-full h-full grid gap-4 items-center ` + (two ? 'grid-rows-2' : five ? 'grid-cols-5' : four ? 'grid-cols-4' : three ? 'grid-cols-3' : 'grid-cols-7')}>
                 {shuffledAnswers.map((answer, index) =>
-                    <button className='w-full h-full max-h-64' onClick={() => handleAnswer({ answer_id: String(answer.id) })} key={answer.id}>
+                    <button className='w-full h-full max-h-64' onClick={() => handleAnswer( Number(answer.id) )} key={answer.id}>
                         <div className='w-full h-full p-1 border-black border-2 rounded-md text-left shadow-answer hover:text-white' style={{ backgroundColor: randomHexColor() }} dangerouslySetInnerHTML={{ __html: answer.answer }} />
                     </button>
                 )}

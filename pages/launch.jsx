@@ -28,6 +28,8 @@ function HomePage() {
 
     const [columns, setColumns] = useState([]);
 
+    const [allRowData, setAllRowData] = useState({});
+
     useEffect(() => {
         async function getData() {
             try {
@@ -109,17 +111,24 @@ function HomePage() {
             });
         socket.on('data', (data) => {
             console.log('data', data);
-            if (!data.is_teacher) {
+            if (data.is_teacher != null && data.is_teacher == false) {
+                console.log("data is teacher")
                 const newStudentName = data.new_user_join;
                 const newStudentId = data.platform_user_id;
                 const obj = { name: newStudentName, id: newStudentId };
+                
                 setListStudentJoined([...listStudentJoined, obj]);
+            }
+
+            if(data.teacher_data){
+                console.log("teacher data")
+                setAllRowData(data.teacher_data);
             }
         });
 
         return () => socket.disconnect();
     }
-    console.log(listStudentJoined);
+    console.log('liststudentjoined', listStudentJoined);
 
     async function handleStartGame() {
         // start quiz
@@ -244,7 +253,7 @@ function HomePage() {
                     />
                 )
             ) : (
-                <RankingTable columns={columns} data={data} />
+                <RankingTable columns={columns} data={allRowData} listStudentJoined={listStudentJoined} />
             )}
 
             {isModalVisible ? (

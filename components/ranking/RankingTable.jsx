@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ToggleSwitch from '../helpers/ToggleSwitch';
 import TopCard from './TopCard';
 
-function RankingTable({ columns, data }) {
-    console.log(columns);
+function RankingTable({ columns, data, listStudentJoined }) {
+    const [rowData, setRowData] = useState([]);
+
+    useEffect(() => {
+        const newState = [];
+        for(const row in data){
+            const tmpArr = [];
+            for(const cell in data[row]){
+                tmpArr.push(data[row][cell]);
+            }
+            
+            newState.push({id: row, score: tmpArr});
+        }
+        setRowData(newState);
+
+    }, [data]);
+    console.log("final row", rowData);
 
     return (
         <div className="w-10/12 m-auto">
@@ -28,7 +43,7 @@ function RankingTable({ columns, data }) {
                         {columns.map((column, index) => (
                             <th
                                 key={index}
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                             >
                                 {column.header}
                             </th>
@@ -36,14 +51,19 @@ function RankingTable({ columns, data }) {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {data.map((row, i) => {
+                    {rowData.map((row, i) => {
                         return (
                             <tr key={i}>
-                                {row.map((cell, i) => {
+                                {listStudentJoined.filter((stu) => stu.id == row.id).map((stu, index) => (
+                                    <td key={index} className="px-6 py-4 whitespace-nowrap text-center">
+                                        {stu.name}
+                                    </td>
+                                ))}
+                                {row.score.map((cell, i) => {
                                     return (
                                         <td
                                             key={i}
-                                            className="px-6 py-4 whitespace-nowrap"
+                                            className="px-6 py-4 whitespace-nowrap text-center"
                                         >
                                             {cell}
                                         </td>
