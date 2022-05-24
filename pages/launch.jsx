@@ -8,6 +8,7 @@ import Button from '../components/helpers/Button';
 import { LOCALHOST, SERVER_URL } from '../utils/config';
 import WaitingRoom from '../components/launch/WaitingRoom';
 import { socket } from '../utils/socket';
+import RankingTable from '../components/ranking/RankingTable';
 
 function HomePage() {
     const router = useRouter();
@@ -22,6 +23,12 @@ function HomePage() {
     const [isStart, setIsStart] = useState(false);
 
     const [listStudentJoined, setListStudentJoined] = useState([]);
+
+    const [isDisplayRankingTable, setIsDisplayRankingTable] = useState(false);
+
+    const [columns, setColumns] = useState([]);
+
+    const [allRowData, setAllRowData] = useState({});
 
     useEffect(() => {
         async function getData() {
@@ -63,9 +70,9 @@ function HomePage() {
         getData();
     }, [router.query.ltik]);
 
-    useEffect(() => {
-        
-    }, [listStudentJoined]);
+    // useEffect(() => {
+
+    // }, [listStudentJoined]);
 
     async function handleStartQuiz() {
         const response = await axios.post(
@@ -86,24 +93,42 @@ function HomePage() {
     }
 
     async function teacherJoinInClass(quizId) {
-        axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
-            "username": "teacher",
-            "is_teacher": true
-        },
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } })
+        axios
+            .post(
+                `http://localhost:5000/lti/play/${quizId}/join`,
+                {
+                    username: 'teacher',
+                    is_teacher: true
+                },
+                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+            )
             .then((response) => {
-                console.log('waiting screen');
-                socket.emit('join', { username: 'teacher', room: newQuizInstance.socket_id, token: response.data.alpha_token });
+                socket.emit('join', {
+                    username: 'teacher',
+                    room: newQuizInstance.socket_id,
+                    token: response.data.alpha_token
+                });
             });
-        socket.on('data', data => {
-            if(!data.is_teacher) {
-                setListStudentJoined([...listStudentJoined, data.new_user_join]);
+        socket.on('data', (data) => {
+            console.log('data', data);
+            if (data.is_teacher != null && data.is_teacher == false) {
+                console.log("data is teacher")
+                const newStudentName = data.new_user_join;
+                const newStudentId = data.platform_user_id;
+                const obj = { name: newStudentName, id: newStudentId };
+                
+                setListStudentJoined([...listStudentJoined, obj]);
             }
-            
+
+            if(data.teacher_data){
+                console.log("teacher data")
+                setAllRowData(data.teacher_data);
+            }
         });
 
         return () => socket.disconnect();
     }
+    console.log('liststudentjoined', listStudentJoined);
 
     async function handleStartGame() {
         // start quiz
@@ -114,12 +139,13 @@ function HomePage() {
             { headers: { Authorization: `Bearer ${router.query.ltik}` } }
         );
 
+        setIsDisplayRankingTable(true);
+        getListQuestionAsColumns();
         // redirect to live result
-        router.push({
-            pathname: `/result`,
-            query: {id: `${newQuizInstance.new_quiz_id}`, ltik: `${router.query.ltik}`}
-        });
-
+        // router.push({
+        //     pathname: `/result`,
+        //     query: {id: `${newQuizInstance.new_quiz_id}`, ltik: `${router.query.ltik}`}
+        // });
     }
 
     async function settingStartQuiz(settingData) {
@@ -137,14 +163,13 @@ function HomePage() {
             let newQuizInstanceData = response.data.data.new_quiz_instance;
             teacherJoinInClass(newQuizInstanceData.id);
             setNewQuizInstance(newQuizInstanceData);
-            
 
             // update quiz, pending until student join or when teacher want to start
             // /new_quiz/update/
             const response3 = await axios.put(
                 `${SERVER_URL}/lti/quiz/new_quiz_instance/update/${newQuizInstanceData.new_quiz_id}`,
                 {
-                    status: "pending"
+                    status: 'pending'
                 },
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } }
             );
@@ -152,59 +177,85 @@ function HomePage() {
 
             setIsStart(true);
             setIsModalVisible(false);
-            
         } catch (err) {
             console.log('err', err);
         }
+    }
+
+    async function getListQuestionAsColumns() {
+        const response = await axios.get(
+            `${SERVER_URL}/lti/quiz/new_quiz_instance/get_and_question_list/${newQuizInstance.new_quiz_id}`,
+            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+        );
+
+        const tmpColumns = response.data.data.question_list.map(
+            (question, index) => {
+                const obj = Object.create({});
+                obj['header'] = `Câu hỏi ${index + 1}`;
+                obj['accessor'] = question.id;
+                return obj;
+            }
+        );
+        tmpColumns.unshift({
+            header: 'Tên',
+            accessor: 'name'
+        });
+        
+        setColumns(tmpColumns);
     }
 
     return (
         <div className="w-screen h-screen">
             <Header />
             {/* {newQuizInstance.name || "Untitled Quiz"} */}
-            {!isStart ? (
-                <div className="flex gap-20 justify-center mt-20">
-                    <div className="flex flex-col justify-center items-center">
-                        <Image
-                            src="/image/18915856.jpg"
-                            width={400}
-                            height={400}
-                            alt="team"
-                            className="cursor-pointer"
-                        />
-                        <Button
-                            type="button"
-                            variants="primary"
-                            onClick={handleOpenModal}
-                            className="w-32"
-                        >
-                            Start quiz
-                        </Button>
-                    </div>
+            {!isDisplayRankingTable ? (
+                !isStart ? (
+                    <div className="flex gap-20 justify-center mt-20">
+                        <div className="flex flex-col justify-center items-center">
+                            <Image
+                                src="/image/18915856.jpg"
+                                width={400}
+                                height={400}
+                                alt="team"
+                                className="cursor-pointer"
+                            />
+                            <Button
+                                type="button"
+                                variants="primary"
+                                onClick={handleOpenModal}
+                                className="w-32"
+                            >
+                                Start quiz
+                            </Button>
+                        </div>
 
-                    <div className="flex flex-col justify-center items-center">
-                        <Image
-                            src="/image/54950.jpg"
-                            width={400}
-                            height={400}
-                            alt="team"
-                            className="cursor-pointer"
-                        />
-                        <Button
-                            type="button"
-                            variants="primary"
-                            className="w-32"
-                        >
-                            Start quiz
-                        </Button>
+                        <div className="flex flex-col justify-center items-center">
+                            <Image
+                                src="/image/54950.jpg"
+                                width={400}
+                                height={400}
+                                alt="team"
+                                className="cursor-pointer"
+                            />
+                            <Button
+                                type="button"
+                                variants="primary"
+                                className="w-32"
+                            >
+                                Start quiz
+                            </Button>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <WaitingRoom
+                        listStudentJoined={listStudentJoined}
+                        startGameFn={handleStartGame}
+                    />
+                )
             ) : (
-                
-                <WaitingRoom listStudentJoined={listStudentJoined} startGameFn={handleStartGame}/>
-                
-                
+                <RankingTable columns={columns} data={allRowData} listStudentJoined={listStudentJoined} />
             )}
+
             {isModalVisible ? (
                 <SettingLaunch
                     data={settingData}
@@ -219,3 +270,15 @@ function HomePage() {
 }
 
 export default HomePage;
+
+// const data = [
+//     {name: "chloe", score1: 10, score2: 20},
+//     {name: "chloe", score1: 10, score2: 20},
+//     {name: "chloe", score1: 10, score2: 20}
+// ];
+
+const data = [
+    [20, 10, 30],
+    [20, 10, 30],
+    [20, 10, 30]
+];
