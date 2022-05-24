@@ -7,7 +7,8 @@ import { randomHexColor, shuffleArray } from "../../utils/helpers";
 import Head from 'next/head';
 
 function Multichoice({ answers, handleAnswer }) {
-    const shuffledAnswers = shuffleArray([...answers]);
+
+    const shuffledAnswers = answers.length ? shuffleArray([...answers]) : shuffleArray([{id: 1, answer: 'True'}, {id: 2, answer: 'False'}]);
     // < 3
     // 3 6 9 12
     // 4 8 16

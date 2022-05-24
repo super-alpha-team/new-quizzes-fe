@@ -29,6 +29,8 @@ function Play({ total_questions, quizId, room_id }) {
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
             socket.on('question', data => {
+                console.log('received data: ', data);
+                console.log('received qtype: ', data.question.qtype);
                 const { current_question_index, question } = data;
                 setCurrentIndex(current_question_index);
                 if (current_question_index < 0) {
@@ -53,6 +55,7 @@ function Play({ total_questions, quizId, room_id }) {
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }
+    console.log('>>>', currentIndex, total_questions);
 
     return finish ?
         (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Congrats! Well played!</div>)

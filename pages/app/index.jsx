@@ -1,9 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Header from '../../components/Header';
 import Link from 'next/link';
 import Router from 'next/router';
 import Popover from '../../components/helpers/Popover';
 import Credential from '../../components/Credential';
+import axios from 'axios';
+import { LOCALHOST } from '../../utils/config';
+import platformApi from '../../apis/platformApi';
 
 const mockCredentials = Array(3).fill({
     title: 'New Quizzes LTI',
@@ -12,20 +15,33 @@ const mockCredentials = Array(3).fill({
     owner: 'Kim Ngan Dinh Phan',
 });
 
+const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJDaGxvZSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiYWRkaXRpb25hbF9pbmZvIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJpYXQiOjE2NTMzNzMwNjIsImV4cCI6MTY1MzM3NjY2Mn0.veGPuUoY0hRPOMTvw8MILmIv9ao2H3rFgE_mQeucYcE';
+
 function App() {
     const [credentials, setCredentials] = useState(mockCredentials);
     const [title, setTitle] = useState('');
     const popupRef = useRef(null);
     const credentialRef = useRef(null);
 
-    async function createNewCredential(e) {
+    useEffect(() => {
+        async function getCredentials() {
+            const response = await platformApi.getAll(mockToken);
+            console.log(response.data.data.platforms[0].platform);
+            setCredentials(response.data.data.platforms);
+        }
+        getCredentials();
+    }, []);
+
+
+    async function createNewCredential(credential) {
+        const response = await axios.post(`${LOCALHOST}/plat/register`, credential);
+        console.log('create new credential', response);
+        setCredentials(mockCredentials.concat(response.data.data));
+        toggleCredential();
+    }
+
+    function toggleForm() {
         if (title) {
-            setCredentials(mockCredentials.concat({
-                title,
-                version: '1.3',
-                'lti key': '',
-                owner: 'Kim Ngan Dinh Phan',
-            }));
             togglePopup();
             toggleCredential();
         }
@@ -44,13 +60,13 @@ function App() {
                 </button>
                 <div className='w-full flex flex-col justify-center items-center mb-4'>
                     <p className='w-11/12 text-blue-dark text-sm font-semibold py-1'>Title</p>
-                    <input onChange={({ target }) => setTitle(target.value)} value={title} className='w-11/12 p-2 outline-1 outline focus:outline-[#6e89db] text-sm text-blue-dark rounded-sm placeholder:italic' type="text" placeholder='Enter credential title' required />
+                    <input onChange={({ target }) => setTitle(target.value)} value={title} className='w-11/12 p-2 outline-1 outline focus:outline-[#6e89db] text-sm text-blue-dark rounded-sm placeholder:italic' type="text" placeholder='Enter credential title' required onSubmit={toggleForm} />
                 </div>
-                <button type='submit' className='text-[#6e89db] rounded-md hover:bg-[#6e89db] hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-[#91A8ED] bottom-2 absolute' onClick={createNewCredential}>Next</button>
+                <button type='submit' className='text-[#6e89db] rounded-md hover:bg-[#6e89db] hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-[#91A8ED] bottom-2 absolute' onClick={toggleForm}>Next</button>
             </div>
         </Popover>
         <Popover ref={credentialRef}>
-            <Credential name={title} />
+            <Credential name={title} onSubmit={createNewCredential} />
         </Popover>
         <div className='min-w-screen min-h-screen bg-gray-100 flex flex-col'>
             <Header />
@@ -64,17 +80,19 @@ function App() {
                         <table className='min-w-max w-full'>
                             <thead>
                                 <tr className='bg-[#91A8ED] text-white'>
-                                    {Object.keys(mockCredentials[0]).map((key) => <th key={key} className='py-3 px-6 text-left capitalize'>{key}</th>)}
+                                    {/* {Object.keys(credentials[0]).map((key) => <th key={key} className='py-3 px-6 text-left capitalize'>{key}</th>)} */}
+                                    <th className='py-3 px-6 text-left capitalize'>id</th>
+                                    <th className='py-3 px-6 text-left capitalize'>name</th>
+                                    <th className='py-3 px-6 text-left capitalize'>key</th>
                                     <th className='py-3 px-6 text-center capitalize'>actions</th>
                                 </tr>
                             </thead>
                             <tbody className='odd:bg-white even:bg-slate-100'>
-                                {credentials.map((credential, index) =>
-                                    <tr key={index} className='border-b border-[#91A8ED] hover:bg-gray-100'>
-                                        <td className='py-3 px-6'>{credential.title}</td>
-                                        <td className='py-3 px-6'>{credential.version}</td>
-                                        <td className='py-3 px-6'>{credential['lti key']}</td>
-                                        <td className='py-3 px-6'>{credential.owner}</td>
+                                {credentials.map(credential =>
+                                    <tr key={credential.id} className='border-b border-[#91A8ED] hover:bg-gray-100'>
+                                        <td className='py-3 px-6'>{credential.id}</td>
+                                        <td className='py-3 px-6'>{credential.platform.name}</td>
+                                        <td className='py-3 px-6'>{credential.platform.clientId}</td>
                                         <td className='py-3 px-6'>
                                             <div className='flex item-center justify-center'>
                                                 <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>

@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useState } from 'react';
+import axios from 'axios';
 import { LOCALHOST, LTI_URL, SERVER_URL } from '../utils/config';
 import Alert from './helpers/Alert';
 
@@ -22,7 +22,7 @@ const instructions = [
   },
 ];
 
-function Credential({ name }) {
+function Credential({ name, onSubmit }) {
   const [message, setMessage] = useState(null);
   const [clientId, setClientId] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
@@ -34,7 +34,7 @@ function Credential({ name }) {
     setTimeout(() => setMessage(null), 2000);
   }
 
-  async function handleCreate(e) {
+  function handleCreate(e) {
     if (platformId && clientId && accessToken) {
       const data = {
         url: platformId,
@@ -44,8 +44,7 @@ function Credential({ name }) {
         account_id: 1
       };
 
-      const response = await axios.post(`${LOCALHOST}/plat/register`, data);
-      console.log(response);
+      onSubmit(data);
     }
   }
 
