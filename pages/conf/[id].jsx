@@ -7,6 +7,7 @@ import Question from '../../components/config/Question';
 import { LOCALHOST, SERVER_URL } from '../../utils/config';
 import ToggleSwitch from '../../components/helpers/ToggleSwitch';
 import useCollapse from 'react-collapsed';
+import quizApi from '../../apis/quizApi';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -26,12 +27,12 @@ function ConfigQuestion() {
         );
 
         listQuestions[index].time_answer = time;
-        const response = await axios.put(`${LOCALHOST}/lti/quiz/new_question/update/${listQuestions[index].id}`, {
-            time_answer: time
-        },
-            { headers: { "Authorization": `Bearer ${router.query.ltik}` } }
-        );
 
+        let data = {
+            time_answer: time
+        };
+
+        const response = await quizApi.updateQuestion(router.query.ltik, listQuestions[index].id, data);
 
         let newReturnList = returnListWithTime.slice();
         newReturnList[index]['time_answer'] = time;
@@ -74,10 +75,8 @@ function ConfigQuestion() {
     useEffect(() => {
         const getQuizzData = async () => {
             try {
-                const newQuizInstance = await axios.get(
-                    `${SERVER_URL}/lti/quiz/new_quiz_instance/get_and_question_list/${router.query.id}`,
-                    { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-                );
+                const newQuizInstance = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, router.query.id);
+
                 let newQuizInstanceData = newQuizInstance.data.data;
 
                 setNewQuizInstance(newQuizInstanceData.new_quiz_instance)
@@ -105,12 +104,10 @@ function ConfigQuestion() {
 
     async function handleSaveTimeForAllQuestion() {
         try {
-            const response = await axios.post(`${LOCALHOST}/lti/quiz/new_quiz_instance/set_time_all_question/${router.query.id}`,
-                {
-                    "time_answer": time
-                },
-                { headers: { "Authorization": `Bearer ${router.query.ltik}` } }
-            );
+            const data = {
+                "time_answer": time
+            }
+            const response = await quizApi.updateQuizInstanceTimeAllQuestion(router.query.ltik, newQuizInstance.id, data);
 
             setListQuestions(response.data.data.question_list);
             setReturnListWithTime(response.data.data.question_list);

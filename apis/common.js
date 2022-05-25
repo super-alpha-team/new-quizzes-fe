@@ -30,6 +30,16 @@ export function post(url, data, token) {
     });
 };
 
+export function put(url, data, token) {
+    return new Promise((resolve, reject) => {
+        axios
+            .put(url, data, configToken(token))
+            .then(res => resolve({ data: res.data }))
+            .catch(err => reject(err));
+    });
+};
+
+
 export function deleteOne(url, token) {
     return new Promise((resolve, reject) => {
         axios

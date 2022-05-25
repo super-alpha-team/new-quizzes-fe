@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import Loading from '../components/helpers/Loading';
 import { SERVER_URL } from '../utils/config';
+import syncApi from '../apis/syncApi';
 
 const RoleEnum = {
   ADMIN: "admin",
@@ -17,20 +18,20 @@ export default function Home() {
   // get info
   useEffect(() => {
     async function getInfo() {
-      const responseInfo = await axios.get(
-        `${SERVER_URL}/lti/sync/info`,
-        { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-      );
+      let ltik = router?.query?.ltik;
+      if (!ltik) return;
+
+      let responseInfo = await syncApi.syncInfo(ltik);
       
       // console.log(']> start up page: ', responseInfo.data);
       const data = responseInfo.data.data;
       // check is member or teacher class
       if (data.alpha_roles.indexOf(RoleEnum.ADMIN) != -1 ) {
-        return router.push(`/conf?ltik=${router.query.ltik}`);
+        return router.push(`/conf?ltik=${ltik}`);
       }
       
       if (data.alpha_roles.indexOf(RoleEnum.MEMBER) != -1 ) {
-        return router.push(`/play?ltik=${router.query.ltik}`);
+        return router.push(`/play?ltik=${ltik}`);
       }
 
       return (

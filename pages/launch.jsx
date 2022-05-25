@@ -9,6 +9,8 @@ import { LOCALHOST, SERVER_URL } from '../utils/config';
 import WaitingRoom from '../components/launch/WaitingRoom';
 import { socket } from '../utils/socket';
 import RankingTable from '../components/ranking/RankingTable';
+import quizApi from '../apis/quizApi';
+import playApi from '../apis/playApi';
 
 function HomePage() {
     const router = useRouter();
@@ -34,14 +36,8 @@ function HomePage() {
         async function getData() {
             try {
                 if (router.query.id == undefined) return;
-                const newQuizInstance = await axios.get(
-                    `${SERVER_URL}/lti/quiz/new_quiz_instance/get/${router.query.id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${router.query.ltik}`
-                        }
-                    }
-                );
+                const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, router.query.id);
+
                 let newQuizInstanceData =
                     newQuizInstance.data.data.new_quiz_instance;
                 console.log(
@@ -70,20 +66,6 @@ function HomePage() {
         getData();
     }, [router.query.ltik]);
 
-    // useEffect(() => {
-
-    // }, [listStudentJoined]);
-
-    async function handleStartQuiz() {
-        const response = await axios.post(
-            `${LOCALHOST}/lti/quiz/${router.query.id}/start`,
-            {},
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
-
-        alert('Quiz started!');
-    }
-
     function handleOpenModal() {
         setIsModalVisible(true);
     }
@@ -93,22 +75,18 @@ function HomePage() {
     }
 
     async function teacherJoinInClass(quizId) {
-        axios
-            .post(
-                `http://localhost:5000/lti/play/${quizId}/join`,
-                {
-                    username: 'teacher',
-                    is_teacher: true
-                },
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            )
-            .then((response) => {
-                socket.emit('join', {
-                    username: 'teacher',
-                    room: newQuizInstance.socket_id,
-                    token: response.data.alpha_token
-                });
+        let data = {
+            username: 'teacher',
+            is_teacher: true
+        };
+        playApi.join(router.query.ltik, quizId, data)
+        .then((response) => {
+            socket.emit('join', {
+                username: 'teacher',
+                room: newQuizInstance.socket_id,
+                token: response.data.alpha_token
             });
+        });
         socket.on('data', (data) => {
             console.log('data', data);
             if (data.is_teacher != null && data.is_teacher == false) {
@@ -133,11 +111,7 @@ function HomePage() {
     async function handleStartGame() {
         // start quiz
         // /new_quiz/start/
-        const response2 = await axios.post(
-            `${SERVER_URL}/lti/quiz/new_quiz/start/${newQuizInstance.new_quiz_id}`,
-            {},
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
+        const response2 = await quizApi.startQuiz(router.query.ltik, newQuizInstance.new_quiz_id);
 
         setIsDisplayRankingTable(true);
         getListQuestionAsColumns();
@@ -152,13 +126,11 @@ function HomePage() {
         try {
             // update setting
             // /new_quiz_instance/update/:new_quiz_instance_id
-            const response = await axios.put(
-                `${SERVER_URL}/lti/quiz/new_quiz_instance/update/${router.query.id}`,
-                {
-                    additional_info: JSON.stringify(settingData)
-                },
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            );
+            let data = {
+                additional_info: JSON.stringify(settingData),
+                status: 'pending'
+            };
+            const response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
 
             let newQuizInstanceData = response.data.data.new_quiz_instance;
             teacherJoinInClass(newQuizInstanceData.id);
@@ -166,14 +138,14 @@ function HomePage() {
 
             // update quiz, pending until student join or when teacher want to start
             // /new_quiz/update/
-            const response3 = await axios.put(
-                `${SERVER_URL}/lti/quiz/new_quiz_instance/update/${newQuizInstanceData.new_quiz_id}`,
-                {
-                    status: 'pending'
-                },
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            );
-            setNewQuizInstance(response3.data.data.new_quiz_instance);
+            // const response3 = await axios.put(
+            //     `${SERVER_URL}/lti/quiz/new_quiz_instance/update/${newQuizInstanceData.new_quiz_id}`,
+            //     {
+            //         status: 'pending'
+            //     },
+            //     { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+            // );
+            // setNewQuizInstance(response3.data.data.new_quiz_instance);
 
             setIsStart(true);
             setIsModalVisible(false);
@@ -183,10 +155,7 @@ function HomePage() {
     }
 
     async function getListQuestionAsColumns() {
-        const response = await axios.get(
-            `${SERVER_URL}/lti/quiz/new_quiz_instance/get_and_question_list/${newQuizInstance.new_quiz_id}`,
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
+        const response = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, newQuizInstance.id);
 
         const tmpColumns = response.data.data.question_list.map(
             (question, index) => {
