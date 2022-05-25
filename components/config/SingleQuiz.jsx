@@ -4,7 +4,7 @@ import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
 import quizApi from '../../apis/quizApi';
 
-function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
+function SingleQuiz({ id, isChoosing, setIsChoosing, title, index, ...rest }) {
     const [isExpanded, setExpanded] = useState(false);
     const { getCollapseProps, getToggleProps } = useCollapse({isExpanded});
     const [quizClicked, setQuizClicked] = useState(false);
@@ -21,7 +21,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
     };
 
     return (
-        <div className="collapsible w-10/12 mt-2 mx-auto">
+        <div className="collapsible w-10/12 mt-2 mx-auto" {...rest}>
             <div
                 className={
                     isChoosing == id
@@ -68,7 +68,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
                         {listQuestions.map((question, index) => (
                             <div
                                 className="flex break-all h-auto pb-2 pt-1 gap-2"
-                                key={question.id}
+                                key={index}
                             >
                                 <p>{index + 1}. </p>
                                 {parse(question.questiontext)}

@@ -91,8 +91,8 @@ function App() {
                                 {credentials.map(credential =>
                                     <tr key={credential.id} className='border-b border-[#91A8ED] hover:bg-gray-100'>
                                         <td className='py-3 px-6'>{credential.id}</td>
-                                        <td className='py-3 px-6'>{credential.platform.name}</td>
-                                        <td className='py-3 px-6'>{credential.platform.clientId}</td>
+                                        <td className='py-3 px-6'>{credential.platform?.name}</td>
+                                        <td className='py-3 px-6'>{credential.platform?.clientId}</td>
                                         <td className='py-3 px-6'>
                                             <div className='flex item-center justify-center'>
                                                 <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
