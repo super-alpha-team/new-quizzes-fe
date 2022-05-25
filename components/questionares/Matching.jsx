@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { randomHexColor } from '../../utils/helpers';
 
-function Matching({ data }) {
+function Matching({ data, handleAnswer }) {
     const [currentSelect, setCurrentSelect] = useState({ l: -1, r: -1 });
     const [currentColor, setCurrentColor] = useState(randomHexColor());
     const [answers, setAnswers] = useState([]);
@@ -23,7 +23,7 @@ function Matching({ data }) {
         }
     }
 
-    console.log(currentSelect, answers, colors);
+    // console.log(currentSelect, answers, colors);
     function checkAnswerExist(id) {
         return answers.findIndex(answer => answer.l === id || answer.r === id);
     }

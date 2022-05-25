@@ -8,6 +8,8 @@ import { socket } from '../utils/socket';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import InputUsername from './launch/InputUsername';
+import Matching from './questionares/Matching';
+import { configData } from '../utils/configData';
 
 function Play({ total_questions, quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -19,7 +21,7 @@ function Play({ total_questions, quizId, room_id }) {
     const [username, setUsername] = useState('');
 
     useEffect(() => {
-        if(username) {
+        if (username) {
             axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
                 "username": username,
                 "is_teacher": false
@@ -29,9 +31,9 @@ function Play({ total_questions, quizId, room_id }) {
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
             socket.on('question', data => {
-                console.log('received data: ', data);
-                console.log('received qtype: ', data.question.qtype);
                 const { current_question_index, question } = data;
+                // console.log('>>>', question);
+                // console.log('>>>>', JSON.parse(question.additional_info));
                 setCurrentIndex(current_question_index);
                 if (current_question_index < 0) {
                     setFinish(true);
@@ -41,7 +43,7 @@ function Play({ total_questions, quizId, room_id }) {
                     setWaitingMsg('');
                 }
             });
-    
+
             return () => socket.disconnect();
         }
     }, [username]);
@@ -55,7 +57,6 @@ function Play({ total_questions, quizId, room_id }) {
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }
-    console.log('>>>', currentIndex, total_questions);
 
     return finish ?
         (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Congrats! Well played!</div>)
@@ -80,13 +81,17 @@ function Play({ total_questions, quizId, room_id }) {
                                     <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
                                 </div>
                             </div>
+
                             <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${total_questions}`}>
-                                <Multichoice answers={questionData.answers} handleAnswer={handleAnswer} />
+                                {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ?
+                                    <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
+                                    : questionData.qtype == 'matching' ? <Matching data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} />
+                                        : <div>Unsupported Question Type</div>}
                             </Questionare>
                         </div>
                     </div>
                 </div>
-            ) : <InputUsername usernameOnSubmit={setUsername}/>;
+            ) : <InputUsername usernameOnSubmit={setUsername} />;
 
 }
 

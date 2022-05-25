@@ -4,11 +4,11 @@
 import { withRouter } from "next/router";
 import { generateMultiStyle } from "../../utils/generateMultiStyle";
 import { randomHexColor, shuffleArray } from "../../utils/helpers";
-import Head from 'next/head';
+import TeXDisplay from "../helpers/TeXDisplay";
 
-function Multichoice({ answers, handleAnswer }) {
+function Multichoice({ data, handleAnswer }) {
 
-    const shuffledAnswers = answers.length ? shuffleArray([...answers]) : shuffleArray([{id: 1, answer: 'True'}, {id: 2, answer: 'False'}]);
+    const shuffledAnswers = data.length ? shuffleArray([...data]) : shuffleArray([{ id: 1, answer: 'True' }, { id: 2, answer: 'False' }]);
     // < 3
     // 3 6 9 12
     // 4 8 16
@@ -23,9 +23,11 @@ function Multichoice({ answers, handleAnswer }) {
     return (
         <>
             <div className={`w-full h-full grid gap-4 items-center ` + (two ? 'grid-rows-2' : five ? 'grid-cols-5' : four ? 'grid-cols-4' : three ? 'grid-cols-3' : 'grid-cols-7')}>
-                {shuffledAnswers.map((answer, index) =>
-                    <button className='w-full h-full max-h-64' onClick={() => handleAnswer( Number(answer.id) )} key={answer.id}>
-                        <div className='w-full h-full p-1 border-black border-2 rounded-md text-left shadow-answer hover:text-white' style={{ backgroundColor: randomHexColor() }} dangerouslySetInnerHTML={{ __html: answer.answer }} />
+                {shuffledAnswers.map(answer =>
+                    <button className='w-full h-full max-h-64' onClick={() => handleAnswer(Number(answer.id))} key={answer.id}>
+                        <div className='w-full h-full p-1 border-black border-2 rounded-md text-left shadow-answer hover:text-white' style={{ backgroundColor: randomHexColor() }} >
+                            <TeXDisplay content={answer.answer} />
+                        </div>
                     </button>
                 )}
             </div>

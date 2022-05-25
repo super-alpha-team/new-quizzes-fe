@@ -18,7 +18,7 @@ function RankingTable({ columns, data, listStudentJoined }) {
         setRowData(newState);
 
     }, [data]);
-    console.log("final row", rowData);
+    // console.log("final row", rowData);
 
     return (
         <div className="w-10/12 m-auto">
