@@ -5,6 +5,8 @@ import { useRouter } from 'next/router';
 import SingleQuiz from '../../components/config/SingleQuiz';
 import { SERVER_URL, QUIZ_STATUS } from '../../utils/config';
 import Button from '../../components/helpers/Button';
+import syncApi from '../../apis/syncApi';
+import quizApi from '../../apis/quizApi';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -14,10 +16,8 @@ function ChooseQuiz() {
     useEffect(() => {
         const getAllQuizzes = async () => {
 
-            const checkNewQuiz = await axios.get(
-                `${SERVER_URL}/lti/sync/lti`,
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            );
+            const checkNewQuiz = await syncApi.syncInfo(router.query.ltik);
+
             let checkNewQuizResp = checkNewQuiz.data.data;
             console.log("]> check newQuiz: ", checkNewQuizResp);
 
@@ -36,10 +36,7 @@ function ChooseQuiz() {
                 return router.push(`/conf/${newQuizInstanceId}?ltik=${router.query.ltik}`);
             }
 
-            const listMooodleQuiz = await axios.get(
-                `${SERVER_URL}/lti/quiz/moodle_quiz/list`,
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-            );
+            const listMooodleQuiz = await quizApi.getListMoodleQuiz(router.query.ltik);
             const listMooodleQuizData = listMooodleQuiz.data.data;
             console.log("]> get list moodle quiz: ", listMooodleQuizData);
 
@@ -57,9 +54,7 @@ function ChooseQuiz() {
             name: "test name",
             additional_info: "",
         }
-        const chooseQuiz = await axios.post(`${SERVER_URL}/lti/quiz/choose`, dataSend,
-            { headers: { "Authorization": `Bearer ${router.query.ltik}` } });
-
+        const chooseQuiz = await quizApi.chooseQuiz(router.query.ltik, dataSend);
         const chooseQuizData = chooseQuiz.data.data;
         console.log("]> lti/quiz/choose: ", chooseQuizData);
         const dataResponse = chooseQuizData.instance;

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useCollapse from 'react-collapsed';
 import parse from 'html-react-parser';
 import { useRouter } from 'next/router';
-import axios from 'axios';
-import { SERVER_URL } from '../../utils/config';
+import quizApi from '../../apis/quizApi';
 
 function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
     const [isExpanded, setExpanded] = useState(false);
@@ -12,24 +11,9 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
     const [listQuestions, setListQuestions] = useState([]);
     const router = useRouter();
 
-    // const handleExpandQuizClick = async () => {
-    //     const response = await axios.get(
-    //         `http://localhost:5000/lti/quiz/list/${id}`,
-    //         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-    //     );
-
-    //     setListQuestions(response.data.data.question_data);
-    //     setQuizClicked(!quizClicked);
-    // };
-
-    
-
     const handleChoosingQuiz = async () => {
         setIsChoosing(id);
-        const response = await axios.get(
-            `${SERVER_URL}/lti/quiz/moodle_quiz/get/${id}`,
-            { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
+        const response = await quizApi.getMoodleQuizAndQuestion(router.query.ltik, id);
 
         setListQuestions(response.data.data.question_data);
         setQuizClicked(!quizClicked);
