@@ -1,4 +1,4 @@
-import { get } from "./common"
+import { get } from "./common";
 
 export const userApi = {
     register: function(){},
