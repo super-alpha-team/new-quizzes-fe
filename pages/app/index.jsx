@@ -13,20 +13,23 @@ const mockCredentials = Array(3).fill({
     version: '1.3',
     'lti key': 'kwkgfkweyxvUTWTEydgv',
     owner: 'Kim Ngan Dinh Phan',
-});
+}); 
 
-const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJDaGxvZSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiYWRkaXRpb25hbF9pbmZvIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJpYXQiOjE2NTMzNzMwNjIsImV4cCI6MTY1MzM3NjY2Mn0.veGPuUoY0hRPOMTvw8MILmIv9ao2H3rFgE_mQeucYcE';
+const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUwMDA4MSwiZXhwIjoxNjUzNTAzNjgxfQ.4OaZI7JAIWALgqUpmy0pmwmdm3VZrkGkRkdxgat0Gt4';
 
 function App() {
-    const [credentials, setCredentials] = useState(mockCredentials);
+    const [credentials, setCredentials] = useState([]);
     const [title, setTitle] = useState('');
     const popupRef = useRef(null);
     const credentialRef = useRef(null);
+    const [credential, set_credential] = useState(null);
+    const editCredentialRef = useRef(null);
+    const deleteCredentialRef = useRef(null);
 
     useEffect(() => {
         async function getCredentials() {
             const response = await platformApi.getAll(mockToken);
-            console.log(response.data.data.platforms[0].platform);
+            console.log(response.data.data);
             setCredentials(response.data.data.platforms);
         }
         getCredentials();
@@ -34,7 +37,7 @@ function App() {
 
 
     async function createNewCredential(credential) {
-        const response = await axios.post(`${LOCALHOST}/plat/register`, credential);
+        const response = await platformApi.create(mockToken, credential);
         console.log('create new credential', response);
         setCredentials(mockCredentials.concat(response.data.data));
         toggleCredential();
@@ -49,6 +52,30 @@ function App() {
 
     const togglePopup = () => popupRef.current.toggleVisibility();
     const toggleCredential = () => credentialRef.current.toggleVisibility();
+    const toggleEditCredential = () => editCredentialRef.current.toggleVisibility();
+    const toggleDeleteCredential = () => deleteCredentialRef.current.toggleVisibility();
+
+    async function editCredential(credential) {
+        set_credential(credential);
+        toggleEditCredential();
+    }
+    async function deleteCredential(credential) {
+        if (confirm('Are you sure you want to delete this credential?')) {
+            const response = await platformApi.delete(mockToken, credential);
+            console.log('delete credential', response);
+            setCredentials(credentials.filter(c => c.id !== credential.id));
+            toggleDeleteCredential();
+        }
+        // set_credential(credential);
+        // toggleDeleteCredential();
+    }
+
+    async function deleteCredentialConfirm() {
+        const response = await platformApi.delete(mockToken, credential.id);
+        console.log('delete credential', response);
+        setCredentials(credentials.filter(c => c.id !== credential.id));
+        toggleDeleteCredential();
+    }
 
 
     return (<>
@@ -67,6 +94,13 @@ function App() {
         </Popover>
         <Popover ref={credentialRef}>
             <Credential name={title} onSubmit={createNewCredential} />
+        </Popover>
+        <Popover ref={editCredentialRef}>
+            test
+        </Popover>
+        <Popover ref={deleteCredentialRef}>
+            <p>Cancel</p>
+            <p onClick={deleteCredentialConfirm}>Confirm</p>
         </Popover>
         <div className='min-w-screen min-h-screen bg-gray-100 flex flex-col'>
             <Header />
@@ -95,18 +129,18 @@ function App() {
                                         <td className='py-3 px-6'>{credential.platform.clientId}</td>
                                         <td className='py-3 px-6'>
                                             <div className='flex item-center justify-center'>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                {/* <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' />
                                                     </svg>
-                                                </div>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                </div> */}
+                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer' onClick={()=> editCredential(credential)}>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' />
                                                     </svg>
                                                 </div>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer' onClick={() => deleteCredential(credential)}>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16' />
                                                     </svg>
