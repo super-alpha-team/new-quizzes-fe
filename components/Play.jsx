@@ -11,7 +11,7 @@ import InputUsername from './launch/InputUsername';
 import Matching from './questionares/Matching';
 import { configData } from '../utils/configData';
 
-function Play({ total_questions, quizId, room_id }) {
+function Play({ quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
     const [score, setScore] = useState(0);
@@ -19,6 +19,7 @@ function Play({ total_questions, quizId, room_id }) {
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
     const router = useRouter();
     const [username, setUsername] = useState('');
+    const [totalQuestion, setTotalQuestion] = useState(0);
 
     useEffect(() => {
         if (username) {
@@ -28,12 +29,15 @@ function Play({ total_questions, quizId, room_id }) {
             },
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } })
                 .then((response) => {
+                    console.log("]> join response: ", response?.data);
+                    setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
             socket.on('question', data => {
                 const { current_question_index, question } = data;
                 // console.log('>>>', question);
                 // console.log('>>>>', JSON.parse(question.additional_info));
+                console.log("socket question: ", question);
                 setCurrentIndex(current_question_index);
                 if (current_question_index < 0) {
                     setFinish(true);
@@ -53,7 +57,7 @@ function Play({ total_questions, quizId, room_id }) {
         if (answer == null) {
             answer_log_data.answer_id = -1;
         }
-        socket.emit('send', { current_question_index: currentIndex, answer_log_data });
+        // socket.emit('send', { current_question_index: currentIndex, answer_log_data });
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }
@@ -82,7 +86,7 @@ function Play({ total_questions, quizId, room_id }) {
                                 </div>
                             </div>
 
-                            <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${total_questions}`}>
+                            <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${totalQuestion}`}>
                                 {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ?
                                     <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
                                     : questionData.qtype == 'matching' ? <Matching data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} />

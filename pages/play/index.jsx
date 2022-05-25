@@ -24,7 +24,6 @@ export default function PlayGame() {
   const [game, setGame] = useState("waiting");
   // state for room_id
   const [room_id, setRoomId] = useState("");
-  const [numQuestions, setNumQuestions] = useState(0);
   const [quizId, setQuizId] = useState(null);
 
   useEffect(() => {
@@ -42,8 +41,6 @@ export default function PlayGame() {
 
       if (newQuizInstance) {
         setQuizId(newQuizInstance.id);
-        // TODO fix tamp
-        setNumQuestions(10);
         const socket_id = newQuizInstance.socket_id;
         const status = newQuizInstance.status;
 
@@ -68,7 +65,7 @@ export default function PlayGame() {
         game === "waiting" && <Loading message='Wating game' />
       }
       {
-        game === "play" && <Play quizId={quizId} total_questions={numQuestions} room_id={room_id} />
+        game === "play" && <Play quizId={quizId} room_id={room_id} />
       }
     </>
 

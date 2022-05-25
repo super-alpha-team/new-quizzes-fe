@@ -15,7 +15,7 @@ const mockCredentials = Array(3).fill({
     owner: 'Kim Ngan Dinh Phan',
 }); 
 
-const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUwMDA4MSwiZXhwIjoxNjUzNTAzNjgxfQ.4OaZI7JAIWALgqUpmy0pmwmdm3VZrkGkRkdxgat0Gt4';
+const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUxMjg1MSwiZXhwIjoxNjUzNTE2NDUxfQ.bVGa9zrOq_FOiIm9zbkgaUT213vtI0QH8958n8aHD4U';
 
 function App() {
     const [credentials, setCredentials] = useState([]);
@@ -125,8 +125,8 @@ function App() {
                                 {credentials.map(credential =>
                                     <tr key={credential.id} className='border-b border-[#91A8ED] hover:bg-gray-100'>
                                         <td className='py-3 px-6'>{credential.id}</td>
-                                        {/* <td className='py-3 px-6'>{credential.platform?.name}</td>
-                                        <td className='py-3 px-6'>{credential.platform?.clientId}</td> */}
+                                        <td className='py-3 px-6'>{credential.platform?.name}</td>
+                                        <td className='py-3 px-6'>{credential.platform?.clientId}</td>
                                         <td className='py-3 px-6'>
                                             <div className='flex item-center justify-center'>
                                                 {/* <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
