@@ -1,6 +1,8 @@
+/* eslint-disable @next/next/no-unwanted-polyfillio */
+/* eslint-disable @next/next/no-sync-scripts */
 import React, { useEffect, useState } from 'react';
 import { StringIdGenerator } from '../../utils/AlphabetGenerator';
-import parse from 'html-react-parser';
+import TeXDisplay from '../helpers/TeXDisplay';
 
 function Question({
     id,
@@ -40,7 +42,7 @@ function Question({
     useEffect(() => {
         setTime(timeAnswer);
     }, [timeAnswer]);
-    
+
     return (
         <>
             <hr />
@@ -61,7 +63,7 @@ function Question({
                     >
                         {number + 1}
                         {'.'}
-                        {parse(questionText || "")}
+                        <TeXDisplay content={questionText} />
                     </div>
                     {isSetTimeError ? (
                         <p className="text-red-600 italic text-sm pb-3">
@@ -80,7 +82,7 @@ function Question({
                                 <div className="w-6 h-6 bg-green-light rounded-full flex justify-center items-center">
                                     {ids.next()}
                                 </div>
-                                {parse(answer.answer)}
+                                <TeXDisplay content={answer.answer} />
                             </div>
                         ))}
 
@@ -104,44 +106,10 @@ function Question({
                     )}
                 </div>
                 <div>
-                    {isDisableEditTime ? 
+                    {isDisableEditTime ?
                         <div
-                        className="w-8 h-8 bg-gray-400 duration-200 flex justify-center items-center rounded-md"
+                            className="w-8 h-8 bg-gray-400 duration-200 flex justify-center items-center rounded-md"
                         // onClick={handleChooseQuestion}
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-white"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                        >
-                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                        </svg>
-                    </div>
-                    : 
-                    isChoosing == id && isEdit ? (
-                        <div
-                            className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
-                            onClick={handleSaveTime}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-white"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                            
-                        </div>
-                    ) : (
-                        <div
-                            className="w-8 h-8 bg-blue-lightDark hover:bg-blue-dark duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
-                            onClick={handleChooseQuestion}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -152,9 +120,43 @@ function Question({
                                 <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                             </svg>
                         </div>
-                    )}
-                    
-                    
+                        :
+                        isChoosing == id && isEdit ? (
+                            <div
+                                className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                                onClick={handleSaveTime}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-white"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clipRule="evenodd"
+                                    />
+                                </svg>
+
+                            </div>
+                        ) : (
+                            <div
+                                className="w-8 h-8 bg-blue-lightDark hover:bg-blue-dark duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                                onClick={handleChooseQuestion}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-white"
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                >
+                                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                </svg>
+                            </div>
+                        )}
+
+
                 </div>
             </div>
         </>

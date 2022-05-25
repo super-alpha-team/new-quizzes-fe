@@ -103,8 +103,9 @@ function ChooseQuiz() {
     console.log('list quiz', listQuiz);
 
     return (
-        <div className="w-screen h-screen bg-background-mid">
-            <Header />
+        <>
+            <div className="w-screen h-screen bg-background-mid">
+                <Header />
 
             {isHavingInstance ? (
                 <div className="w-9/12 m-auto pt-4 pb-4">
@@ -137,42 +138,43 @@ function ChooseQuiz() {
                 </div>
             ) : (
                 <>
-                    <p className="w-9/12 m-auto pt-4 pb-4 text-xl font-bold">
-                        Chọn bộ câu hỏi
-                    </p>
-                    <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
-                        <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
-                            {listQuiz.map((quizInfo, index) => (
-                                <SingleQuiz
-                                    id={quizInfo.id}
-                                    isChoosing={isChoosing}
-                                    setIsChoosing={setIsChoosing}
-                                    title={quizInfo.name}
-                                    index={index}
-                                    key={index}
-                                />
-                            ))}
+                    <p className="w-9/12 m-auto pt-4 pb-4 text-xl font-bold">Chọn bộ câu hỏi</p>
+                <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                    <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
+                        {listQuiz.map((quizInfo, index) => (
+                            <SingleQuiz
+                                id={quizInfo.id}
+                                key={quizInfo.id}
+                                isChoosing={isChoosing}
+                                setIsChoosing={setIsChoosing}
+                                title={quizInfo.name}
+                                index={index}
+                            />
+                        ))}
+                    </div>
+                </div>
+                <div className="w-9/12 m-auto justify-end flex mt-8 ">
+                    {isChoosing != -1 ? (
+                        <Button
+                            type="button"
+                            variants="primary"
+                            onClick={goToListQuestions}
+                            className="w-32"
+                        >
+                            Tiếp tục
+                        </Button>
+                    ) : (
+                        <div className="bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300 w-32 flex justify-center">
+                            Tiếp tục
                         </div>
-                    </div>
-                    <div className="w-9/12 m-auto justify-end flex mt-8 ">
-                        {isChoosing != -1 ? (
-                            <Button
-                                type="button"
-                                variants="primary"
-                                onClick={goToListQuestions}
-                                className="w-32"
-                            >
-                                Tiếp tục
-                            </Button>
-                        ) : (
-                            <div className="bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300 w-32 flex justify-center">
-                                Tiếp tục
-                            </div>
-                        )}
-                    </div>
-                </>
+                    )}
+                </div>
+
+                    
+        </>
             )}
         </div>
+        </>
     );
 }
 

@@ -15,18 +15,19 @@ const mockCredentials = Array(3).fill({
     owner: 'Kim Ngan Dinh Phan',
 });
 
-const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJDaGxvZSIsInBhc3N3b3JkIjoiMTIzNDU2IiwiYWRkaXRpb25hbF9pbmZvIjpudWxsLCJjcmVhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTA1LTI0VDAzOjQ3OjU0LjAwMFoiLCJpYXQiOjE2NTMzNzMwNjIsImV4cCI6MTY1MzM3NjY2Mn0.veGPuUoY0hRPOMTvw8MILmIv9ao2H3rFgE_mQeucYcE';
+const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUxMjg1MSwiZXhwIjoxNjUzNTE2NDUxfQ.bVGa9zrOq_FOiIm9zbkgaUT213vtI0QH8958n8aHD4U';
 
 function App() {
-    const [credentials, setCredentials] = useState(mockCredentials);
+    const [credentials, setCredentials] = useState([]);
     const [title, setTitle] = useState('');
     const popupRef = useRef(null);
     const credentialRef = useRef(null);
+    const [credential, set_credential] = useState(null);
 
     useEffect(() => {
         async function getCredentials() {
             const response = await platformApi.getAll(mockToken);
-            console.log(response.data.data.platforms[0].platform);
+            console.log(response.data.data);
             setCredentials(response.data.data.platforms);
         }
         getCredentials();
@@ -34,13 +35,15 @@ function App() {
 
 
     async function createNewCredential(credential) {
-        const response = await axios.post(`${LOCALHOST}/plat/register`, credential);
+        const response = await platformApi.create(mockToken, credential);
         console.log('create new credential', response);
-        setCredentials(mockCredentials.concat(response.data.data));
+        setCredentials(credentials.concat(response.data.data));
         toggleCredential();
+        setTitle('');
     }
 
-    function toggleForm() {
+    function formOnSubmit(e) {
+        e.preventDefault();
         if (title) {
             togglePopup();
             toggleCredential();
@@ -50,6 +53,18 @@ function App() {
     const togglePopup = () => popupRef.current.toggleVisibility();
     const toggleCredential = () => credentialRef.current.toggleVisibility();
 
+    async function editCredential(credential) {
+        set_credential(credential);
+        toggleEditCredential();
+    }
+
+    async function deleteCredential(credential) {
+        if (confirm('Are you sure you want to delete this credential?')) {
+            const response = await platformApi.delete(mockToken, credential.id);
+            console.log('delete credential', response);
+            setCredentials(credentials.filter(c => c.id !== credential.id));
+        }
+    }
 
     return (<>
         <Popover ref={popupRef}>
@@ -58,19 +73,26 @@ function App() {
                 <button className='text-sm text-[#91A8ED] hover:text-[#6e89db] p-2 top-0 right-0 absolute' onClick={togglePopup}>
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd"></path></svg>
                 </button>
-                <div className='w-full flex flex-col justify-center items-center mb-4'>
+                <form className='w-full flex flex-col justify-center items-center mb-4' onSubmit={formOnSubmit}>
                     <p className='w-11/12 text-blue-dark text-sm font-semibold py-1'>Title</p>
-                    <input onChange={({ target }) => setTitle(target.value)} value={title} className='w-11/12 p-2 outline-1 outline focus:outline-[#6e89db] text-sm text-blue-dark rounded-sm placeholder:italic' type="text" placeholder='Enter credential title' required onSubmit={toggleForm} />
-                </div>
-                <button type='submit' className='text-[#6e89db] rounded-md hover:bg-[#6e89db] hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-[#91A8ED] bottom-2 absolute' onClick={toggleForm}>Next</button>
+                    <input onChange={({ target }) => setTitle(target.value)} value={title} className='w-11/12 p-2 outline-1 outline focus:outline-[#6e89db] text-sm text-blue-dark rounded-sm placeholder:italic' type="text" placeholder='Enter credential title' required />
+                    <button type='submit' className='text-[#6e89db] rounded-md hover:bg-[#6e89db] hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-[#91A8ED] bottom-4 absolute'>Next</button>
+                </form>
             </div>
         </Popover>
         <Popover ref={credentialRef}>
             <Credential name={title} onSubmit={createNewCredential} />
         </Popover>
+        {/* <Popover ref={editCredentialRef}>
+            test
+        </Popover>
+        <Popover ref={deleteCredentialRef}>
+            <p>Cancel</p>
+            <p onClick={deleteCredentialConfirm}>Confirm</p>
+        </Popover> */}
         <div className='min-w-screen min-h-screen bg-gray-100 flex flex-col'>
             <Header />
-            <div className='w-full lg:w-5/6 self-center mt-20'>
+            <div className='w-full lg:w-5/6 self-center mb-20 mt-8'>
                 <div className='mt-7 flex flex-col gap-2'>
                     <div className='flex justify-between'>
                         <div className='font-bold'>Credential List</div>
@@ -95,18 +117,18 @@ function App() {
                                         <td className='py-3 px-6'>{credential.platform?.clientId}</td>
                                         <td className='py-3 px-6'>
                                             <div className='flex item-center justify-center'>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                {/* <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15 12a3 3 0 11-6 0 3 3 0 016 0z' />
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z' />
                                                     </svg>
-                                                </div>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                </div> */}
+                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer' onClick={() => editCredential(credential)}>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z' />
                                                     </svg>
                                                 </div>
-                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer'>
+                                                <div className='w-4 mr-2 transform hover:text-[#91A8ED] hover:scale-110 hover:cursor-pointer' onClick={() => deleteCredential(credential)}>
                                                     <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
                                                         <path strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16' />
                                                     </svg>
