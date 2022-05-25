@@ -8,7 +8,6 @@ import React, { useState, useEffect } from 'react';
 import Loading from '../../components/helpers/Loading';
 import Play from '../../components/Play';
 import { LOCALHOST } from '../../utils/config';
-import Head from 'next/head';
 
 const QuizStatusEnum = {
   EDITING: 'editing',
@@ -63,17 +62,8 @@ export default function PlayGame() {
 
   }, [router.query.ltik]);
 
-  function runTypeSetMathJax() {
-    window.MathJax.typeset(); 
-  }
-
   return (
     <>
-      <Head>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" onLoad={runTypeSetMathJax}></script>
-        <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" onLoad={runTypeSetMathJax}></script>
-      </Head>
-
       {
         game === "waiting" && <Loading message='Wating game' />
       }

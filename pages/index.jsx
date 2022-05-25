@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import Play from '../components/Play';
 import styles from '../styles/Home.module.css';
@@ -23,7 +22,7 @@ export default function Home() {
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
       
-      console.log(']> start up page: ', responseInfo.data);
+      // console.log(']> start up page: ', responseInfo.data);
       const data = responseInfo.data.data;
       // check is member or teacher class
       if (data.alpha_roles.indexOf(RoleEnum.ADMIN) != -1 ) {
