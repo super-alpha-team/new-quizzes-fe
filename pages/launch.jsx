@@ -133,7 +133,7 @@ function HomePage() {
             const response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
 
             let newQuizInstanceData = response.data.data.new_quiz_instance;
-            teacherJoinInClass(newQuizInstanceData.id);
+            teacherJoinInClass(newQuizInstanceData.new_quiz_id);
             setNewQuizInstance(newQuizInstanceData);
 
             // update quiz, pending until student join or when teacher want to start

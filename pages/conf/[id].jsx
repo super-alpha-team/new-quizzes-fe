@@ -60,7 +60,7 @@ function ConfigQuestion() {
                 question_string_encoded: question_string_encoded,
             };
 
-            const setInstanceActive = quizApi.setNewInstanceActive(router.query.ltik, newQuizInstance.id);
+            const setInstanceActive = await quizApi.setNewInstanceActive(router.query.ltik, newQuizInstance.id);
             console.log('setinstance active', setInstanceActive)
             
             router.push({

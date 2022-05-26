@@ -57,7 +57,7 @@ function Play({ quizId, room_id }) {
         if (answer == null) {
             answer_log_data.answer_id = -1;
         }
-        // socket.emit('send', { current_question_index: currentIndex, answer_log_data });
+        socket.emit('send', { current_question_index: currentIndex, answer_log_data });
 
         setWaitingMsg('Great! Let\'s wait for your mates');
     }
