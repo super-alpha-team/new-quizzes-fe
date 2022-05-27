@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import InputUsername from './launch/InputUsername';
 import Matching from './questionares/Matching';
 import { configData } from '../utils/configData';
+import DragAndDrop from './questionares/DragAndDrop';
 
 function Play({ quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -87,10 +88,9 @@ function Play({ quizId, room_id }) {
                             </div>
 
                             <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${totalQuestion}`}>
-                                {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ?
-                                    <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
+                                {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ? <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
                                     : questionData.qtype == 'matching' ? <Matching data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} />
-                                        : <div>Unsupported Question Type</div>}
+                                        : questionData.qtype == 'draganddrop' ? <DragAndDrop data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} /> : <div>Unsupported Question Type</div>}
                             </Questionare>
                         </div>
                     </div>

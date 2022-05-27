@@ -25,4 +25,23 @@ function isDark(hex) {
     return luma < 40;
 }
 
-export { shuffleArray, randomHexColor };
+function convertTimer(seconds) {
+    let h = Math.trunc(seconds / 3600);
+    let m;
+    let s = seconds;
+
+    if (h) {
+        m = Math.trunc((seconds / 3600 - h) / 60);
+        s -= h * 3600;
+    } else {
+        m = Math.trunc(seconds / 60);
+    }
+
+    if (m) {
+        s -= m * 60;
+    }
+
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+}
+
+export { shuffleArray, randomHexColor, convertTimer };
