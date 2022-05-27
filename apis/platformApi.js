@@ -10,6 +10,9 @@ const platformApi = {
     },
     delete: function (token = "", id) {
         return deleteOne(`${serverURL}/plat/delete/${id}`, token);
+    },
+    edit: function(token = "", id, data) {
+        return post(`${serverURL}/plat/update/${id}`, data, token);
     }
 };
 
