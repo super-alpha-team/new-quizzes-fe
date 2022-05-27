@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { randomHexColor } from '../../utils/helpers';
+import TeXDisplay from '../helpers/TeXDisplay';
 
 function Matching({ data, handleAnswer }) {
     const [currentSelect, setCurrentSelect] = useState({ l: -1, r: -1 });
@@ -7,30 +8,28 @@ function Matching({ data, handleAnswer }) {
     const [answers, setAnswers] = useState([]);
     const [colors, setColors] = useState([]);
 
-    function answerOnClick(id) {
-        let index = checkAnswerExist(id);
-        if (index !== -1) {
-            removeAnswer(index);
-            setCurrentSelect({ l: -1, r: -1 });
-        } else {
-            if (currentSelect.l === -1) {
-                setCurrentSelect({ ...currentSelect, l: id });
-            } else if (currentSelect.l !== id) {
-                setCurrentSelect({ ...currentSelect, r: id });
-            } else {
-                setCurrentSelect({ l: -1, r: -1 });
-            }
+    function leftColumnOnClick(id) {
+        if (!removeAnswerIfExist(true, id)) {
+            setCurrentSelect({ ...currentSelect, l: id });
         }
     }
 
-    // console.log(currentSelect, answers, colors);
-    function checkAnswerExist(id) {
-        return answers.findIndex(answer => answer.l === id || answer.r === id);
+    function rightColumnOnClick(id) {
+        if (!removeAnswerIfExist(false, id)) {
+            setCurrentSelect({ ...currentSelect, r: id });
+        }
     }
-    function removeAnswer(index) {
-        setAnswers(answers.slice(0, index).concat(answers.slice(index + 1)));
-        setColors(colors.slice(0, index).concat(colors.slice(index+1)));
+
+    function removeAnswerIfExist(isLeft, id) {
+        let index = answers.findIndex(answer => (isLeft && answer.l === id) || (!isLeft && answer.r === id));
+        if (index != -1) {
+            setAnswers(answers.slice(0, index).concat(answers.slice(index + 1)));
+            setColors(colors.slice(0, index).concat(colors.slice(index + 1)));
+            return true;
+        }
+        return false;
     }
+
     useEffect(() => {
         if (currentSelect.l !== -1 && currentSelect.r !== -1) {
             setAnswers(answers.concat(currentSelect));
@@ -40,11 +39,11 @@ function Matching({ data, handleAnswer }) {
         }
     }, [currentSelect]);
 
-    function setColor(id) {
-        if (currentSelect.l === id || currentSelect.r === id) {
+    function setColor(isLeft, id) {
+        if ((isLeft && currentSelect.l === id) || (!isLeft && currentSelect.r === id)) {
             return currentColor;
         }
-        let index = checkAnswerExist(id);
+        let index = answers.findIndex(answer => (isLeft && answer.l === id) || (!isLeft && answer.r === id));
         if (index !== -1) {
             return colors[index];
         }
@@ -52,11 +51,25 @@ function Matching({ data, handleAnswer }) {
     }
 
     return (
-        <div className='w-full h-full grid grid-cols-2 gap-y-4 gap-x-12'>
-            {data.map((value, index) =>
-                <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(value.id) }} dangerouslySetInnerHTML={{ __html: value.answer }} onClick={(e) => answerOnClick(value.id)} value={value.answer} key={value.id}>
-                </button>
-            )}
+        <div className='w-full h-full grid grid-cols-2 justify-between gap-[15%]'>
+            <div className='flex flex-col justify-between content-between gap-[8%]'>
+                {
+                    data.stems.map(({ id, answer }) =>
+                        <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
+                            <TeXDisplay content={answer} />
+                        </button>
+                    )
+                }
+            </div>
+            <div className='flex flex-col justify-between content-between gap-[8%]'>
+                {
+                    data.choices.map(({ id, answer }) =>
+                        <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
+                            <TeXDisplay content={answer} />
+                        </button>
+                    )
+                }
+            </div>
         </div>
     );
 }

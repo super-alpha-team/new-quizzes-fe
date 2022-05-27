@@ -13,16 +13,16 @@ const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the
         return { ...e, id: i };
     });
 
-    const mathQuestion = `f(x) = \\int_{-\\infty}^\\infty
-    \\hat f(\\xi)\\,e^{2 \\pi i \\xi x}
-    \\,d\\xi`;
-    const normalQuestion = `Lorem Ipsum is simply dummy text of the printing and typesetting industry.`;
+const mockMatchingDataField = Array(5).fill({ id: 0, answer: 'mock matching data' })
+    .map((e, i) => {
+        return { ...e, id: i };
+    });
+const mockMatchingData = { choices: mockMatchingDataField, stems: mockMatchingDataField };
 
 function Test() {
     const [questions, setQuestions] = useState([]);
     const [username, setUsername] = useState('');
 
-    console.log(questions);
     return username ? (<div>
         <div className='h-screen'>
             <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
@@ -48,17 +48,17 @@ function Test() {
                     {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                         <Essay />
                     </Questionare> */}
-                    <Questionare question={mathQuestion} questionProgress='3/5'>
+                    {/* <Questionare question={mathQuestion} questionProgress='3/5'>
                         <Multichoice answers={answers} handleAnswer={() => { }} />
-                    </Questionare>
-                    {/* <Questionare question='' questionProgress='3/5'>
-                        <Matching data={answers} />
                     </Questionare> */}
+                    <Questionare question='Match these statements' questionProgress='3/5'>
+                        <Matching data={mockMatchingData} handleAnswer={() => { }} />
+                    </Questionare>
                 </div>
             </div>
         </div>
     </div>
-    ): <InputUsername usernameOnSubmit={setUsername} />;
+    ) : <InputUsername usernameOnSubmit={setUsername} />;
 }
 
 export default Test;
