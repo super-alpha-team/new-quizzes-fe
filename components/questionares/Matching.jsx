@@ -51,8 +51,8 @@ function Matching({ data, handleAnswer }) {
     }
 
     return (
-        <div className='w-full h-full grid grid-cols-2 justify-between gap-5'>
-            <div className='flex flex-col justify-between content-between gap-2'>
+        <div className='w-full h-full grid grid-cols-2 justify-between gap-[15%]'>
+            <div className='flex flex-col justify-between content-between gap-[8%]'>
                 {
                     data.stems.map(({ id, answer }) =>
                         <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
@@ -61,7 +61,7 @@ function Matching({ data, handleAnswer }) {
                     )
                 }
             </div>
-            <div className='flex flex-col justify-between content-between gap-2'>
+            <div className='flex flex-col justify-between content-between gap-[8%]'>
                 {
                     data.choices.map(({ id, answer }) =>
                         <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
