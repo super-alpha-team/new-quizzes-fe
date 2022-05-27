@@ -1,45 +1,78 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Header from '../../components/Header';
-import Link from 'next/link';
-import Router from 'next/router';
-import Popover from '../../components/helpers/Popover';
-import Credential from '../../components/Credential';
-import axios from 'axios';
-import { LOCALHOST } from '../../utils/config';
-import platformApi from '../../apis/platformApi';
 
-const mockCredentials = Array(3).fill({
-    title: 'New Quizzes LTI',
-    version: '1.3',
-    'lti key': 'kwkgfkweyxvUTWTEydgv',
-    owner: 'Kim Ngan Dinh Phan',
-});
+import Header from 'components/Header';
+import Popover from 'components/helpers/Popover';
+import Credential from 'components/Credential';
+import Button from "components/helpers/Button";
+import PlatformEditModal from 'components/app/platform/PlatformEditModal';
+import LoginModal from 'components/app/auth/LoginModal';
 
-const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUyMTkzNiwiZXhwIjoxNjUzNTI1NTM2fQ.cB-nuwRirpHLvk2_DIMdjoV6UJIsiQHDjUKCOB4MWjc';
+import { userApi } from 'apis/userApi';
+import platformApi from 'apis/platformApi';
+import { get_accessToken_localStorage, save_accessToken_localStorage } from 'utils/localStore';
 
 function App() {
     const [credentials, setCredentials] = useState([]);
     const [title, setTitle] = useState('');
     const popupRef = useRef(null);
     const credentialRef = useRef(null);
+    const loginRef = useRef(null);
+    const editCredentialRef = useRef(null);
     const [credential, set_credential] = useState(null);
 
-    useEffect(() => {
-        async function getCredentials() {
-            const response = await platformApi.getAll(mockToken);
-            console.log(response.data.data);
-            setCredentials(response.data.data.platforms);
+    const [userLoginData, setUserLoginData] = useState({
+        account: {
+            additional_info: null,
+            createdAt: null,
+            id: 0,
+            password: "",
+            updatedAt: null,
+            username: ""
+        },
+        accessToken: '',
+    });
+
+    async function init() {
+        const accessToken = get_accessToken_localStorage();
+        if (!accessToken) {
+            return toggleLogin();
+        } else {
+            try {
+                const loginUserResponse = await userApi.me(accessToken);
+                setUserLoginData({
+                    ...userLoginData,
+                    accessToken,
+                    account: loginUserResponse.data.data.account,
+                });
+                getPlatformList();
+            } catch (e) {
+                console.log(e);
+                toggleLogin();
+            }
         }
-        getCredentials();
+    }
+
+    useEffect(() => {
+        init();
     }, []);
 
-
     async function createNewCredential(credential) {
-        const response = await platformApi.create(mockToken, credential);
-        console.log('create new credential', response);
-        setCredentials(credentials.concat(response.data.data));
-        toggleCredential();
-        setTitle('');
+        let token = get_accessToken_localStorage();
+        if (!token) {
+            return toggleLogin();
+        }
+        try {
+            const response = await platformApi.create(token, credential);
+            setCredentials(credentials.concat(response.data.data));
+            toggleCredential();
+            setTitle('');
+        } catch (err) {
+            if (err.response) {
+                alert(err.response.data.message);
+            } else {
+                console.log(err);
+            }
+        }
     }
 
     function formOnSubmit(e) {
@@ -52,21 +85,65 @@ function App() {
 
     const togglePopup = () => popupRef.current.toggleVisibility();
     const toggleCredential = () => credentialRef.current.toggleVisibility();
+    const toggleLogin = () => loginRef.current.toggleVisibility();
+    const toggleEditCredential = () => editCredentialRef.current.toggleVisibility();
+
+    async function loginClickCallback(loginData) {
+        save_accessToken_localStorage(loginData.accessToken);
+        init();
+    }
+
+    async function getPlatformList() {
+        let token = get_accessToken_localStorage();
+        if (!token) {
+            return toggleLogin();
+        }
+        try {
+            const getPlatformListResponse = await platformApi.getAll(token);
+            setCredentials(getPlatformListResponse.data.data.platforms);
+        } catch (err) {
+            if (err.response) {
+                alert(err.response.data.message);
+            } else {
+                console.log(err);
+            }
+        }
+    }
 
     async function editCredential(credential) {
         set_credential(credential);
         toggleEditCredential();
     }
+    async function editCredentialCallback() {
+        getPlatformList();
+    }
 
     async function deleteCredential(credential) {
+        let token = get_accessToken_localStorage();
+        if (!token) {
+            return toggleLogin();
+        }
         if (confirm('Are you sure you want to delete this credential?')) {
-            const response = await platformApi.delete(mockToken, credential.id);
-            console.log('delete credential', response);
-            setCredentials(credentials.filter(c => c.id !== credential.id));
+            try {
+                await platformApi.delete(token, credential.id);
+                setCredentials(credentials.filter(c => c.id !== credential.id));
+            } catch (err) {
+                if (err.response) {
+                    alert(err.response.data.message);
+                } else {
+                    console.log(err);
+                }
+            }
         }
     }
 
     return (<>
+        <Popover ref={loginRef}>
+            <LoginModal
+                loginClickCallback={loginClickCallback}
+                closeFn={toggleLogin}
+            />
+        </Popover>
         <Popover ref={popupRef}>
             <div className='w-72 h-52 mb-32 shadow-sm shadow-[#91A8ED] bg-white rounded-lg relative flex justify-center'>
                 <p className='text-blue-dark after:block after:w-full after:h-3 after:bg-[#91A8ED] after:-mt-3 after:bg-opacity-60 tracking-tight font-mono text-lg font-bold top-4 left-3 absolute py-2'>Create new credential</p>
@@ -83,10 +160,15 @@ function App() {
         <Popover ref={credentialRef}>
             <Credential name={title} onSubmit={createNewCredential} />
         </Popover>
-        {/* <Popover ref={editCredentialRef}>
-            test
+        <Popover ref={editCredentialRef}>
+            <PlatformEditModal
+                platformData={credential}
+                closeFn={toggleEditCredential}
+                callBackFn={editCredentialCallback}
+                toggleLogin={toggleLogin}
+            />
         </Popover>
-        <Popover ref={deleteCredentialRef}>
+        {/* <Popover ref={deleteCredentialRef}>
             <p>Cancel</p>
             <p onClick={deleteCredentialConfirm}>Confirm</p>
         </Popover> */}
@@ -94,7 +176,20 @@ function App() {
             <Header />
             <div className='w-full lg:w-5/6 self-center mb-20 mt-8'>
                 <div className='mt-7 flex flex-col gap-2'>
-                    <div className='flex justify-between'>
+                    {
+                        userLoginData?.accessToken ? <p className='font-bold'>
+                            Wellcome: {userLoginData?.account?.username}
+                        </p> : <Button
+                            onClick={toggleLogin}
+                            type="button"
+                            variants="primary"
+                            className='font-bold'>
+                            Login
+                        </Button>
+                    }
+                    <hr />
+
+                    <div className='flex justify-between mt-4'>
                         <div className='font-bold'>Credential List</div>
                         <div className='text-[#6e89db] hover:text-[#91A8ED] hover:cursor-pointer'><a onClick={togglePopup}>+ Create a new credential</a></div>
                     </div>
