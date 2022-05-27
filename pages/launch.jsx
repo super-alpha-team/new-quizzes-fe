@@ -86,23 +86,28 @@ function HomePage() {
                 room: newQuizInstance.socket_id,
                 token: response.data.alpha_token
             });
+            socket.on('data', (data) => {
+                console.log('data', data);
+                if (data.type == 'join') {
+                    const data_arr = Object.keys(data.player).map((key) => {
+                        return {
+                            id: key,
+                            name: data.player[key]
+                        }
+                    });
+                    
+                    setListStudentJoined(data_arr);
+                }
+            });
+            socket.on('grade', (data) => {
+                console.log('data', data);
+                if(data.grade_data){
+                    console.log("teacher data", data.grade_data);
+                    setAllRowData(data.grade_data);
+                }
+            });
         });
-        socket.on('data', (data) => {
-            console.log('data', data);
-            if (data.is_teacher != null && data.is_teacher == false) {
-                console.log("data is teacher")
-                const newStudentName = data.new_user_join;
-                const newStudentId = data.platform_user_id;
-                const obj = { name: newStudentName, id: newStudentId };
-                
-                setListStudentJoined([...listStudentJoined, obj]);
-            }
-
-            if(data.teacher_data){
-                console.log("teacher data")
-                setAllRowData(data.teacher_data);
-            }
-        });
+        
 
         return () => socket.disconnect();
     }
