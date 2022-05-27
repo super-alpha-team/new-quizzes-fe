@@ -15,7 +15,7 @@ const mockCredentials = Array(3).fill({
     owner: 'Kim Ngan Dinh Phan',
 });
 
-const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUxMjg1MSwiZXhwIjoxNjUzNTE2NDUxfQ.bVGa9zrOq_FOiIm9zbkgaUT213vtI0QH8958n8aHD4U';
+const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJuaHV0IiwicGFzc3dvcmQiOiIxMjM0NTYiLCJhZGRpdGlvbmFsX2luZm8iOm51bGwsImNyZWF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjItMDUtMjRUMDA6NDE6MDUuMDAwWiIsImlhdCI6MTY1MzUyMTkzNiwiZXhwIjoxNjUzNTI1NTM2fQ.cB-nuwRirpHLvk2_DIMdjoV6UJIsiQHDjUKCOB4MWjc';
 
 function App() {
     const [credentials, setCredentials] = useState([]);

@@ -28,6 +28,15 @@ const quizApi = {
     startQuiz: function (token = "", id) {
         return post(`${serverURL}/lti/quiz/new_quiz/start/${id}`, {}, token);
     },
+    listQuizInstance: function (token = "", id) {
+        return get(`${serverURL}/lti/quiz/new_quiz/list_instance/${id}`, token);
+    },
+    createInstance: function (token = "", name, id) {
+        return post(`${serverURL}/lti/quiz/new_quiz/create_instance/${id}`, {name}, token);
+    },
+    setNewInstanceActive: function (token = "", id) {
+        return post(`${serverURL}/lti/quiz/new_quiz_instance/set_active/${id}`, {}, token);
+    }
 
 };
 

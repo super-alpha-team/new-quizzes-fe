@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import TeXDisplay from '../helpers/TeXDisplay';
 import quizApi from '../../apis/quizApi';
 
-function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
+function SingleQuiz({ id, isChoosing, setIsChoosing, title, index, ...rest }) {
     const [isExpanded, setExpanded] = useState(false);
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
     const [quizClicked, setQuizClicked] = useState(false);
@@ -24,7 +24,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index }) {
 
     return (
         <>
-            <div className="collapsible w-10/12 mt-2 mx-auto">
+            <div className="collapsible w-10/12 mt-2 mx-auto" {...rest}>
                 <div
                     className={
                         isChoosing == id

@@ -60,6 +60,9 @@ function ConfigQuestion() {
                 question_string_encoded: question_string_encoded,
             };
 
+            const setInstanceActive = await quizApi.setNewInstanceActive(router.query.ltik, newQuizInstance.id);
+            console.log('setinstance active', setInstanceActive)
+            
             router.push({
                 pathname: `/launch`,
                 query: { id: `${router.query.id}`, ltik: `${router.query.ltik}` }
@@ -88,6 +91,7 @@ function ConfigQuestion() {
                 //                                 .map((question) => question.id)
                 // console.log(errorTmp);
                 // setErrorConfigTimeList(errorTmp);
+                console.log("newQuizInstance", newQuizInstance);
 
             } catch (err) {
                 console.log('err: ', err);
@@ -108,6 +112,7 @@ function ConfigQuestion() {
                 "time_answer": time
             }
             const response = await quizApi.updateQuizInstanceTimeAllQuestion(router.query.ltik, newQuizInstance.id, data);
+            console.log('response ', response);
 
             setListQuestions(response.data.data.question_list);
             setReturnListWithTime(response.data.data.question_list);

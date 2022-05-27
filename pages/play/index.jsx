@@ -40,7 +40,7 @@ export default function PlayGame() {
       console.log('quizInstance: ', newQuizInstance);
 
       if (newQuizInstance) {
-        setQuizId(newQuizInstance.id);
+        setQuizId(checkNewQuizResp.new_quiz.id);
         const socket_id = newQuizInstance.socket_id;
         const status = newQuizInstance.status;
 
