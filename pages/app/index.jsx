@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import Header from 'components/Header';
 import Popover from 'components/helpers/Popover';
-import Credential from 'components/Credential';
+import Credential from 'components/app/platform/Credential';
 import Button from "components/helpers/Button";
 import PlatformEditModal from 'components/app/platform/PlatformEditModal';
 import LoginModal from 'components/app/auth/LoginModal';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { convertTimer } from '../utils/helpers';
+import { convertTimer } from '../../utils/helpers';
 
 function Clock({ duration, handleTimeUp, currentIndex }) {
     const [timeRemaining, setTimeRemaining] = useState(duration);

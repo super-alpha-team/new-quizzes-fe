@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, Component } from 'react';
-import Multichoice from './questionares/Multichoice';
-import Questionare from './questionares/Questionare';
-import Loading from './helpers/Loading';
+import Multichoice from '../questionares/Multichoice';
+import Questionare from './Questionare';
+import Loading from '../helpers/Loading';
 import Clock from './Clock';
-import { socket } from '../utils/socket';
+import { socket } from '../../utils/socket';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import InputUsername from './launch/InputUsername';
-import Matching from './questionares/Matching';
-import { configData } from '../utils/configData';
-import DragAndDrop from './questionares/DragAndDrop';
+import InputUsername from '../launch/InputUsername';
+import Matching from '../questionares/Matching';
+import { configData } from '../../utils/configData';
+import DragDrop from '../questionares/DragDrop';
 
 function Play({ quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -90,7 +90,7 @@ function Play({ quizId, room_id }) {
                             <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${totalQuestion}`}>
                                 {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ? <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
                                     : questionData.qtype == 'matching' ? <Matching data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} />
-                                        : questionData.qtype == 'draganddrop' ? <DragAndDrop data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} /> : <div>Unsupported Question Type</div>}
+                                        : questionData.qtype == 'draganddrop' ? <DragDrop data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} /> : <div>Unsupported Question Type</div>}
                             </Questionare>
                         </div>
                     </div>

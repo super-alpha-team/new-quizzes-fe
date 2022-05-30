@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import Loading from '../../components/helpers/Loading';
-import Play from '../../components/Play';
+import Play from '../../components/playing/Play';
 import { LOCALHOST } from '../../utils/config';
 
 const QuizStatusEnum = {

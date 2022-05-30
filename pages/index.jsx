@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Play from '../components/Play';
+import Play from '../components/playing/Play';
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { LOCALHOST, LTI_URL, SERVER_URL } from '../utils/config';
-import Alert from './helpers/Alert';
+import { LOCALHOST, LTI_URL, SERVER_URL } from '../../../utils/config';
+import Alert from '../../helpers/Alert';
 
 const instructions = [
   {

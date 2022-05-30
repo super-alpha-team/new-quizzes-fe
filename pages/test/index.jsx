@@ -1,12 +1,13 @@
+import DragDrop from 'components/questionares/DragDrop';
 import React, { useState, useEffect } from 'react';
-import Clock from '../../components/Clock';
-import Colors from '../../components/Colors';
+import Clock from '../../components/playing/Clock';
 import InputUsername from '../../components/launch/InputUsername';
 import Essay from '../../components/questionares/Essay';
 import Matching from '../../components/questionares/Matching';
 import Multichoice from '../../components/questionares/Multichoice';
-import Questionare from '../../components/questionares/Questionare';
+import Questionare from '../../components/playing/Questionare';
 import ShortAnswer from '../../components/questionares/ShortAnswer';
+import { configData } from 'utils/configData';
 
 const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => {
@@ -23,7 +24,7 @@ function Test() {
     const [questions, setQuestions] = useState([]);
     const [username, setUsername] = useState('');
 
-    return username ? (<div>
+    return (<div>
         <div className='h-screen'>
             <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                 <div className='h-full w-full flex justify-center relative'>
@@ -51,14 +52,17 @@ function Test() {
                     {/* <Questionare question={mathQuestion} questionProgress='3/5'>
                         <Multichoice answers={answers} handleAnswer={() => { }} />
                     </Questionare> */}
-                    <Questionare question='Match these statements' questionProgress='3/5'>
+                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
                         <Matching data={mockMatchingData} handleAnswer={() => { }} />
+                    </Questionare> */}
+                    <Questionare question='Match these statements' questionProgress='3/5'>
+                        <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
                     </Questionare>
                 </div>
             </div>
         </div>
     </div>
-    ) : <InputUsername usernameOnSubmit={setUsername} />;
+    );
 }
 
 export default Test;

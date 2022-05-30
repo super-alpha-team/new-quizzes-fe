@@ -12,7 +12,7 @@ export function configData(questionType, data) {
         case 'draganddrop':
             return configDataForDragAndDrop(data);
             break;
-            
+
         default:
             return data;
             break;
@@ -33,7 +33,9 @@ function configDataForMatching(data) {
     return { choices, stems };
 }
 
+const mockDragDropData = Array(2).fill(Array(2).fill({ id: 0, answer: 'mock data' }).map((v, index) => ({ id: index+1, answer: `${v.answer} ${index+1}` })));
+
 function configDataForDragAndDrop(data) {
-    console.log('>>>', data);
-    return data;
+    // console.log('>>>', data);
+    return mockDragDropData;
 }
