@@ -1,3 +1,4 @@
+import SubmitButton from 'components/helpers/SubmitButton';
 import React, { useEffect, useState } from 'react';
 import { randomHexColor } from '../../utils/helpers';
 import TeXDisplay from '../helpers/TeXDisplay';
@@ -50,25 +51,36 @@ function Matching({ data, handleAnswer }) {
         return '#ffffff';
     }
 
+    function onSubmit() {
+        console.log(answers);
+        console.log(Object.fromEntries(answers.map(answer => [answer.l, answer.r])));
+    }
+
     return (
-        <div className='w-full h-full grid grid-cols-2 justify-between gap-[15%]'>
-            <div className='flex flex-col justify-between content-between gap-[8%]'>
-                {
-                    data.stems.map(({ id, answer }) =>
-                        <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
-                            <TeXDisplay content={answer} />
-                        </button>
-                    )
-                }
+        <div className='w-full h-full flex flex-col justify-between gap-8'>
+            <div className='w-full h-full grid grid-cols-2 justify-between gap-[10%]'>
+                <div className='flex flex-col justify-between content-between gap-[5%]'>
+                    {
+                        data.stems.map(({ id, answer }) =>
+                            <button className={'w-full h-full p-1 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
+                                <TeXDisplay content={answer} />
+                            </button>
+                        )
+                    }
+                </div>
+                <div className='flex flex-col justify-between content-between gap-[5%]'>
+                    {
+                        data.choices.map(({ id, answer }) =>
+                            <button className={'w-full h-full p-1 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
+                                <TeXDisplay content={answer} />
+                            </button>
+                        )
+                    }
+                </div>
+
             </div>
-            <div className='flex flex-col justify-between content-between gap-[8%]'>
-                {
-                    data.choices.map(({ id, answer }) =>
-                        <button className={'w-full h-full p-1 border-black border-2 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
-                            <TeXDisplay content={answer} />
-                        </button>
-                    )
-                }
+            <div className='self-end'>
+                <SubmitButton text={'Submit'} onSubmit={onSubmit} />
             </div>
         </div>
     );

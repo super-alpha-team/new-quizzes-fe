@@ -14,7 +14,7 @@ const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the
         return { ...e, id: i };
     });
 
-const mockMatchingDataField = Array(5).fill({ id: 0, answer: 'mock matching data' })
+const mockMatchingDataField = Array(3).fill({ id: 0, answer: 'mock matching data' })
     .map((e, i) => {
         return { ...e, id: i };
     });
@@ -28,7 +28,7 @@ function Test() {
         <div className='h-screen'>
             <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                 <div className='h-full w-full flex justify-center relative'>
-                    <div className='h-[15%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
+                    <div className='h-[15%] w-full bg-[#1d3557] absolute top-0 flex justify-center items-center'>
                         <div className='w-9/12 flex justify-between absolute'>
                             <div className='flex gap-4'>
                                 <div className='text-white font-bold flex items-center gap-3'>
@@ -52,12 +52,12 @@ function Test() {
                     {/* <Questionare question={mathQuestion} questionProgress='3/5'>
                         <Multichoice answers={answers} handleAnswer={() => { }} />
                     </Questionare> */}
-                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
-                        <Matching data={mockMatchingData} handleAnswer={() => { }} />
-                    </Questionare> */}
                     <Questionare question='Match these statements' questionProgress='3/5'>
-                        <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
+                        <Matching data={mockMatchingData} handleAnswer={() => { }} />
                     </Questionare>
+                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
+                        <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
+                    </Questionare> */}
                 </div>
             </div>
         </div>

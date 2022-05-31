@@ -64,14 +64,14 @@ function Play({ quizId, room_id }) {
     }
 
     return finish ?
-        (<div className='w-full h-screen bg-[#2E5185] text-white flex justify-center items-center'>Congrats! Well played!</div>)
+        (<div className='w-full h-screen bg-[#1d3557] text-white flex justify-center items-center'>Congrats! Well played!</div>)
         : username ? waitingMsg ?
             <Loading message={waitingMsg} /> :
             (
                 <div className='h-screen'>
                     <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
                         <div className='h-full w-full flex justify-center relative'>
-                            <div className='h-[15%] w-full bg-[#2E5185] absolute top-0 flex justify-center items-center'>
+                            <div className='h-[15%] w-full bg-[#1d3557] absolute top-0 flex justify-center items-center'>
                                 <div className='w-9/12 flex justify-between absolute'>
                                     <div className='flex gap-4'>
                                         {/* <div className='text-white font-bold flex items-center gap-3'>
