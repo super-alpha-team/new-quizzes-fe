@@ -27,7 +27,7 @@ module.exports = {
       },
       boxShadow: {
           quiz: "0px 5px 50px 26px rgba(152, 152, 152, 0.15)",
-          answer: "5px 5px black"
+          answer: ".25rem .25rem black",
       }
     },
   },

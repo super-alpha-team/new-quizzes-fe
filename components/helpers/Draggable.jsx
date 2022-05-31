@@ -2,21 +2,23 @@ import React, { useState } from 'react';
 import { useDrag } from 'react-dnd/dist/hooks';
 import { randomHexColor } from 'utils/helpers';
 
-function Draggable({ type, item, children }) {
+function Draggable({ type, item, children, collectResults }) {
     const [didDrop, setDidDrop] = useState(false);
-    const [{ opacity }, dragRef] = useDrag(() => ({
+    const [collected, dragRef] = useDrag(() => ({
         type,
-        item: { item },
+        item: JSON.parse(item),
         end: (item, monitor) => {
             setDidDrop(monitor.didDrop());
-        },
-        collect: monitor => ({
-            opacity: monitor.isDragging() ? 0.5 : 1,
-        })
+            collectResults(monitor.getDropResult()?.result);
+        }
+        // ,
+        // collect: monitor => ({
+        //     opacity: monitor.isDragging() ? 0.5 : 1,
+        // })
     }));
     return (
         didDrop ? <></> :
-            <div ref={dragRef} style={{ opacity }}>
+            <div ref={dragRef} className='cursor-grab active:cursor-grabbing' >
                 {children}
             </div>
     );

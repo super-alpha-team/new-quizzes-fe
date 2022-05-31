@@ -33,9 +33,11 @@ function configDataForMatching(data) {
     return { choices, stems };
 }
 
-const mockDragDropData = Array(2).fill(Array(2).fill({ id: 0, answer: 'mock data' }).map((v, index) => ({ id: index+1, answer: `${v.answer} ${index+1}` })));
+const items = Array(2).fill({ id: 0, answer: 'mock data' }).map((v, index) => ({ id: index + 1, answer: `${v.answer} ${index + 1}` }));
+const mockDragDropData = Array(2).fill({ type: 0, items })
+    .map((v, index) => ({ type: index + 1, items: v.items }));
 
 function configDataForDragAndDrop(data) {
-    // console.log('>>>', data);
+    // console.log('>>>', mockDragDropData);
     return mockDragDropData;
 }

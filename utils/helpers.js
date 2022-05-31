@@ -13,7 +13,6 @@ function randomHexColor() {
     return isDark(`#${r}${g}${b}`) ? randomHexColor() : `#${r}${g}${b}`;
 }
 
-
 function isDark(hex) {
     var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     const r = parseInt(result[1], 16);
