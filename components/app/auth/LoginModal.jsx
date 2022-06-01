@@ -63,7 +63,7 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
                     <input
                         type={'text'}
                         placeholder='Enter your name...'
-                        className='w-1/4 min-w-[17rem] shadow-answer border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
+                        className='w-1/4 min-w-[17rem] shalow-dark border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
                         value={loginData.username}
                         onChange={(e) => setLoginData({ ...loginData, username: e.target.value })} />
                 </div>
@@ -72,7 +72,7 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
                     <input
                         type="password"
                         placeholder='Enter your password...'
-                        className='w-1/4 min-w-[17rem] shadow-answer border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
+                        className='w-1/4 min-w-[17rem] shalow-dark border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
                         value={loginData.password}
                         onChange={(e) => setLoginData({ ...loginData, password: e.target.value })} />
                 </div>
@@ -87,19 +87,19 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
                 </Button>
                 {
                     isLogin ? <Button
-                    type="button"
-                    variants="primary"
-                    onClick={handleLogin}
-                >
-                    Đăng nhập
-                </Button>
-                : <Button
-                    type="button"
-                    variants="primary"
-                    onClick={handleRegister}
-                >
-                    Đăng ký
-                </Button>
+                        type="button"
+                        variants="primary"
+                        onClick={handleLogin}
+                    >
+                        Đăng nhập
+                    </Button>
+                        : <Button
+                            type="button"
+                            variants="primary"
+                            onClick={handleRegister}
+                        >
+                            Đăng ký
+                        </Button>
                 }
             </div>
         </form>

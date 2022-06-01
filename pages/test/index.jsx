@@ -49,15 +49,15 @@ function Test() {
                     {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                         <Essay />
                     </Questionare> */}
-                    {/* <Questionare question={mathQuestion} questionProgress='3/5'>
-                        <Multichoice answers={answers} handleAnswer={() => { }} />
-                    </Questionare> */}
+                    <Questionare question={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.`} questionProgress='3/5'>
+                        <Multichoice data={answers} handleAnswer={() => { }} />
+                    </Questionare>
                     {/* <Questionare question='Match these statements' questionProgress='3/5'>
                         <Matching data={mockMatchingData} handleAnswer={() => { }} />
                     </Questionare> */}
-                    <Questionare question='Match these statements' questionProgress='3/5'>
+                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
                         <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
-                    </Questionare>
+                    </Questionare> */}
                 </div>
             </div>
         </div>
@@ -65,4 +65,5 @@ function Test() {
     );
 }
 
+{/* <img src='https://i.pinimg.com/474x/6e/3e/e7/6e3ee76c63c13b5a0166d7080d16f53f.jpg'></img> */}
 export default Test;

@@ -45,7 +45,7 @@ export default function PlatformEditModal({ platformData, closeFn, callBackFn, t
                         <input
                             type={'text'}
                             placeholder='Enter your name...'
-                            className='w-1/4 min-w-[17rem] shadow-answer border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
+                            className='w-1/4 min-w-[17rem] shalow-dark border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
                             value={data.name}
                             onChange={(e) => setData({ ...data, name: e.target.value })}
                         />
@@ -55,7 +55,7 @@ export default function PlatformEditModal({ platformData, closeFn, callBackFn, t
                         <input
                             type="text"
                             placeholder='Enter your token...'
-                            className='w-1/4 min-w-[17rem] shadow-answer border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
+                            className='w-1/4 min-w-[17rem] shalow-dark border-black border-2 rounded-md h-10 focus:outline-none p-2 italic'
                             value={data.access_token}
                             onChange={(e) => setData({ ...data, access_token: e.target.value })}
                         />

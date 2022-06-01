@@ -27,7 +27,8 @@ module.exports = {
       },
       boxShadow: {
           quiz: "0px 5px 50px 26px rgba(152, 152, 152, 0.15)",
-          answer: ".25rem .25rem black",
+          light: ".125rem .25rem rgba(255, 255, 255, 0.5)",
+          dark: ".125rem .25rem black",
       }
     },
   },
@@ -41,7 +42,7 @@ module.exports = {
           '-ms-overflow-style': 'none',  /* IE and Edge */
           'scrollbar-width': 'none' 
         }
-      })
+      });
     })
   ]
 };

@@ -62,7 +62,7 @@ function Matching({ data, handleAnswer }) {
                 <div className='flex flex-col justify-between content-between gap-[5%]'>
                     {
                         data.stems.map(({ id, answer }) =>
-                            <button className={'w-full h-full p-1 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
+                            <button className={'w-full h-full p-1 text-left shadow-light bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
                                 <TeXDisplay content={answer} />
                             </button>
                         )
@@ -71,7 +71,7 @@ function Matching({ data, handleAnswer }) {
                 <div className='flex flex-col justify-between content-between gap-[5%]'>
                     {
                         data.choices.map(({ id, answer }) =>
-                            <button className={'w-full h-full p-1 text-left shadow-answer bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
+                            <button className={'w-full h-full p-1 text-left shadow-light bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
                                 <TeXDisplay content={answer} />
                             </button>
                         )
