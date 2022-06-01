@@ -1,3 +1,4 @@
+import Loading from 'components/helpers/Loading';
 import SubmitButton from 'components/helpers/SubmitButton';
 import React, { useEffect, useState } from 'react';
 import { randomHexColor } from '../../utils/helpers';
@@ -8,6 +9,7 @@ function Matching({ data, handleAnswer }) {
     const [currentColor, setCurrentColor] = useState(randomHexColor());
     const [answers, setAnswers] = useState([]);
     const [colors, setColors] = useState([]);
+    const [waitingMsg, setWaitingMsg] = useState(null);
 
     function leftColumnOnClick(id) {
         if (!removeAnswerIfExist(true, id)) {
@@ -52,11 +54,14 @@ function Matching({ data, handleAnswer }) {
     }
 
     function onSubmit() {
-        console.log(answers);
-        console.log(Object.fromEntries(answers.map(answer => [answer.l, answer.r])));
+        let data = Object.fromEntries(answers.map(answer => [answer.l, answer.r]));
+        handleAnswer(data);
+
+        setWaitingMsg('Great! Let\'s wait for your mates');
     }
 
-    return (
+    return (waitingMsg ?
+        <Loading message={waitingMsg} /> :
         <div className='w-full h-full flex flex-col justify-between gap-8'>
             <div className='w-full h-full grid grid-cols-2 justify-between gap-[10%]'>
                 <div className='flex flex-col justify-between content-between gap-[5%]'>
