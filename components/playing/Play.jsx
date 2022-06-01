@@ -11,6 +11,7 @@ import InputUsername from '../launch/InputUsername';
 import Matching from '../questionares/Matching';
 import { configData } from '../../utils/configData';
 import DragDrop from '../questionares/DragDrop';
+import { LOCALHOST } from 'utils/config';
 
 function Play({ quizId, room_id }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -24,7 +25,7 @@ function Play({ quizId, room_id }) {
 
     useEffect(() => {
         if (username) {
-            axios.post(`http://localhost:5000/lti/play/${quizId}/join`, {
+            axios.post(`${LOCALHOST}/lti/play/${quizId}/join`, {
                 "username": username,
                 "is_teacher": false
             },

@@ -52,12 +52,12 @@ function Test() {
                     {/* <Questionare question={mathQuestion} questionProgress='3/5'>
                         <Multichoice answers={answers} handleAnswer={() => { }} />
                     </Questionare> */}
-                    <Questionare question='Match these statements' questionProgress='3/5'>
-                        <Matching data={mockMatchingData} handleAnswer={() => { }} />
-                    </Questionare>
                     {/* <Questionare question='Match these statements' questionProgress='3/5'>
-                        <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
+                        <Matching data={mockMatchingData} handleAnswer={() => { }} />
                     </Questionare> */}
+                    <Questionare question='Match these statements' questionProgress='3/5'>
+                        <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
+                    </Questionare>
                 </div>
             </div>
         </div>
