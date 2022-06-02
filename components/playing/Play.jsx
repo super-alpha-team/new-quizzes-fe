@@ -31,7 +31,7 @@ function Play({ quizId, room_id }) {
             },
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } })
                 .then((response) => {
-                    console.log("]> join response: ", response?.data);
+                    // console.log("]> join response: ", response?.data);
                     setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
@@ -39,7 +39,7 @@ function Play({ quizId, room_id }) {
                 const { current_question_index, question } = data;
                 // console.log('>>>', question);
                 // console.log('>>>>', JSON.parse(question.additional_info));
-                console.log("socket question: ", question);
+                // console.log("socket question: ", question);
                 setCurrentIndex(current_question_index);
                 if (current_question_index < 0) {
                     setFinish(true);

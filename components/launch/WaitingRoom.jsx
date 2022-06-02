@@ -4,6 +4,7 @@ import JoiningCard from './JoiningCard';
 
 function WaitingRoom({ listStudentJoined, startGameFn }) {
     const [listStudentName, setListStudentName] = useState([]);
+    console.log(listStudentJoined);
 
     useEffect(() => {
         setListStudentName(listStudentJoined);

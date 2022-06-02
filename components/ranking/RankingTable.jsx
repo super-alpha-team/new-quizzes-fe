@@ -2,23 +2,19 @@ import React, { useEffect, useState } from 'react';
 import ToggleSwitch from '../helpers/ToggleSwitch';
 import TopCard from './TopCard';
 
+
 function RankingTable({ columns, data, listStudentJoined }) {
-    const [rowData, setRowData] = useState([]);
+    
+    const [rowData, setRowData] = useState(data);
 
-    useEffect(() => {
-        const newState = [];
-        for(const row in data){
-            const tmpArr = [];
-            for(const cell in data[row]){
-                tmpArr.push(data[row][cell]);
-            }
-            
-            newState.push({id: row, score: tmpArr});
-        }
-        setRowData(newState);
 
-    }, [data]);
-    // console.log("final row", rowData);
+    {
+        mock[0].map((cell, i) => {
+            Object.keys(cell).map((key1, index1) => {
+                console.log(cell[key1]);
+            });
+        });
+    }
 
     return (
         <div className="w-10/12 m-auto">
@@ -51,15 +47,51 @@ function RankingTable({ columns, data, listStudentJoined }) {
                     </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                    {rowData.map((row, i) => {
+                    {Object.keys(data).map((key, index) => {
+                        return (
+                            <tr key={index}>
+                                {listStudentJoined
+                                    .filter((stu) => stu.id == key)
+                                    .map((stu, index) => (
+                                        <td
+                                            key={index}
+                                            className="px-6 py-4 whitespace-nowrap text-center"
+                                        >
+                                            {stu.name}
+                                        </td>
+                                    ))}
+                                {data[key].map((cell, i) => {
+                                    return Object.keys(cell).map((key1, index1) => {
+                                        return (
+                                            <td
+                                                key={index1}
+                                                className="px-6 py-4 whitespace-nowrap text-center"
+                                            >
+                                                {cell[key1]}
+                                            </td>
+                                        );
+                                    });
+                                })}
+                            </tr>
+                        );
+                    })}
+                    {/* {rowData.map((row, i) => {
                         return (
                             <tr key={i}>
-                                {listStudentJoined.filter((stu) => stu.id == row.id).map((stu, index) => (
-                                    <td key={index} className="px-6 py-4 whitespace-nowrap text-center">
-                                        {stu.name}
-                                    </td>
-                                ))}
+                                {listStudentJoined
+                                    .filter((stu) => stu.id == row.id)
+                                    .map((stu, index) => (
+                                        <td
+                                            key={index}
+                                            className="px-6 py-4 whitespace-nowrap text-center"
+                                        >
+                                            {stu.name}
+                                        </td>
+                                    ))}
                                 {row.score.map((cell, i) => {
+                                    Object.keys(cell).map((key1, index1) => {
+                                        
+                                    })
                                     return (
                                         <td
                                             key={i}
@@ -71,7 +103,7 @@ function RankingTable({ columns, data, listStudentJoined }) {
                                 })}
                             </tr>
                         );
-                    })}
+                    })} */}
                 </tbody>
             </table>
         </div>
