@@ -8,14 +8,6 @@ function RankingTable({ columns, data, listStudentJoined }) {
     const [rowData, setRowData] = useState(data);
 
 
-    {
-        mock[0].map((cell, i) => {
-            Object.keys(cell).map((key1, index1) => {
-                console.log(cell[key1]);
-            });
-        });
-    }
-
     return (
         <div className="w-10/12 m-auto">
             <div className="grid grid-cols-3 mt-8">
