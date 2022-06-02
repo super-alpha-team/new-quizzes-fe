@@ -38,6 +38,11 @@ const mockDragDropData = Array(2).fill({ type: 0, items })
     .map((v, index) => ({ type: index + 1, items: v.items }));
 
 function configDataForDragAndDrop(data) {
-    // console.log('>>>', mockDragDropData);
-    return mockDragDropData;
+    let choices = [];
+    if(data) {
+        choices = Object.entries(data?.choices)
+            .map(([key, value]) => ({ type: key, items: value }))
+            .map(({ type, items }) => ({ type, items: Object.entries(items).map(([key, value]) => ({ id: key, answer: value.text })) }));
+    }
+    return {fragments: data?.textfragments, choices};
 }

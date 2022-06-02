@@ -34,10 +34,10 @@ export default function PlayGame() {
         { headers: { Authorization: `Bearer ${router.query.ltik}` } }
       );
       let checkNewQuizResp = checkNewQuiz.data.data;
-      console.log("]> check newQuiz: ", checkNewQuizResp);
+      // console.log("]> check newQuiz: ", checkNewQuizResp);
 
       let newQuizInstance = checkNewQuizResp.instance;
-      console.log('quizInstance: ', newQuizInstance);
+      // console.log('quizInstance: ', newQuizInstance);
 
       if (newQuizInstance) {
         setQuizId(checkNewQuizResp.new_quiz.id);
