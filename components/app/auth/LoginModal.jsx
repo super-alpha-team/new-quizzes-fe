@@ -32,9 +32,10 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
         e.preventDefault();
         try {
             const response = await userApi.register(loginData);
+            console.log('handleRegister>>>', response);
             setLoginData({
                 ...loginData,
-                username: response?.data?.data?.username
+                username: response?.data?.data?.account?.username
             });
             setIsLogin(true);
         } catch (err) {

@@ -52,12 +52,12 @@ function Test() {
                     <Questionare question={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.`} questionProgress='3/5'>
                         <Multichoice data={answers} handleAnswer={() => { }} />
                     </Questionare>
-                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
+                    <Questionare question='Match these statements' questionProgress='3/5'>
                         <Matching data={mockMatchingData} handleAnswer={() => { }} />
-                    </Questionare> */}
-                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
+                    </Questionare>
+                    <Questionare question='Match these statements' questionProgress='3/5'>
                         <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
-                    </Questionare> */}
+                    </Questionare>
                 </div>
             </div>
         </div>

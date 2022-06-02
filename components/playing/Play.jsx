@@ -31,7 +31,7 @@ function Play({ quizId, room_id }) {
             },
                 { headers: { Authorization: `Bearer ${router.query.ltik}` } })
                 .then((response) => {
-                    console.log("]> join response: ", response?.data);
+                    // console.log("]> join response: ", response?.data);
                     setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
@@ -88,7 +88,7 @@ function Play({ quizId, room_id }) {
                                 </div>
                             </div>
 
-                            <Questionare question={questionData.questiontext} questionProgress={`${currentIndex + 1}/${totalQuestion}`}>
+                            <Questionare question={questionData.qtype != 'draganddrop' ? questionData.questiontext : ''} questionProgress={`${currentIndex + 1}/${totalQuestion}`}>
                                 {questionData.qtype == 'choice' || questionData.qtype == 'true/false' ? <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
                                     : questionData.qtype == 'matching' ? <Matching data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} />
                                         : questionData.qtype == 'draganddrop' ? <DragDrop data={configData(questionData.qtype, JSON.parse(questionData.additional_info))} handleAnswer={handleAnswer} /> : <div>Unsupported Question Type</div>}

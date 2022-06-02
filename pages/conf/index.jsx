@@ -22,7 +22,7 @@ function ChooseQuiz() {
             console.log('check new quiz', checkNewQuiz);
 
             let checkNewQuizResp = checkNewQuiz.data.data;
-            console.log(']> check newQuiz: ', checkNewQuizResp);
+            // console.log(']> check newQuiz: ', checkNewQuizResp);
 
             let newQuiz = checkNewQuizResp.new_quiz;
             let newQuizInstance = checkNewQuizResp.instance;
@@ -62,7 +62,7 @@ function ChooseQuiz() {
                 router.query.ltik
             );
             const listMooodleQuizData = listMooodleQuiz.data.data;
-            console.log(']> get list moodle quiz: ', listMooodleQuizData);
+            // console.log(']> get list moodle quiz: ', listMooodleQuizData);
 
             // listMooodleQuizData
             setListQuiz(listMooodleQuizData.quiz_list);
@@ -72,7 +72,7 @@ function ChooseQuiz() {
         }
     }, [router.query.ltik]);
 
-    console.log('listinstance', listInstance);
+    // console.log('listinstance', listInstance);
 
     const goToListQuestions = async () => {
         const dataSend = {
@@ -85,7 +85,7 @@ function ChooseQuiz() {
             dataSend
         );
         const chooseQuizData = chooseQuiz.data.data;
-        console.log(']> lti/quiz/choose: ', chooseQuizData);
+        // console.log(']> lti/quiz/choose: ', chooseQuizData);
         const dataResponse = chooseQuizData.instance;
         router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
     };
