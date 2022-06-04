@@ -24,9 +24,9 @@ const instructions = [
 
 function Credential({ name, onSubmit }) {
   const [message, setMessage] = useState(null);
-  const [clientId, setClientId] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [platformId, setPlatformId] = useState(null);
+  const [clientId, setClientId] = useState("LJ3s4rR7yWLVFXc");
+  const [accessToken, setAccessToken] = useState("21be18c8e3de9632eed3f4376611db28");
+  const [platformId, setPlatformId] = useState("http://172.16.5.177");
 
   function copyToClipboard(e) {
     navigator.clipboard.writeText(e.target.value);

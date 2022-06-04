@@ -22,6 +22,7 @@ function Play({ quizId, room_id }) {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [totalQuestion, setTotalQuestion] = useState(0);
+    const [gradeData, setGradeData] = useState(null);
 
     useEffect(() => {
         if (username) {
@@ -50,6 +51,14 @@ function Play({ quizId, room_id }) {
                 }
             });
 
+            socket.on('grade_student', data => {
+                setGradeData(data);
+            });
+
+            socket.on('rank', data => {
+                console.log('rank: ', data);
+            });
+
             return () => socket.disconnect();
         }
     }, [username]);
@@ -67,7 +76,7 @@ function Play({ quizId, room_id }) {
     return finish ?
         (<div className='w-full h-screen bg-[#1d3557] text-white flex justify-center items-center'>Congrats! Well played!</div>)
         : username ? waitingMsg ?
-            <Loading message={waitingMsg} /> :
+            <Loading message={waitingMsg} currentIndex={currentIndex} gradeData={gradeData}/> :
             (
                 <div className='h-screen'>
                     <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
