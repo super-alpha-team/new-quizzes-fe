@@ -11,6 +11,7 @@ import { socket } from '../utils/socket';
 import RankingTable from '../components/ranking/RankingTable';
 import quizApi from '../apis/quizApi';
 import playApi from '../apis/playApi';
+import _ from 'lodash'
 
 function HomePage() {
     const router = useRouter();
@@ -30,7 +31,9 @@ function HomePage() {
 
     const [columns, setColumns] = useState([]);
 
-    const [allRowData, setAllRowData] = useState({});
+    const [allRowData, setAllRowData] = useState([]);
+
+    const [tmp, setTmp] = useState({});
 
     useEffect(() => {
         async function getData() {
@@ -40,10 +43,10 @@ function HomePage() {
 
                 let newQuizInstanceData =
                     newQuizInstance.data.data.new_quiz_instance;
-                console.log(
-                    'useEffect[], new_quiz_instance',
-                    newQuizInstanceData
-                );
+                // console.log(
+                //     'useEffect[], new_quiz_instance',
+                //     newQuizInstanceData
+                // );
 
                 setNewQuizInstance(newQuizInstanceData);
 
@@ -75,6 +78,7 @@ function HomePage() {
     }
 
     async function teacherJoinInClass(quizId) {
+        // console.log('teacher join in class');
         let data = {
             username: 'teacher',
             is_teacher: true
@@ -87,7 +91,7 @@ function HomePage() {
                 token: response.data.alpha_token
             });
             socket.on('data', (data) => {
-                console.log('data', data);
+                // console.log('data', data);
                 if (data.type == 'join') {
                     const data_arr = Object.keys(data.player).map((key) => {
                         return {
@@ -97,21 +101,34 @@ function HomePage() {
                     });
                     
                     setListStudentJoined(data_arr);
+
+                    const idStudentArray = Object.keys(data.player).map((key) => {
+                        return {
+                            id: Number(key)
+                        }
+                    })
+
+                    setAllRowData(idStudentArray)
+
                 }
             });
             socket.on('grade', (data) => {
-                console.log('data', data);
+                // console.log('data', data);
+                // console.log('grade', data.grade_data)
                 if(data.grade_data){
-                    console.log("teacher data", data.grade_data);
-                    setAllRowData(data.grade_data);
+                    const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({id: student[0], [key]: student[1]}))));
+                    const gradeByNum = [].concat(...temp);
+                    const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
+                    gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
+                    console.log('>>>',gradeByUser);
+                    setTmp(gradeByUser)
                 }
             });
         });
         
-
+        
         return () => socket.disconnect();
     }
-    console.log('liststudentjoined', listStudentJoined);
 
     async function handleStartGame() {
         // start quiz
@@ -120,11 +137,6 @@ function HomePage() {
 
         setIsDisplayRankingTable(true);
         getListQuestionAsColumns();
-        // redirect to live result
-        // router.push({
-        //     pathname: `/result`,
-        //     query: {id: `${newQuizInstance.new_quiz_id}`, ltik: `${router.query.ltik}`}
-        // });
     }
 
     async function settingStartQuiz(settingData) {
@@ -161,18 +173,19 @@ function HomePage() {
 
     async function getListQuestionAsColumns() {
         const response = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, newQuizInstance.id);
+        // console.log('quesion list',response.data.data.question_list)
 
         const tmpColumns = response.data.data.question_list.map(
             (question, index) => {
                 const obj = Object.create({});
                 obj['header'] = `Câu hỏi ${index + 1}`;
-                obj['accessor'] = question.id;
+                obj['id'] = index;
                 return obj;
             }
         );
         tmpColumns.unshift({
             header: 'Tên',
-            accessor: 'name'
+            id: 'name'
         });
         
         setColumns(tmpColumns);
@@ -227,7 +240,8 @@ function HomePage() {
                     />
                 )
             ) : (
-                <RankingTable columns={columns} data={allRowData} listStudentJoined={listStudentJoined} />
+                <RankingTable columns={columns} data={tmp} listStudentJoined={listStudentJoined} />
+                // <RankingTable columns={column} data={allRowData} listStudentJoined={lst} />
             )}
 
             {isModalVisible ? (
@@ -244,15 +258,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
-// const data = [
-//     {name: "chloe", score1: 10, score2: 20},
-//     {name: "chloe", score1: 10, score2: 20},
-//     {name: "chloe", score1: 10, score2: 20}
-// ];
-
-const data = [
-    [20, 10, 30],
-    [20, 10, 30],
-    [20, 10, 30]
-];
