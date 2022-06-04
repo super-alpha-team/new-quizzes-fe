@@ -10,14 +10,11 @@ import ShortAnswer from '../../components/questionares/ShortAnswer';
 import { configData } from 'utils/configData';
 
 const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
-    .map((e, i) => {
-        return { ...e, id: i };
-    });
+    .map((e, i) => ({ ...e, id: i }));
 
 const mockMatchingDataField = Array(3).fill({ id: 0, answer: 'mock matching data' })
-    .map((e, i) => {
-        return { ...e, id: i };
-    });
+    .map((e, i) => ({ ...e, id: i }));
+    
 const mockMatchingData = { choices: mockMatchingDataField, stems: mockMatchingDataField };
 
 function Test() {
@@ -42,6 +39,9 @@ function Test() {
                             </div>
                             <Clock duration={10} handleTimeUp={() => { }} />
                         </div>
+                        <div className ="absolute left-10 top-32 font-bold z-50 h-20 w-20 text-gray-700 rounded-full bg-orange-400 flex items-center justify-center font-mono">
+                            <p className='text-3xl text-white'>25</p>
+                        </div>
                     </div>
                     {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                         <ShortAnswer />
@@ -49,15 +49,17 @@ function Test() {
                     {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
                         <Essay />
                     </Questionare> */}
+                     
+
                     <Questionare question={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.`} questionProgress='3/5'>
                         <Multichoice data={answers} handleAnswer={() => { }} />
                     </Questionare>
-                    <Questionare question='Match these statements' questionProgress='3/5'>
+                    {/* <Questionare question='Match these statements' questionProgress='3/5'>
                         <Matching data={mockMatchingData} handleAnswer={() => { }} />
                     </Questionare>
                     <Questionare question='Match these statements' questionProgress='3/5'>
                         <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
-                    </Questionare>
+                    </Questionare> */}
                 </div>
             </div>
         </div>
