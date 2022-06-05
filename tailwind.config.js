@@ -52,6 +52,7 @@ module.exports = {
           light: ".125rem .25rem rgba(255, 255, 255, 0.5)",
           dark: ".125rem .25rem black",
           answer: "0 .25rem #C01733",
+          input: "0 .25rem #AEAFB4"
       },
       backgroundImage: {
         'hero-pattern': "url('https://scontent.xx.fbcdn.net/v/t1.15752-9/282120557_1464166197350782_291114088445928415_n.png?stp=dst-png_s600x600&_nc_cat=104&ccb=1-7&_nc_sid=aee45a&_nc_ohc=C9zbmgU3MxUAX-pw2NB&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.xx&oh=03_AVJ8tzm8V0mgphFC0nppLe4675hFuAC2sN4SKQMKKz5quQ&oe=62C39CD8')",
