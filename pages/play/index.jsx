@@ -25,9 +25,10 @@ export default function PlayGame() {
   // state for room_id
   const [room_id, setRoomId] = useState("");
   const [quizId, setQuizId] = useState(null);
+  const [platformUserId, setPlatformUserId] = useState(null);
 
   useEffect(() => {
-    const getAllQuizzes = async () => {
+    const syncLti = async () => {
 
       const checkNewQuiz = await axios.get(
         `${LOCALHOST}/lti/sync/lti`,
@@ -51,10 +52,18 @@ export default function PlayGame() {
         if (status === QuizStatusEnum.DONE) {
           setGame('done');
         }
+
+        const info = await axios.get(
+          `${LOCALHOST}/lti/sync/info`,
+          { headers: { Authorization: `Bearer ${router.query.ltik}` } }
+        );
+
+        setPlatformUserId(info.data?.data?.platform_user_id);
       }
     };
+
     if (router.query.ltik) {
-      getAllQuizzes();
+      syncLti();
     }
 
   }, [router.query.ltik]);
@@ -65,7 +74,7 @@ export default function PlayGame() {
         game === "waiting" && <Loading message='Wating game' />
       }
       {
-        game === "play" && <Play quizId={quizId} room_id={room_id} />
+        game === "play" && <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} />
       }
     </>
 

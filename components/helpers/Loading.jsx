@@ -2,8 +2,9 @@ import React from 'react';
 import { randomHexColor } from '../../utils/helpers';
 
 function Loading({ message, currentIndex, gradeData }) {
-    let grade = gradeData?.question_index == currentIndex ? gradeData?.grade : null;
-    let isCorrect = grade >= 0.5 ? true : false;
+    console.log('>>>', gradeData);
+    let grade = gradeData?.question_index == currentIndex ? gradeData?.grade : 0;
+    let isCorrect = grade > 0 ? true : false;
     return (
         <div className='w-full h-screen bg-[#2E5185] flex justify-center items-center flex-col'>
             {/* <button type="button" className="flex px-4 py-3 rounded-sm font-bold shadow-dark" style={{ backgroundColor: randomHexColor() }} disabled>
