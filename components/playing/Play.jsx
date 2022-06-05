@@ -14,7 +14,7 @@ import DragDrop from '../questionares/DragDrop';
 import { LOCALHOST } from 'utils/config';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 
-function Play({ quizId, room_id }) {
+function Play({ quizId, room_id, platformUserId }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
     const [score, setScore] = useState(0);
@@ -57,7 +57,8 @@ function Play({ quizId, room_id }) {
             });
 
             socket.on('rank', data => {
-                console.log('rank: ', data);
+                console.log('rank user >>> ', data.rank_list.filter(user => user.id == platformUserId)[0]);
+                setScore(data.rank_list.filter(user => user.id == platformUserId)[0].sum_grade);
             });
 
             return () => socket.disconnect();
@@ -110,32 +111,22 @@ function Play({ quizId, room_id }) {
     return finish ?
         (<div className='w-full h-screen bg-[#1d3557] text-white flex justify-center items-center'>Congrats! Well played!</div>)
         : username ? waitingMsg ?
-            <Loading message={waitingMsg} currentIndex={currentIndex} gradeData={gradeData}/> :
+            <Loading message={waitingMsg} currentIndex={currentIndex} gradeData={gradeData} /> :
             (
-                <div className="w-screen h-screen pt-32 pb-20 justify-between flex flex-col items-center bg-qgray-light font-display font-semibold">
-                    <div className="absolute top-0 flex flex-col w-full">
-                        <div className='bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex+1} of {totalQuestion}</div>
-                        <div className="w-full px-12 py-4 tracking-wider text-qgray-dark leading-10 flex justify-center items-center text-3xl bg-white rounded-sm shadow-md">
+                <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
+                    <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex + 1} of {totalQuestion}</div>
+                    <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
+                        <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
                             <TeXDisplay content={questionData.questiontext} />
                         </div>
-                    </div>
-                    <div className='w-full h-full grid grid-cols-3 items-center justify-center'>
-                        <div className="w-full h-full flex items-center">
-                            <div className="w-20 h-20 ml-4 flex justify-center items-center text-3xl rounded-[50%] bg-qpurple text-white ">12</div>
+                        <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
+                            <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
                         </div>
-                        {/* <div className="">img</div>
-                <div className="">answers</div> */}
+                        <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
                     </div>
-                    <div className='w-full grid grid-cols-2 gap-2 px-4'>
-                        {questionData.answers.map(({ id, answer }) =>
-                            <div key={id} className="w-full h-full py-4 px-2 text-xl text-white hover:opacity-95 bg-qblue rounded-sm shadow-[0_.25rem_0_0_#1059AF]">
-                                <TeXDisplay content={answer} />
-                            </div>
-                        )}
-                    </div>
-                    <div className="w-full text-lg py-4 px-4 absolute bottom-0 flex justify-between bg-white shadow-[0_4px_6px_1px_rgba(0,0,0,.1)] ">
+                    <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
                         <div className="">{username}</div>
-                        <div className="bg-gray-dark text-white px-8 rounded-sm">{score}</div>
+                        <div className="bg-qgray-dark text-white px-8 rounded-sm">{score}</div>
                     </div>
                 </div>
             ) : <InputUsername usernameOnSubmit={setUsername} />;

@@ -46,4 +46,18 @@ function convertTimer(seconds) {
     return '00:00:00';
 }
 
-export { shuffleArray, randomHexColor, convertTimer };
+function convertToMinutes(seconds) {
+    if(seconds > 0) {
+        let m = 0;
+        let s = seconds;
+    
+        if (m) {
+            s -= m * 60;
+        }
+    
+        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+    return '00:00';
+}
+
+export { shuffleArray, randomHexColor, convertTimer, convertToMinutes };

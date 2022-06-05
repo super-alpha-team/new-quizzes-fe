@@ -15,7 +15,7 @@ function TeXDisplay({ content }) {
     }
 
     return (
-        <>
+        <div>
             <Head>
                 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" onLoad={runTypeSetMathJax}></script>
                 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" onLoad={runTypeSetMathJax}></script>
@@ -24,7 +24,7 @@ function TeXDisplay({ content }) {
                 {parse(String(content))}
             </p>
             
-        </>
+        </div>
     );
 }
 
