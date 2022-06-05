@@ -131,10 +131,10 @@ function ConfigQuestion() {
 
     return (
         <>
-            <div className="w-screen h-screen overflow-scroll overflow-x-hidden">
+            <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-[#F2F2F2]">
                 <Header />
                 <div className="w-9/12 m-auto pt-4 pb-12">
-                    <div className="mt-6 text-xl p-4 border border-gray-300 w-full rounded-lg">
+                    <div className="mt-6 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || "Quiz Untitle"}</p>
                     </div>
                     <p className="mb-4 mt-2">
@@ -151,7 +151,7 @@ function ConfigQuestion() {
                         <div className='flex gap-2 items-center mb-4' >
                             <input
                                 placeholder="thời gian (s)"
-                                className="p-2 w-32 outline-none border border-gray-300  focus:border-gray-light transition rounded-md"
+                                className="p-2 w-32 outline-none border border-gray-200 shadow-input focus:border-gray-light transition rounded-md"
                                 type="number"
                                 value={time}
                                 onChange={(e) => onChangeTime(e)}
@@ -191,12 +191,13 @@ function ConfigQuestion() {
                             isSetTimeError={checkIfQuestionWithNoTime(question.id)}
                             timeAnswer={question.time_answer}
                             isDisableEditTime={isExpanded}
+                            qtype={question.qtype}
                         />
                     ))}
 
                     <div
                         onClick={handleSaveQuizWithTime}
-                        className="bg-blue-lightDark w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
+                        className="bg-blue-lightDark mt-4 w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
                     >
                         <p>Hoàn thành</p>
                     </div>

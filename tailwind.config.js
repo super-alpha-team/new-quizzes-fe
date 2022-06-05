@@ -52,6 +52,7 @@ module.exports = {
           light: ".125rem .25rem rgba(255, 255, 255, 0.5)",
           dark: ".125rem .25rem black",
           answer: "0 .25rem #C01733",
+          input: "0 .25rem #AEAFB4"
       }
     },
     fontFamily: {

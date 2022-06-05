@@ -121,7 +121,7 @@ function HomePage() {
                     const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
                     gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
                     console.log('>>>',gradeByUser);
-                    setTmp(gradeByUser)
+                    setTmp(gradeByUser);
                 }
             });
         });
