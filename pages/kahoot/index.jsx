@@ -1,5 +1,6 @@
 import TeXDisplay from "components/helpers/TeXDisplay";
 import Clock from "components/playing/Clock";
+import Questionare from "components/playing/Questionare";
 
 const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: "Lorem sum..." }));
 const questionText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`;
@@ -49,11 +50,7 @@ function Kahoot() {
                     {/* <div className="">img</div>
                         <div className="">answers</div> */}
                 </div>
-                <div className='w-full grid grid-cols-2 gap-2 px-4'>
-                    {mock.map(({ id, answer }, index) =>
-                        <div key={id} className="w-full h-full py-4 px-2 text-xl text-white hover:opacity-95 rounded-sm" style={{ backgroundColor: colors[index], boxShadow: `0 3px ${shadowColors[index]}` }} >{answer}</div>
-                    )}
-                </div>
+                <Questionare questionType={'shortanswer'} data={null} handleAnswer={()=>{}} />
             </div>
             <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
                 <div className="">Chloe</div>

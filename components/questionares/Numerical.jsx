@@ -1,7 +1,7 @@
 import SubmitButton from 'components/helpers/SubmitButton';
 import React, { useState } from 'react';
 
-function ShortAnswer({ handleAnswer }) {
+function Numerical({ handleAnswer }) {
     const [answer, setAnswer] = useState('');
     return (
         <div className='w-4/5 h-full flex flex-col items-center gap-4'>
@@ -13,4 +13,4 @@ function ShortAnswer({ handleAnswer }) {
     );
 }
 
-export default ShortAnswer;
+export default Numerical;

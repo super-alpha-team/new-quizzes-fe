@@ -14,6 +14,7 @@ import DragDrop from '../questionares/DragDrop';
 import { LOCALHOST } from 'utils/config';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 import Result from 'components/helpers/Result';
+import ShortAnswer from 'components/questionares/ShortAnswer';
 
 function Play({ quizId, room_id, platformUserId }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -48,6 +49,7 @@ function Play({ quizId, room_id, platformUserId }) {
                     setFinish(true);
                 } else {
                     setFinish(false);
+                    console.log('>>>', question);
                     setQuestionData(question);
                     setWaitingMsg('');
                 }
@@ -77,6 +79,29 @@ function Play({ quizId, room_id, platformUserId }) {
         socket.emit('send', { current_question_index: currentIndex, answer_log_data });
 
         setWaitingMsg('Great! Let\'s wait for your mates');
+    }
+
+    function config(questionData) {
+        switch (questionData.qtype) {
+            case 'choice':
+            case 'true/false':
+                return questionData.answers;
+                break;
+
+            case 'matching':
+            case 'draganddrop':
+                return configData(questionData.qtype, JSON.parse(questionData.additional_info));
+                break;
+
+            case 'shortanswer':
+            case 'numerical':
+                return null;
+                break;
+
+            default:
+                return null;
+                break;
+        }
     }
 
     // return finish ?
@@ -115,25 +140,26 @@ function Play({ quizId, room_id, platformUserId }) {
     return finish ?
         (<div className='w-full h-screen bg-[#1d3557] text-white flex justify-center items-center'>Congrats! Well played!</div>)
         : username ? waitingMsg ?
-            <Loading message={waitingMsg} /> : gradeData ? <Result currentIndex={currentIndex} gradeData={gradeData} /> :
-                (
-                    <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
-                        <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex + 1} of {totalQuestion}</div>
-                        <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
-                            <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
-                                <TeXDisplay content={questionData.questiontext} />
-                            </div>
-                            <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
-                                <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
-                            </div>
-                            <Multichoice data={questionData.answers} handleAnswer={handleAnswer} />
+            <Loading message={waitingMsg} />
+            // : gradeData ? <Result currentIndex={currentIndex} gradeData={gradeData} /> 
+            : (
+                <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
+                    <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex + 1} of {totalQuestion}</div>
+                    <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
+                        <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
+                            <TeXDisplay content={questionData.questiontext} />
                         </div>
-                        <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
-                            <div className="">{username}</div>
-                            <div className="bg-qgray-dark text-white px-8 rounded-sm">{score}</div>
+                        <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
+                            <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
                         </div>
+                        <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
                     </div>
-                ) : <InputUsername usernameOnSubmit={setUsername} />;
+                    <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
+                        <div className="">{username}</div>
+                        <div className="bg-qgray-dark text-white px-8 rounded-sm">{score}</div>
+                    </div>
+                </div>
+            ) : <InputUsername usernameOnSubmit={setUsername} />;
 
 }
 

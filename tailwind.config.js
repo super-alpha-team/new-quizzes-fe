@@ -25,26 +25,34 @@ module.exports = {
         background: {
           mid: "#F5F7FB",
         },
-        qred: {
-          DEFAULT: "#E21B3C",
-          dark: "#C01733",
-        },
-        qblue: {
-          DEFAULT: "#1368CE",
-          dark: "#1059AF",
-        },
         qyellow: {
-          DEFAULT: "#D89E00",
-          dark: "#B88600",
+          DEFAULT: "#ffa602",
+          dark: "#d89e00",
+        },
+        qorange: {
+          DEFAULT: "#eb670f",
+          dark: "#e24104",
+        },
+        qred: {
+          DEFAULT: "#eb21b3c",
+          dark: "#c60929",
         },
         qgreen: {
           DEFAULT: "#26890C",
-          dark: "#20750A",
+          dark: "#106b03",
+        },
+        qteal: {
+          DEFAULT: "#0aa3a3",
+          dark: "#028282",
+        },        
+        qblue: {
+          DEFAULT: "#1368CE",
+          dark: "#0542b9",
         },
         qpurple: {
-          DEFAULT: "#864CBF",
-          dark: "#46178F",
-          darker: "#230B47",
+          light: "#864cbf",
+          DEFAULT: "#46178f",
+          dark: "#25076b",
         }
       },
       boxShadow: {
