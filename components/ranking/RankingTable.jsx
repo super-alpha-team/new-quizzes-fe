@@ -3,7 +3,7 @@ import ToggleSwitch from '../helpers/ToggleSwitch';
 import TopCard from './TopCard';
 
 
-function RankingTable({ columns, data, listStudentJoined }) {
+function RankingTable({ columns, data, topStudent, listStudentJoined }) {
     
     const [rowData, setRowData] = useState(data);
 
@@ -21,9 +21,9 @@ function RankingTable({ columns, data, listStudentJoined }) {
                 </div>
             </div>
             <div className="flex gap-8 justify-center">
-                <TopCard />
-                <TopCard />
-                <TopCard />
+                <TopCard data={topStudent["1"]}/>
+                <TopCard data={topStudent["2"]}/>
+                <TopCard data={topStudent["3"]}/>
             </div>
             <table className="min-w-full divide-y divide-gray-200 mt-12">
                 <thead className="bg-gray-50">
