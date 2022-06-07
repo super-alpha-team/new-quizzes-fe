@@ -35,6 +35,8 @@ function HomePage() {
 
     const [tmp, setTmp] = useState({});
 
+    const [topStudent, setTopStudent] = useState([]);
+
     useEffect(() => {
         async function getData() {
             try {
@@ -123,6 +125,24 @@ function HomePage() {
                     console.log('>>>',gradeByUser);
                     setTmp(gradeByUser);
                 }
+            });
+
+            socket.on('rank', (data) => {
+                console.log('rank data', data);
+                let rank_list = data?.rank_list || [];
+                let rank_list_obj = {};
+                rank_list.forEach((item) => {
+                    if (item.rank == 1) {
+                        rank_list_obj['1'] = item;
+                    }
+                    if (item.rank == 2) {
+                        rank_list_obj['2'] = item;
+                    }
+                    if (item.rank == 3) {
+                        rank_list_obj['3'] = item;
+                    }
+                });
+                setTopStudent(rank_list_obj);
             });
         });
         
@@ -240,7 +260,7 @@ function HomePage() {
                     />
                 )
             ) : (
-                <RankingTable columns={columns} data={tmp} listStudentJoined={listStudentJoined} />
+                <RankingTable columns={columns} data={tmp} topStudent={topStudent} listStudentJoined={listStudentJoined} />
                 // <RankingTable columns={column} data={allRowData} listStudentJoined={lst} />
             )}
 
