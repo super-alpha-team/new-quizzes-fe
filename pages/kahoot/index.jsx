@@ -1,6 +1,7 @@
 import TeXDisplay from "components/helpers/TeXDisplay";
 import Clock from "components/playing/Clock";
 import Questionare from "components/playing/Questionare";
+import { configData } from "utils/configData";
 
 const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: "Lorem sum..." }));
 const questionText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`;
@@ -35,22 +36,22 @@ const mockQuestions = [
 ];
 const colors = ['#1368CE', '#D89E00', '#26890C', '#E21B3C'];
 const shadowColors = ['#1059AF', '#B88600', '#20750A', '#C01733'];
+const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering' }, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually' } };
 
 function Kahoot() {
-
     return (
         <div className="h-screen bg-qgray-light font-display font-semibold">
             <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>1 of 30</div>
             <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between bg-qgray-light">
                 <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
-                    <TeXDisplay content={mockQuestions[1]} />
+                    <TeXDisplay content={mockQuestions[2]} />
                 </div>
                 <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
                     <Clock duration={Number(5)} handleTimeUp={() => { }} currentIndex={0} />
                     {/* <div className="">img</div>
                         <div className="">answers</div> */}
                 </div>
-                <Questionare questionType={'shortanswer'} data={null} handleAnswer={()=>{}} />
+                <Questionare questionType={'matching'} data={configData('matching', mockMatching)} handleAnswer={() => { }} />
             </div>
             <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
                 <div className="">Chloe</div>

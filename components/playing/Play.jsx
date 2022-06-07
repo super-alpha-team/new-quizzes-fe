@@ -37,6 +37,7 @@ function Play({ quizId, room_id, platformUserId }) {
                 .then((response) => {
                     // console.log("]> join response: ", response?.data);
                     setTotalQuestion(response.data.question_count);
+                    console.log('>>>current question: ', response.data);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                 });
             socket.on('question', data => {
@@ -141,7 +142,7 @@ function Play({ quizId, room_id, platformUserId }) {
         (<div className='w-full h-screen bg-[#1d3557] text-white flex justify-center items-center'>Congrats! Well played!</div>)
         : username ? waitingMsg ?
             <Loading message={waitingMsg} />
-            // : gradeData ? <Result currentIndex={currentIndex} gradeData={gradeData} /> 
+            // : gradeData ? <Result grade={} /> 
             : (
                 <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
                     <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex + 1} of {totalQuestion}</div>

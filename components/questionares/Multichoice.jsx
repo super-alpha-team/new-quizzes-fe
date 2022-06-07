@@ -34,7 +34,7 @@ function Multichoice({ data, handleAnswer }) {
                     </button>
                 )}
             </div> */}
-            <div className={`w-full grid gap-4 items-end ` + (two ? 'grid-cols-2' : five ? 'grid-cols-5' : four ? 'grid-cols-4' : three ? 'grid-cols-3' : 'grid-cols-7')}>
+            <div className={`w-full grid gap-4 ` + (two ? 'grid-cols-2' : five ? 'grid-cols-5' : four ? 'grid-cols-4' : three ? 'grid-cols-3' : 'grid-cols-7')}>
                 {shuffledAnswers.map(({ id, answer }, index) =>
                     <button className='w-full h-full py-4 px-2 text-xl text-white hover:opacity-95 rounded-sm' style={{ backgroundColor: colors[index%colors.length], boxShadow: `0 3px ${shadowColors[index%colors.length]}`}} onClick={() => handleAnswer(Number(id))} key={id}>
                         <TeXDisplay content={answer} />
