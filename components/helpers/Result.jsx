@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 function Result({ grade }) {
     const [info, setInfo] = useState({ title: '', message: '' });
-    const [isPossitive, setIsPossitive] = useState(grade > 0);
+    const [isPossitive, setIsPossitive] = useState(Number(grade) > 0);
 
     useEffect(() => {
         if (isPossitive) {

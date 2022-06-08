@@ -3,6 +3,7 @@
 /* eslint-disable @next/next/no-unwanted-polyfillio */
 import { data } from 'autoprefixer';
 import axios from 'axios';
+import InputUsername from 'components/launch/InputUsername';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import Loading from '../../components/helpers/Loading';
@@ -26,6 +27,7 @@ export default function PlayGame() {
   const [room_id, setRoomId] = useState("");
   const [quizId, setQuizId] = useState(null);
   const [platformUserId, setPlatformUserId] = useState(null);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     const syncLti = async () => {
@@ -74,7 +76,7 @@ export default function PlayGame() {
         game === "waiting" && <Loading message='Waiting game' />
       }
       {
-        game === "play" && <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} />
+        game === "play" && username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} /> : <InputUsername usernameOnSubmit={setUsername} />
       }
     </>
 

@@ -68,7 +68,7 @@ function Test() {
     // </div>
     // );
     return <>
-        <Loading message={'Loading...'} />
+        <Loading message={'Waiting'} />
     </>;
 }
 

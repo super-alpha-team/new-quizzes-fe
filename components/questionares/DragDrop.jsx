@@ -18,7 +18,7 @@ function DragDrop({ data, handleAnswer }) {
   }
 
   function onSubmit() {
-    console.log(results);
+    handleAnswer(results);
   }
 
   useEffect(() => {
