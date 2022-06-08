@@ -71,7 +71,7 @@ export default function PlayGame() {
   return (
     <>
       {
-        game === "waiting" && <Loading message='Wating game' />
+        game === "waiting" && <Loading message='Waiting game' />
       }
       {
         game === "play" && <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} />

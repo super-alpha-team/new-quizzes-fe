@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { convertTimer, convertToMinutes } from '../../utils/helpers';
 
-function Clock({ duration, handleTimeUp, currentIndex }) {
-    const [timeRemaining, setTimeRemaining] = useState(duration);
-    let deadTime = new Date().getTime() / 1000 + duration;
+function Clock({ handleTimeUp, currentIndex, deadTime }) {
+    const [timeRemaining, setTimeRemaining] = useState(Math.round((deadTime - new Date().getTime()) / 1000));
     let currentInterval = null;
 
     function tick() {
-        const remainedTime = Math.round(deadTime - new Date().getTime() / 1000);
+        const remainedTime = Math.round((deadTime - new Date().getTime()) / 1000);
         setTimeRemaining(remainedTime);
-        // console.log(`currentInterval-${currentInterval}:`, duration, deadTime);
     }
 
     function initClock() {
         const id = setInterval(() => {
-            const now = new Date().getTime() / 1000;
+            const now = new Date().getTime();
             if (now > deadTime) {
                 handleTimeUp();
             }
@@ -24,7 +22,7 @@ function Clock({ duration, handleTimeUp, currentIndex }) {
     }
 
     useEffect(() => {
-        setTimeRemaining(duration);
+        setTimeRemaining(Math.round((deadTime - new Date().getTime()) / 1000));
         initClock();
         return () => clearInterval(currentInterval);
     }, [currentIndex]);

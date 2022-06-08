@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable @next/next/no-unwanted-polyfillio */
 /* eslint-disable @next/next/no-sync-scripts */
 import React, { useEffect } from 'react';
@@ -15,15 +16,14 @@ function TeXDisplay({ content }) {
     }
 
     return (
-        <div className='w-full h-full block max-h-[10rem] '>
+        <div className='w-full h-full block max-h-[10rem]'>
             <Head>
                 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6" onLoad={runTypeSetMathJax}></script>
                 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" onLoad={runTypeSetMathJax}></script>
             </Head>
-            <p className="flex justify-center items-center">
+            <div className="flex justify-center items-center object-contain">
                 {parse(String(content))}
-            </p>
-            
+            </div>
         </div>
     );
 }

@@ -37,8 +37,9 @@ function Play({ quizId, room_id, platformUserId }) {
                 .then((response) => {
                     // console.log("]> join response: ", response?.data);
                     setTotalQuestion(response.data.question_count);
-                    console.log('>>>current question: ', response.data);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
+                    setQuestionData(response.data.current_question_data);
+                    setWaitingMsg('');
                 });
             socket.on('question', data => {
                 const { current_question_index, question } = data;
@@ -151,7 +152,7 @@ function Play({ quizId, room_id, platformUserId }) {
                             <TeXDisplay content={questionData.questiontext} />
                         </div>
                         <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
-                            <Clock duration={Number(questionData.time_answer)} handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} />
+                            <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} deadTime={questionData.time_end} />
                         </div>
                         <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
                     </div>
