@@ -9,8 +9,9 @@ import Questionare from '../../components/playing/Questionare';
 import ShortAnswer from '../../components/questionares/ShortAnswer';
 import { configData } from 'utils/configData';
 import Result from 'components/launch/Result';
-import Loading from 'components/helpers/Loading';
+import Loading from 'components/launch/Loading';
 import FinalResult from 'components/launch/FinalResult';
+import DoneQuiz from 'components/launch/DoneQuiz';
 
 const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
@@ -69,7 +70,7 @@ function Test() {
     // </div>
     // );
     return <>
-        <Result grade={1} />
+        <DoneQuiz />
     </>;
 }
 

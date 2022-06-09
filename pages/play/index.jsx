@@ -3,10 +3,11 @@
 /* eslint-disable @next/next/no-unwanted-polyfillio */
 import { data } from 'autoprefixer';
 import axios from 'axios';
+import DoneQuiz from 'components/launch/DoneQuiz';
 import InputUsername from 'components/launch/InputUsername';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
-import Loading from '../../components/helpers/Loading';
+import Loading from '../../components/launch/Loading';
 import Play from '../../components/playing/Play';
 import { LOCALHOST } from '../../utils/config';
 
@@ -69,14 +70,15 @@ export default function PlayGame() {
     }
 
   }, [router.query.ltik]);
+  console.log('game status >>> ', game);
 
   return (
     <>
       {
-        game === "waiting" && <Loading message='Waiting game' />
+        game !== "done" && username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} /> : <InputUsername usernameOnSubmit={setUsername} />
       }
       {
-        game === "play" && username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} /> : <InputUsername usernameOnSubmit={setUsername} />
+        game === "done" && <DoneQuiz />
       }
     </>
 

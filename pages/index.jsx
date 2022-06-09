@@ -3,7 +3,7 @@ import Play from '../components/playing/Play';
 import styles from '../styles/Home.module.css';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Loading from '../components/helpers/Loading';
+import Loading from '../components/launch/Loading';
 import { SERVER_URL } from '../utils/config';
 import syncApi from '../apis/syncApi';
 

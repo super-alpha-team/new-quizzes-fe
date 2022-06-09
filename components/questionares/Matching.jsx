@@ -1,4 +1,4 @@
-import Loading from 'components/helpers/Loading';
+import Loading from 'components/launch/Loading';
 import SubmitButton from 'components/helpers/SubmitButton';
 import React, { useEffect, useState } from 'react';
 import { randomHexColor } from '../../utils/helpers';

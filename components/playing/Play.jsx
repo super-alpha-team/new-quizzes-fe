@@ -2,7 +2,7 @@
 import { useState, useEffect, Component } from 'react';
 import Multichoice from '../questionares/Multichoice';
 import Questionare from './Questionare';
-import Loading from '../helpers/Loading';
+import Loading from '../launch/Loading';
 import Clock from './Clock';
 import { socket } from '../../utils/socket';
 import axios from 'axios';

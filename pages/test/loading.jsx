@@ -1,4 +1,4 @@
-import Loading from "components/helpers/Loading"
+import Loading from "components/launch/Loading"
 
 export default function TestLoadingPage() {
     return (
