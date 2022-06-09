@@ -60,4 +60,8 @@ function convertToMinutes(seconds) {
     return '00:00';
 }
 
+function getDefaultColor() {
+
+}
+
 export { shuffleArray, randomHexColor, convertTimer, convertToMinutes };

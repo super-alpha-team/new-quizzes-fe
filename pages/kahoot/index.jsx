@@ -44,7 +44,7 @@ const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering' },
 function Kahoot() {
     const questionData = {
         questiontext: mockQuestions[0],
-        qtype: 'choice',
+        qtype: 'matching',
         additional_info: {},
         answers: mock,
     };
@@ -87,7 +87,7 @@ function Kahoot() {
                     <div className='w-full h-full py-4 flex flex-wrap items-center'>
                         <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={1} deadTime={(new Date().getTime() / 1000 + 10) * 1000} />
                     </div>
-                    <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
+                    <Questionare questionType={questionData.qtype} data={configData(questionData.qtype, mockMatching)} handleAnswer={handleAnswer} />
                 </div>
             </div>
             <PlayFooter username={`Chloe`} sumGrade={10} />
