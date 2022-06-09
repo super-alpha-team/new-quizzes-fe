@@ -135,7 +135,6 @@ function Play({ quizId, room_id, platformUserId, username }) {
     return finish ? <FinalResult data={rank} />
         : waitingMsg ? <Loading message={waitingMsg} />
             : (<>
-                <PlayHeader currentIndex={currentIndex} totalQuestion={totalQuestion} />
                 {grade != null ? <Result grade={grade} /> :
                     <div className="h-max min-h-screen w-full bg-qgray-light font-display">
                         <div className="w-full h-full min-h-screen pt-10 pb-20 flex flex-col items-center justify-between">

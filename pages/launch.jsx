@@ -13,6 +13,7 @@ import quizApi from '../apis/quizApi';
 import playApi from '../apis/playApi';
 import _ from 'lodash'
 import TopMenu from 'components/config/TopMenu';
+import SoundSetup from 'components/helpers/SoundSetup';
 
 function HomePage() {
     const router = useRouter();
@@ -220,6 +221,9 @@ function HomePage() {
         <div className="w-screen h-screen">
             {/* <Header /> */}
             <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+            <div className='w-10/12 m-auto flex justify-end'>
+                <SoundSetup />
+            </div>
             {!isDisplayRankingTable ? (
                 !isStart ? (
                     <div className="flex gap-20 justify-center mt-20">
