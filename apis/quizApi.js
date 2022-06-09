@@ -1,4 +1,6 @@
 import { get, post, put, serverURL } from "./common";
+import axios from "axios";
+// import fs from "fs";
 
 const quizApi = {
     getListMoodleQuiz: function (token = "") {
@@ -36,7 +38,21 @@ const quizApi = {
     },
     setNewInstanceActive: function (token = "", id) {
         return post(`${serverURL}/lti/quiz/new_quiz_instance/set_active/${id}`, {}, token);
-    }
+    },
+    downloadExportData: function (token = "", id, name = "Untitle") {
+        const FileDownload = require('js-file-download');
+        return axios({
+            method: "get",
+            headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            url: `${serverURL}/lti/quiz/new_quiz_instance/reports/${id}`,
+            responseType: "blob"
+        }).then(function (response) {
+            FileDownload(response.data, `${name}.xlsx`);
+        });
+    },
 
 };
 

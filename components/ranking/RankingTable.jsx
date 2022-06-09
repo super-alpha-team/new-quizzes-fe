@@ -4,9 +4,8 @@ import TopCard from './TopCard';
 
 
 function RankingTable({ columns, data, topStudent, listStudentJoined }) {
-    
-    const [rowData, setRowData] = useState(data);
 
+    const [isShowName, setIsShowName] = useState(true);
 
     return (
         <div className="w-10/12 m-auto">
@@ -16,7 +15,7 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                 <div className="flex justify-end">
                     <div className="flex items-center gap-4">
                         <p>Hiển thị tên</p>
-                        <ToggleSwitch />
+                        <ToggleSwitch isToggle={isShowName} setIsToggle={setIsShowName}/>
                     </div>
                 </div>
             </div>

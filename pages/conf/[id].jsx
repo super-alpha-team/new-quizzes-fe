@@ -8,6 +8,7 @@ import { LOCALHOST, SERVER_URL } from '../../utils/config';
 import ToggleSwitch from '../../components/helpers/ToggleSwitch';
 import useCollapse from 'react-collapsed';
 import quizApi from '../../apis/quizApi';
+import TopMenu from 'components/config/TopMenu';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -61,8 +62,8 @@ function ConfigQuestion() {
             };
 
             const setInstanceActive = await quizApi.setNewInstanceActive(router.query.ltik, newQuizInstance.id);
-            console.log('setinstance active', setInstanceActive)
-            
+            console.log('setinstance active', setInstanceActive);
+
             router.push({
                 pathname: `/launch`,
                 query: { id: `${router.query.id}`, ltik: `${router.query.ltik}` }
@@ -82,7 +83,7 @@ function ConfigQuestion() {
 
                 let newQuizInstanceData = newQuizInstance.data.data;
 
-                setNewQuizInstance(newQuizInstanceData.new_quiz_instance)
+                setNewQuizInstance(newQuizInstanceData.new_quiz_instance);
 
                 const list_question = newQuizInstanceData.question_list;
                 setListQuestions(list_question);
@@ -110,7 +111,7 @@ function ConfigQuestion() {
         try {
             const data = {
                 "time_answer": time
-            }
+            };
             const response = await quizApi.updateQuizInstanceTimeAllQuestion(router.query.ltik, newQuizInstance.id, data);
             console.log('response ', response);
 
@@ -129,10 +130,15 @@ function ConfigQuestion() {
 
     }
 
+    function goToChooseQuizPage() {
+        router.push(`/conf?ltik=${router.query.ltik}`);
+    }
+
     return (
         <>
-            <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-[#F2F2F2]">
-                <Header />
+            <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
+                {/* <Header /> */}
+                <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                 <div className="w-9/12 m-auto pt-4 pb-12">
                     <div className="mt-6 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || "Quiz Untitle"}</p>
