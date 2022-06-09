@@ -12,6 +12,7 @@ import RankingTable from '../components/ranking/RankingTable';
 import quizApi from '../apis/quizApi';
 import playApi from '../apis/playApi';
 import _ from 'lodash'
+import TopMenu from 'components/config/TopMenu';
 
 function HomePage() {
     const router = useRouter();
@@ -211,10 +212,14 @@ function HomePage() {
         setColumns(tmpColumns);
     }
 
+    function goToChooseQuizPage() {
+        router.push(`/conf?ltik=${router.query.ltik}`);
+    }
+
     return (
         <div className="w-screen h-screen">
-            <Header />
-            {/* {newQuizInstance.name || "Untitled Quiz"} */}
+            {/* <Header /> */}
+            <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
             {!isDisplayRankingTable ? (
                 !isStart ? (
                     <div className="flex gap-20 justify-center mt-20">
