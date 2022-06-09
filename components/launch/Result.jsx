@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
-// let grade = gradeData?.question_index == currentIndex ? gradeData?.grade : 0;
-// let isCorrect = grade > 0 ? true : false;
-
 function Result({ grade }) {
     const [info, setInfo] = useState({ title: '', message: '' });
     const [isPossitive, setIsPossitive] = useState(Number(grade) > 0);
 
     useEffect(() => {
+        setIsPossitive(Number(grade) > 0);
         if (isPossitive) {
             setInfo({
-                title: `Congrats`,
+                title: `Congrats!`,
                 message: `+ ${grade}`,
             });
         } else {
             setInfo({
-                title: `Time's up`,
+                title: `Oops!`,
                 message: `Great try.`,
             });
         }
-    }, []);
+    }, [grade]);
 
     return (
         <>
@@ -39,7 +37,6 @@ function Result({ grade }) {
                         }
                     </div>
                     <div>
-                        {/* <div className='text-white'>1st place</div> */}
                         <div className='text-lg py-2 px-12 rounded-sm font-bold bg-[#230B47] text-white'>
                             {info.message}
                         </div>

@@ -13,20 +13,21 @@ import { configData } from '../../utils/configData';
 import DragDrop from '../questionares/DragDrop';
 import { LOCALHOST } from 'utils/config';
 import TeXDisplay from 'components/helpers/TeXDisplay';
-import Result from 'components/helpers/Result';
+import Result from 'components/launch/Result';
 import ShortAnswer from 'components/questionares/ShortAnswer';
-import FinalResult from 'components/helpers/FinalResult';
+import FinalResult from 'components/launch/FinalResult';
+import PlayHeader from './PlayHeader';
+import PlayFooter from './PlayFooter';
 
 function Play({ quizId, room_id, platformUserId, username }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
-    const [score, setScore] = useState(0);
     const [finish, setFinish] = useState(false);
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
     const router = useRouter();
     const [grade, setGrade] = useState(null);
     const [totalQuestion, setTotalQuestion] = useState(0);
-    const [showGrade, setShowGrade] = useState(false);
+    const [rank, setRank] = useState(null);
 
     useEffect(() => {
         if (username) {
@@ -58,13 +59,20 @@ function Play({ quizId, room_id, platformUserId, username }) {
             });
 
             socket.on('grade_student', data => {
-                console.log('grade >>> ', data);
-                setGrade(data?.question_index == currentIndex ? data?.grade : 0);
+                if (data?.question_index > 0) {
+                    if (data?.grade[data?.question_index - 1]) {
+                        if (Object.entries(data?.grade[data?.question_index - 1]).length) {
+                            setGrade(data?.grade[data?.question_index - 1][platformUserId]);
+                        }
+                    }
+                    setWaitingMsg('');
+                } else {
+                    setGrade(null);
+                }
             });
 
             socket.on('rank', data => {
-                console.log('rank >>> ', data);
-                setScore(data.rank_list.filter(user => user.id == platformUserId)[0].sum_grade);
+                setRank(data.rank_list.filter(user => user.id == platformUserId)[0]);
             });
 
             return () => socket.disconnect();
@@ -124,12 +132,12 @@ function Play({ quizId, room_id, platformUserId, username }) {
         }
     }
 
-    return finish ? <FinalResult />
-        // : showGrade ? <Result grade={grade} />
-            : waitingMsg ? <Loading message={waitingMsg} />
-                : (
+    return finish ? <FinalResult data={rank} />
+        : waitingMsg ? <Loading message={waitingMsg} />
+            : (<>
+                <PlayHeader currentIndex={currentIndex} totalQuestion={totalQuestion} />
+                {grade != null ? <Result grade={grade} /> :
                     <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
-                        <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 p-2 w-full'>{currentIndex + 1} of {totalQuestion}</div>
                         <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
                             <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
                                 <TeXDisplay content={questionData.questiontext} />
@@ -139,12 +147,10 @@ function Play({ quizId, room_id, platformUserId, username }) {
                             </div>
                             <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
                         </div>
-                        <div className="w-full text-lg py-4 px-4 fixed bottom-0 left-0 z-10 flex justify-between bg-white shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
-                            <div className="">{username}</div>
-                            <div className="bg-qgray-dark text-white px-8 rounded-sm">{score}</div>
-                        </div>
-                    </div>
-                );
+                    </div>}
+                <PlayFooter username={username} sumGrade={rank?.sum_grade} />
+            </>
+            );
 
 }
 

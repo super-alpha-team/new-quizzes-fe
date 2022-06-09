@@ -26,6 +26,7 @@ module.exports = {
           mid: "#F5F7FB",
         },
         qyellow: {
+          light: "#ffc00a",
           DEFAULT: "#ffa602",
           dark: "#d89e00",
         },

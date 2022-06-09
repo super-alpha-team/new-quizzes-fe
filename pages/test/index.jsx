@@ -8,8 +8,9 @@ import Multichoice from '../../components/questionares/Multichoice';
 import Questionare from '../../components/playing/Questionare';
 import ShortAnswer from '../../components/questionares/ShortAnswer';
 import { configData } from 'utils/configData';
-import Result from 'components/helpers/Result';
+import Result from 'components/launch/Result';
 import Loading from 'components/helpers/Loading';
+import FinalResult from 'components/launch/FinalResult';
 
 const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
@@ -68,9 +69,8 @@ function Test() {
     // </div>
     // );
     return <>
-        <Loading message={'Waiting'} />
+        <Result grade={1} />
     </>;
 }
 
-{/* <img src='https://i.pinimg.com/474x/6e/3e/e7/6e3ee76c63c13b5a0166d7080d16f53f.jpg'></img> */}
 export default Test;
