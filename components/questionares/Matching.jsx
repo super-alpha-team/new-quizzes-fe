@@ -57,7 +57,7 @@ function Matching({ data, handleAnswer }) {
         let data = Object.fromEntries(answers.map(answer => [answer.l, answer.r]));
         handleAnswer(data);
 
-        setWaitingMsg('Great! Let\'s wait for your mates');
+        setWaitingMsg(`Great! Let's wait for your mates`);
     }
 
     return (waitingMsg ?

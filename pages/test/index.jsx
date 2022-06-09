@@ -12,66 +12,39 @@ import Result from 'components/launch/Result';
 import Loading from 'components/launch/Loading';
 import FinalResult from 'components/launch/FinalResult';
 import DoneQuiz from 'components/launch/DoneQuiz';
+import PlayHeader from 'components/playing/PlayHeader';
+import TeXDisplay from 'components/helpers/TeXDisplay';
+import PlayFooter from 'components/playing/PlayFooter';
 
 const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
 
 const mockMatchingDataField = Array(3).fill({ id: 0, answer: 'mock matching data' })
     .map((e, i) => ({ ...e, id: i }));
-    
+
 const mockMatchingData = { choices: mockMatchingDataField, stems: mockMatchingDataField };
 
 function Test() {
     const [questions, setQuestions] = useState([]);
     const [username, setUsername] = useState('');
 
-    // return (<div>
-    //     <div className='h-screen'>
-    //         <div className='min-h-screen h-full min-w-screen flex justify-center md:text-sm text-xs lg:text-base'>
-    //             <div className='h-full w-full flex justify-center relative'>
-    //                 <div className='h-[15%] w-full bg-[#1d3557] absolute top-0 flex justify-center items-center'>
-    //                     <div className='w-9/12 flex justify-between absolute'>
-    //                         <div className='flex gap-4'>
-    //                             <div className='text-white font-bold flex items-center gap-3'>
-    //                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"></path></svg>
-    //                                 2
-    //                             </div>
-    //                             <div className='text-white font-bold flex items-center gap-2'>
-    //                                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clipRule="evenodd"></path></svg>
-    //                                 2
-    //                             </div>
-    //                         </div>
-    //                         <Clock duration={10} handleTimeUp={() => { }} />
-    //                     </div>
-    //                     <div className ="absolute left-10 top-32 font-bold z-50 h-20 w-20 text-gray-700 rounded-full bg-orange-400 flex items-center justify-center font-mono">
-    //                         <p className='text-3xl text-white'>25</p>
-    //                     </div>
-    //                 </div>
-    //                 {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
-    //                     <ShortAnswer />
-    //                 </Questionare> */}
-    //                 {/* <Questionare question='How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take? How long this gonna take?' questionProgress='3/5'>
-    //                     <Essay />
-    //                 </Questionare> */}
-                     
-
-    //                 <Questionare question={`Lorem Ipsum is simply dummy text of the printing and typesetting industry.`} questionProgress='3/5'>
-    //                     <Multichoice data={answers} handleAnswer={() => { }} />
-    //                 </Questionare>
-    //                 {/* <Questionare question='Match these statements' questionProgress='3/5'>
-    //                     <Matching data={mockMatchingData} handleAnswer={() => { }} />
-    //                 </Questionare>
-    //                 <Questionare question='Match these statements' questionProgress='3/5'>
-    //                     <DragDrop data={configData('draganddrop', null)}  handleAnswer={() => { }}/>
-    //                 </Questionare> */}
-    //             </div>
-    //         </div>
-    //     </div>
-    // </div>
-    // );
-    return <>
-        <DoneQuiz />
-    </>;
+    return (
+        <>
+            <PlayHeader currentIndex={1} totalQuestion={2} />
+                <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
+                    <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
+                        <div className="w-full h-full text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex flex-wrap justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
+                            <TeXDisplay content={questionData.questiontext} />
+                        </div>
+                        <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
+                            <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} deadTime={questionData.time_end} />
+                        </div>
+                        <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
+                    </div>
+                </div>
+            <PlayFooter username={username} sumGrade={rank?.sum_grade} />
+        </>
+    );
 }
 
 export default Test;
