@@ -137,12 +137,12 @@ function Play({ quizId, room_id, platformUserId, username }) {
             : (<>
                 <PlayHeader currentIndex={currentIndex} totalQuestion={totalQuestion} />
                 {grade != null ? <Result grade={grade} /> :
-                    <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
+                    <div className="h-max w-full bg-qgray-light font-display">
                         <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
-                            <div className="w-full max-h-min text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
+                            <div className="w-full h-full text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)] overflow-y-auto">
                                 <TeXDisplay content={questionData.questiontext} />
                             </div>
-                            <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
+                            <div className='w-full h-full py-4 flex flex-wrap items-center'>
                                 <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} deadTime={questionData.time_end} />
                             </div>
                             <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
