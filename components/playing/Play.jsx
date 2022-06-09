@@ -137,9 +137,9 @@ function Play({ quizId, room_id, platformUserId, username }) {
             : (<>
                 <PlayHeader currentIndex={currentIndex} totalQuestion={totalQuestion} />
                 {grade != null ? <Result grade={grade} /> :
-                    <div className="h-max w-full bg-qgray-light font-display">
-                        <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
-                            <div className="w-full h-full text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)] overflow-y-auto">
+                    <div className="h-max min-h-screen w-full bg-qgray-light font-display">
+                        <div className="w-full h-full min-h-screen pt-10 pb-20 flex flex-col items-center justify-between">
+                            <div className="w-full h-max text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)] overflow-y-auto">
                                 <TeXDisplay content={questionData.questiontext} />
                             </div>
                             <div className='w-full h-full py-4 flex flex-wrap items-center'>
