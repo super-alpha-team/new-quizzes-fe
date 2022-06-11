@@ -68,7 +68,16 @@ function getCorrespondingShadowColor(index) {
     return SHADOW_COLORS[index % COLORS.length];
 }
 
+function getCorrespondingShadowColorByHex(color) {
+    let index = COLORS.findIndex(v => v == color);
+    if(index != -1) {
+        return SHADOW_COLORS[index];
+    } else {
+        return '#D9D9D9';
+    }
+}
+
 const COLORS = ['#ffa620', '#1368ce', '#46178f', '#eb670f', '#DE1835', '#26890c', '#0aa3a3'];
 const SHADOW_COLORS = ['#d89e00', '#0542b9', '#25076b', '#e24104', '#c60929', '#106b03', '#028282'];
 
-export { shuffleArray, randomHexColor, convertTimer, convertToMinutes, getDefaultColor, getCorrespondingShadowColor };
+export { shuffleArray, randomHexColor, convertTimer, convertToMinutes, getDefaultColor, getCorrespondingShadowColor, getCorrespondingShadowColorByHex };
