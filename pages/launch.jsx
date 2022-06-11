@@ -5,12 +5,13 @@ import Header from '../components/Header';
 import Image from 'next/image';
 import SettingLaunch from '../components/modal/SettingLaunch';
 import Button from '../components/helpers/Button';
-import { LOCALHOST, SERVER_URL } from '../utils/config';
+import { LOCALHOST, QUIZ_STATUS, SERVER_URL } from '../utils/config';
 import WaitingRoom from '../components/launch/WaitingRoom';
 import { socket } from '../utils/socket';
 import RankingTable from '../components/ranking/RankingTable';
 import quizApi from '../apis/quizApi';
 import playApi from '../apis/playApi';
+import syncApi from '../apis/syncApi';
 import _ from 'lodash'
 import TopMenu from 'components/config/TopMenu';
 import SoundSetup from 'components/helpers/SoundSetup';
@@ -39,33 +40,55 @@ function HomePage() {
 
     const [topStudent, setTopStudent] = useState([]);
 
+    const [isFinish, setIsFinish] = useState(false);
+
     useEffect(() => {
         async function getData() {
             try {
-                if (router.query.id == undefined) return;
-                const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, router.query.id);
+                if (router.query.id == undefined){
+                    const syncLti = await syncApi.syncLti(router.query.ltik);
+                    console.log('synclti', syncLti)
 
-                let newQuizInstanceData =
-                    newQuizInstance.data.data.new_quiz_instance;
-                // console.log(
-                //     'useEffect[], new_quiz_instance',
-                //     newQuizInstanceData
-                // );
+                    if(syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING){
+                        setIsDisplayRankingTable(true)
+                    }
 
-                setNewQuizInstance(newQuizInstanceData);
+                    router.push(`launch?id=${syncLti.data.data.instance.id}&ltik=${router.query.ltik}`)
 
-                try {
-                    const settingData = JSON.parse(
-                        newQuizInstanceData.additional_info
-                    );
-                    setSettingData(settingData);
-                } catch (error) {
-                    console.log(
-                        'SettingJson Data:',
-                        newQuizInstanceData.additional_info
-                    );
-                    console.log('Parse SettingJson Data error:', error);
+                    const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, syncLti.data.data.instance.id);
+
+                    let newQuizInstanceData =
+                        newQuizInstance.data.data.new_quiz_instance;
+
+                    setNewQuizInstance(newQuizInstanceData);
                 }
+                
+                else {
+                    const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, router.query.id);
+
+                    let newQuizInstanceData =
+                        newQuizInstance.data.data.new_quiz_instance;
+                    // console.log(
+                    //     'useEffect[], new_quiz_instance',
+                    //     newQuizInstanceData
+                    // );
+    
+                    setNewQuizInstance(newQuizInstanceData);
+    
+                    try {
+                        const settingData = JSON.parse(
+                            newQuizInstanceData.additional_info
+                        );
+                        setSettingData(settingData);
+                    } catch (error) {
+                        console.log(
+                            'SettingJson Data:',
+                            newQuizInstanceData.additional_info
+                        );
+                        console.log('Parse SettingJson Data error:', error);
+                    }
+                }
+                
             } catch (err) {
                 console.log('err', err);
             }
@@ -117,7 +140,7 @@ function HomePage() {
                 }
             });
             socket.on('grade', (data) => {
-                // console.log('data', data);
+                console.log('data', data);
                 // console.log('grade', data.grade_data)
                 if(data.grade_data){
                     const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({id: student[0], [key]: student[1]}))));
@@ -146,6 +169,11 @@ function HomePage() {
                 });
                 setTopStudent(rank_list_obj);
             });
+
+            socket.on('end_question', (data) => {
+                console.log('end_question', data);
+                
+            })
         });
         
         
@@ -161,6 +189,7 @@ function HomePage() {
         getListQuestionAsColumns();
     }
 
+
     async function settingStartQuiz(settingData) {
         try {
             // update setting
@@ -170,9 +199,13 @@ function HomePage() {
                 status: 'pending'
             };
             const response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
+            console.log('response start quiz', router.query.ltik)
+            console.log('query id', router.query.id)
+            console.log('data', data)
+
 
             let newQuizInstanceData = response.data.data.new_quiz_instance;
-            teacherJoinInClass(newQuizInstanceData.new_quiz_id);
+            teacherJoinInClass(newQuizInstanceData.new_quiz_id); 
             setNewQuizInstance(newQuizInstanceData);
 
             // update quiz, pending until student join or when teacher want to start

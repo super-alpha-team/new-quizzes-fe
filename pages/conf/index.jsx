@@ -34,6 +34,10 @@ function ChooseQuiz() {
                 setIsHavingInstance(true);
                 setInstanceStatus(newQuizInstance.status);
 
+                if (newQuizInstance.status === QUIZ_STATUS.PENDING || newQuizInstance.status === QUIZ_STATUS.PLAYING) {
+                    router.push(`/launch?ltik=${router.query.ltik}`)
+                }
+
                 setQuiz(newQuiz);
 
                 const listQuizInstance = await quizApi.listQuizInstance(
@@ -109,7 +113,7 @@ function ChooseQuiz() {
                 {
                     isHavingInstance == false && (
                         <>
-                            <p className="w-9/12 m-auto pt-4 pb-4 text-xl font-bold">Chọn bộ câu hỏi</p>
+                            <p className="w-9/12 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
                             <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                                 <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                     {listQuiz.map((quizInfo, index) => (
@@ -189,13 +193,13 @@ function ChooseQuiz() {
                                     </>
                                 )
                             }
-                            {
+                            {/* {
                                 (instanceStatus === QUIZ_STATUS.PENDING || instanceStatus === QUIZ_STATUS.PLAYING) && (
                                     <div className='w-9/12 m-auto pt-4 pb-4'>
                                         <h1>Game is playing, please go back in soon</h1>
                                     </div>
                                 )
-                            }
+                            } */}
                         </>
                     )
                 }
