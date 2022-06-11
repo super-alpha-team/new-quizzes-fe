@@ -17,6 +17,7 @@ module.exports = {
         },
         qgray: {
           light: "#F2F2F2",
+          DEFAULT: "#e5e7eb",
           dark: "#333333",
         },
         light: {

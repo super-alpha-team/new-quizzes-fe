@@ -38,12 +38,12 @@ const mockQuestions = [
 ];
 const colors = ['#1368CE', '#D89E00', '#26890C', '#E21B3C'];
 const shadowColors = ['#1059AF', '#B88600', '#20750A', '#C01733'];
-const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering' }, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually' } };
+const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering', 4: 'reading', 5: 'chatting', 6: 'wondering', 7: 'wondering' }, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually', 4: 'i like', 5: 'i hate', 6: 'i usually', 7: 'i usually' } };
 
 
 function Kahoot() {
     const questionData = {
-        questiontext: mockQuestions[1],
+        questiontext: mockQuestions[0],
         qtype: 'matching',
         additional_info: {},
         answers: mock,
@@ -79,7 +79,7 @@ function Kahoot() {
     return (
         <>
             <PlayHeader currentIndex={1} totalQuestion={2} />
-            <div className="h-max min-h-screen w-full bg-qgray-light font-display">
+            <div className="h-full min-h-screen w-full bg-qgray-light font-display">
                 <div className="w-full h-full min-h-screen pt-10 pb-20 flex flex-col items-center justify-between">
                     <div className="w-full h-max text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)] overflow-y-auto">
                         <TeXDisplay content={questionData.questiontext} />
