@@ -171,8 +171,7 @@ function HomePage() {
             });
 
             socket.on('end_question', (data) => {
-                console.log('end_question', data);
-                
+                console.log('end_question', data)
             })
         });
         

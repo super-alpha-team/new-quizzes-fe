@@ -1,7 +1,7 @@
-import {useState } from 'react';
+import { useState } from 'react';
 import Sound from 'react-sound';
 
-export default function SoundSetup({soundUrl = "/audio/audio.mp3"}) {
+export default function SoundSetup({ soundUrl = "/audio/audio.mp3" }) {
     const [isPlaying, setIsPlaying] = useState(false);
 
     const activeSound = (
@@ -25,7 +25,7 @@ export default function SoundSetup({soundUrl = "/audio/audio.mp3"}) {
                 onFinishedPlaying={() => setIsPlaying(false)}
             />
             <div onClick={() => setIsPlaying(!isPlaying)}>
-                {isPlaying ? muteSound : activeSound}
+                {!isPlaying ? muteSound : activeSound}
             </div>
         </>
     );

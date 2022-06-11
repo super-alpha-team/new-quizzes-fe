@@ -138,7 +138,9 @@ function ConfigQuestion() {
         <>
             <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
                 {/* <Header /> */}
-                <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+                <div className='flex justify-start px-4 py-4'>
+                    <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+                </div>
                 <div className="w-9/12 m-auto pt-4 pb-12">
                     <div className="mt-6 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || "Quiz Untitle"}</p>

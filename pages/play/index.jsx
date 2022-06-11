@@ -23,12 +23,13 @@ export default function PlayGame() {
   const router = useRouter();
 
   // state for game
-  const [game, setGame] = useState("waiting");
+  const [game, setGame] = useState(null);
   // state for room_id
   const [room_id, setRoomId] = useState("");
   const [quizId, setQuizId] = useState(null);
   const [platformUserId, setPlatformUserId] = useState(null);
   const [username, setUsername] = useState(null);
+  const [quizName, setQuizName] = useState(null);
 
   useEffect(() => {
     const syncLti = async () => {
@@ -41,18 +42,17 @@ export default function PlayGame() {
       // console.log("]> check newQuiz: ", checkNewQuizResp);
 
       let newQuizInstance = checkNewQuizResp.instance;
-      // console.log('quizInstance: ', newQuizInstance);
+      setQuizName(newQuizInstance.name);
 
       if (newQuizInstance) {
         setQuizId(checkNewQuizResp.new_quiz.id);
-        const socket_id = newQuizInstance.socket_id;
-        const status = newQuizInstance.status;
+        const { socket_id, status } = newQuizInstance;
 
-        if (status === QuizStatusEnum.PLAYING || status === QuizStatusEnum.PENDING) {
+        if (status == QuizStatusEnum.PLAYING || status === QuizStatusEnum.PENDING) {
           setRoomId(socket_id);
           setGame('play');
         }
-        if (status === QuizStatusEnum.DONE) {
+        if (status == QuizStatusEnum.DONE) {
           setGame('done');
         }
 
@@ -70,17 +70,9 @@ export default function PlayGame() {
     }
 
   }, [router.query.ltik]);
-  console.log('game status >>> ', game);
 
-  return (
-    <>
-      {
-        game !== "done" && username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} /> : <InputUsername usernameOnSubmit={setUsername} />
-      }
-      {
-        game === "done" && <DoneQuiz />
-      }
-    </>
+  return game != "done" ?
+    (username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} quizName={quizName} /> : <InputUsername usernameOnSubmit={setUsername} />)
+    : <DoneQuiz />;
 
-  );
 }
