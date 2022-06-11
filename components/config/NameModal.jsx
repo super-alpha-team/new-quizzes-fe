@@ -9,6 +9,7 @@ export default function NameModal({ nameClickCallback, closeFn, title = "Name" }
         e.preventDefault();
         nameClickCallback(nameData);
         closeFn();
+        
     }
 
     return <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
