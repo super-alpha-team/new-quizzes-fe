@@ -16,7 +16,7 @@ import PlayHeader from 'components/playing/PlayHeader';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 import PlayFooter from 'components/playing/PlayFooter';
 
-const answers = Array(4).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
+const answers = Array(8).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
 
 const mockMatchingDataField = Array(3).fill({ id: 0, answer: 'mock matching data' })
@@ -29,21 +29,15 @@ function Test() {
     const [username, setUsername] = useState('');
 
     return (
-        <>
-            <PlayHeader currentIndex={1} totalQuestion={2} />
-                <div className="h-screen w-screen bg-qgray-light font-display font-semibold">
-                    <div className="w-full h-full pt-10 pb-20 flex flex-col items-center justify-between">
-                        <div className="w-full h-full text-justify px-12 py-4 tracking-wider text-gray-dark leading-10 flex flex-wrap justify-center items-center lg:text-xl md:text-lg text-base bg-white rounded-sm shadow-[0_0_2px_1px_rgba(0,0,0,.1)]">
-                            <TeXDisplay content={questionData.questiontext} />
-                        </div>
-                        <div className='w-full h-full py-4 grid grid-cols-3 items-center justify-center'>
-                            <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={currentIndex} deadTime={questionData.time_end} />
-                        </div>
-                        <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
-                    </div>
-                </div>
-            <PlayFooter username={username} sumGrade={rank?.sum_grade} />
-        </>
+        // <>
+        //     <PlayHeader currentIndex={0} totalQuestion={2} />
+        //     <Result grade={0} />
+        //     <PlayFooter username={`Chloe`} sumGrade={10} />
+        // </>
+
+        // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
+        <Loading message={'Great! Let\'s wait for your mates!'} />
+
     );
 }
 

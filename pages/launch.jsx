@@ -88,67 +88,67 @@ function HomePage() {
             is_teacher: true
         };
         playApi.join(router.query.ltik, quizId, data)
-        .then((response) => {
-            socket.emit('join', {
-                username: 'teacher',
-                room: newQuizInstance.socket_id,
-                token: response.data.alpha_token
-            });
-            socket.on('data', (data) => {
-                // console.log('data', data);
-                if (data.type == 'join') {
-                    const data_arr = Object.keys(data.player).map((key) => {
-                        return {
-                            id: key,
-                            name: data.player[key]
-                        }
-                    });
-                    
-                    setListStudentJoined(data_arr);
+            .then((response) => {
+                socket.emit('join', {
+                    username: 'teacher',
+                    room: newQuizInstance.socket_id,
+                    token: response.data.alpha_token
+                });
+                socket.on('data', (data) => {
+                    // console.log('data', data);
+                    if (data.type == 'join') {
+                        const data_arr = Object.keys(data.player).map((key) => {
+                            return {
+                                id: key,
+                                name: data.player[key]
+                            }
+                        });
 
-                    const idStudentArray = Object.keys(data.player).map((key) => {
-                        return {
-                            id: Number(key)
-                        }
-                    })
+                        setListStudentJoined(data_arr);
 
-                    setAllRowData(idStudentArray)
+                        const idStudentArray = Object.keys(data.player).map((key) => {
+                            return {
+                                id: Number(key)
+                            }
+                        })
 
-                }
-            });
-            socket.on('grade', (data) => {
-                // console.log('data', data);
-                // console.log('grade', data.grade_data)
-                if(data.grade_data){
-                    const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({id: student[0], [key]: student[1]}))));
-                    const gradeByNum = [].concat(...temp);
-                    const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
-                    gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
-                    console.log('>>>',gradeByUser);
-                    setTmp(gradeByUser);
-                }
-            });
+                        setAllRowData(idStudentArray)
 
-            socket.on('rank', (data) => {
-                console.log('rank data', data);
-                let rank_list = data?.rank_list || [];
-                let rank_list_obj = {};
-                rank_list.forEach((item) => {
-                    if (item.rank == 1) {
-                        rank_list_obj['1'] = item;
-                    }
-                    if (item.rank == 2) {
-                        rank_list_obj['2'] = item;
-                    }
-                    if (item.rank == 3) {
-                        rank_list_obj['3'] = item;
                     }
                 });
-                setTopStudent(rank_list_obj);
+                socket.on('grade', (data) => {
+                    // console.log('data', data);
+                    // console.log('grade', data.grade_data)
+                    if (data.grade_data) {
+                        const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({ id: student[0], [key]: student[1] }))));
+                        const gradeByNum = [].concat(...temp);
+                        const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
+                            gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
+                        console.log('>>>', gradeByUser);
+                        setTmp(gradeByUser);
+                    }
+                });
+
+                socket.on('rank', (data) => {
+                    console.log('rank data', data);
+                    let rank_list = data?.rank_list || [];
+                    let rank_list_obj = {};
+                    rank_list.forEach((item) => {
+                        if (item.rank == 1) {
+                            rank_list_obj['1'] = item;
+                        }
+                        if (item.rank == 2) {
+                            rank_list_obj['2'] = item;
+                        }
+                        if (item.rank == 3) {
+                            rank_list_obj['3'] = item;
+                        }
+                    });
+                    setTopStudent(rank_list_obj);
+                });
             });
-        });
-        
-        
+
+
         return () => socket.disconnect();
     }
 
@@ -209,7 +209,7 @@ function HomePage() {
             header: 'Tên',
             id: 'name'
         });
-        
+
         setColumns(tmpColumns);
     }
 
@@ -220,8 +220,8 @@ function HomePage() {
     return (
         <div className="w-screen h-screen">
             {/* <Header /> */}
-            <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
-            <div className='w-10/12 m-auto flex justify-end'>
+            <div className='flex justify-between px-4 py-4'>
+                <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                 <SoundSetup />
             </div>
             {!isDisplayRankingTable ? (

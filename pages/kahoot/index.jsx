@@ -5,7 +5,7 @@ import PlayHeader from "components/playing/PlayHeader";
 import Questionare from "components/playing/Questionare";
 import { configData } from "utils/configData";
 
-const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: "Lorem sum..." }));
+const mock = Array(8).fill(0).map((v, index) => ({ id: index + 1, answer: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.` }));
 const questionText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`;
 const mockQuestions = [
     `<p dir="ltr" style="text-align: left;"><br>
@@ -43,7 +43,7 @@ const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering' },
 
 function Kahoot() {
     const questionData = {
-        questiontext: mockQuestions[0],
+        questiontext: mockQuestions[1],
         qtype: 'matching',
         additional_info: {},
         answers: mock,

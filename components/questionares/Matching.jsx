@@ -1,7 +1,7 @@
 import Loading from 'components/launch/Loading';
 import SubmitButton from 'components/helpers/SubmitButton';
 import React, { useEffect, useState } from 'react';
-import { randomHexColor } from '../../utils/helpers';
+import { getCorrespondingShadowColor, getDefaultColor, randomHexColor } from '../../utils/helpers';
 import TeXDisplay from '../helpers/TeXDisplay';
 
 function Matching({ data, handleAnswer }) {
@@ -37,7 +37,7 @@ function Matching({ data, handleAnswer }) {
         if (currentSelect.l !== -1 && currentSelect.r !== -1) {
             setAnswers(answers.concat(currentSelect));
             setColors(colors.concat(currentColor));
-            setCurrentColor(randomHexColor());
+            setCurrentColor(getDefaultColor(colors.length));
             setCurrentSelect({ l: -1, r: -1 });
         }
     }, [currentSelect]);
@@ -60,23 +60,27 @@ function Matching({ data, handleAnswer }) {
         setWaitingMsg(`Great! Let's wait for your mates`);
     }
 
+    function isSelected(isLeft, id) {
+        return answers.findIndex(answer => (isLeft && answer.l === id) || (!isLeft && answer.r === id)) != -1;
+    }
+
     return (waitingMsg ?
         <Loading message={waitingMsg} /> :
         <div className='w-full h-full flex flex-col justify-between gap-8'>
             <div className='w-full h-full grid grid-cols-2 justify-between gap-[5%]'>
-                <div className='flex flex-col justify-between content-between gap-[10%]'>
+                <div className='flex flex-col justify-between content-between gap-[5%]'>
                     {
                         data.stems.map(({ id, answer }) =>
-                            <button className={'w-full h-full min-h-max p-1 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md'} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
+                            <button className={'w-full h-full min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md ' + (isSelected(true, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(true, id) }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
                                 <TeXDisplay content={answer} />
                             </button>
                         )
                     }
                 </div>
-                <div className='flex flex-col justify-between content-between gap-[10%]'>
+                <div className='flex flex-col justify-between content-between gap-[5%]'>
                     {
                         data.choices.map(({ id, answer }) =>
-                            <button className={'w-full h-full min-h-max p-1 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md'} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
+                            <button className={'w-full h-full min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md ' + (isSelected(false, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(false, id) }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>
                                 <TeXDisplay content={answer} />
                             </button>
                         )

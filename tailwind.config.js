@@ -36,7 +36,7 @@ module.exports = {
         },
         qred: {
           light: "#ff3355",
-          DEFAULT: "#eb21b3c",
+          DEFAULT: "#DE1835",
           dark: "#c60929",
         },
         qgreen: {
