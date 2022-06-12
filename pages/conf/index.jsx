@@ -98,25 +98,25 @@ function ChooseQuiz() {
 
     return (
         <>
-            <Popover ref={chooseQuiz}>
-                <NameModal
-                    nameClickCallback={nameClickCallback}
-                    closeFn={toggleNameModal}
-                />
-            </Popover>
-            <Popover ref={newInstance}>
-                <NameModal
-                    nameClickCallback={newInstanceClickCallback}
-                    closeFn={toggleNameInstanceModal}
-                />
-            </Popover>
-            <div className="bg-background-mid w-screen h-screen pt-6">
+            <div className="bg-background-mid min-w-screen min-h-screen w-full h-full">
+                <Popover ref={chooseQuiz}>
+                    <NameModal
+                        nameClickCallback={nameClickCallback}
+                        closeFn={toggleNameModal}
+                    />
+                </Popover>
+                <Popover ref={newInstance}>
+                    <NameModal
+                        nameClickCallback={newInstanceClickCallback}
+                        closeFn={toggleNameInstanceModal}
+                    />
+                </Popover>
                 {/* <Header /> */}
                 {
                     isHavingInstance == false && (
                         <>
-                            <p className="w-9/12 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
-                            <div className="w-9/12 m-auto h-[85%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                            <p className="w-9/12 py-8 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
+                            <div className="w-9/12 m-auto h-full min-h-[75vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                                 <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                     {listQuiz.map((quizInfo, index) => (
                                         <SingleQuiz
@@ -130,7 +130,7 @@ function ChooseQuiz() {
                                     ))}
                                 </div>
                             </div>
-                            <div className="w-9/12 m-auto justify-end flex mt-8 ">
+                            <div className="w-9/12 py-8 m-auto justify-end flex">
                                 {isChoosing != -1 ? (
                                     <Button
                                         type="button"

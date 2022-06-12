@@ -250,15 +250,15 @@ function HomePage() {
     }
 
     return (
-        <div className="w-screen h-screen">
+        <div className="min-w-screen min-h-screen">
             {/* <Header /> */}
-            <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
-            <div className='w-10/12 m-auto flex justify-end'>
+            <div className='w-10/12 m-auto pt-8 flex justify-between'>
+                <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                 <SoundSetup />
             </div>
             {!isDisplayRankingTable ? (
                 !isStart ? (
-                    <div className="flex gap-20 justify-center mt-20">
+                    <div className="flex justify-center items-center">
                         <div className="flex flex-col justify-center items-center">
                             <Image
                                 src="/image/18915856.jpg"
@@ -271,23 +271,6 @@ function HomePage() {
                                 type="button"
                                 variants="primary"
                                 onClick={handleOpenModal}
-                                className="w-32"
-                            >
-                                Start quiz
-                            </Button>
-                        </div>
-
-                        <div className="flex flex-col justify-center items-center">
-                            <Image
-                                src="/image/54950.jpg"
-                                width={400}
-                                height={400}
-                                alt="team"
-                                className="cursor-pointer"
-                            />
-                            <Button
-                                type="button"
-                                variants="primary"
                                 className="w-32"
                             >
                                 Start quiz

@@ -19,7 +19,7 @@ const Popover = forwardRef((props, ref) => {
     }
 
     return (visible &&
-        <div className='w-screen h-screen flex justify-center items-center absolute bg-black bg-opacity-40 z-10' onClick={toggleVisibility}>
+        <div className='min-w-screen min-h-screen h-full w-full flex justify-center items-center fixed bg-black bg-opacity-40 z-10' onClick={toggleVisibility}>
             <div className='flex justify-center items-center' onClick={clickInside}>
                 {props.children}
             </div>
