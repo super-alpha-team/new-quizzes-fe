@@ -28,6 +28,10 @@ function Test() {
     const [questions, setQuestions] = useState([]);
     const [username, setUsername] = useState('');
 
+    function handleAnswer(answer) {
+        console.log(answer);
+    }
+
     return (
         // <>
         //     <PlayHeader currentIndex={0} totalQuestion={2} />
@@ -36,10 +40,7 @@ function Test() {
         // </>
 
         // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
-        <InputUsername quizName={'Falling for You'} usernameOnSubmit={() => {
-
-        }}
-        />
+        <ShortAnswer handleAnswer={handleAnswer} />
     );
 }
 
