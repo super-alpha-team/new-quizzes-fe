@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SERVER_URL } from 'utils/config';
-import Alert from 'helpers/Alert';
+import Alert from 'components/helpers/Alert';
 
 const instructions = [
   {

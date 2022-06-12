@@ -1,16 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import Header from 'components/Header';
-import Popover from 'components/helpers/Popover';
-import Credential from 'components/app/platform/Credential';
-import Button from "components/helpers/Button";
-import PlatformEditModal from 'components/app/platform/PlatformEditModal';
 import LoginModal from 'components/app/auth/LoginModal';
+import Credential from 'components/app/platform/Credential';
+import PlatformEditModal from 'components/app/platform/PlatformEditModal';
+import Header from 'components/Header';
+import Button from "components/helpers/Button";
+import Popover from 'components/helpers/Popover';
 
-import { userApi } from 'apis/userApi';
 import platformApi from 'apis/platformApi';
+import { userApi } from 'apis/userApi';
 import { get_accessToken_localStorage, save_accessToken_localStorage } from 'utils/localStore';
-import Alert from 'components/helpers/Alert';
 
 function App() {
     const [credentials, setCredentials] = useState([]);
