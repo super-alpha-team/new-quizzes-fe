@@ -36,6 +36,7 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
             };
             playApi.join(router.query.ltik, quizId, data)
                 .then((response) => {
+                    console.log(response);
                     setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
                     if (response.data.current_question_data) {
