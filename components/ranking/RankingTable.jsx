@@ -6,6 +6,9 @@ import TopCard from './TopCard';
 function RankingTable({ columns, data, topStudent, listStudentJoined }) {
 
     const [isShowName, setIsShowName] = useState(true);
+    const [rowData, setRowData] = useState([]);
+
+    
 
     return (
         <div className="w-10/12 m-auto">
@@ -51,18 +54,44 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                                             {stu.name}
                                         </td>
                                     ))}
-                                {data[key].map((cell, i) => {
+
+                                    {
+                                        columns.filter((col) => col.id != 'name').map((column, index) => {
+                                            return (
+                                                <td
+                                                    key={index}
+                                                    className="px-6 py-4 whitespace-nowrap text-center"
+                                                >
+                                                    {/* {data[key].map((cell, ind) => Object.keys(cell).find(key => key == index))} */}
+                                                    {data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
+                                                    ? 0 : 
+                                                    data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
+                                                    .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
+                                                    
+                                                    )
+                                                    
+                                                    }
+                                                    
+                                                </td>
+                                            );
+                                        })
+                                    }
+                                                                        
+                                {/* {data[key].map((cell, i) => {
+                                    
+
                                     return Object.keys(cell).map((key1, index1) => {
                                         return (
                                             <td
                                                 key={index1}
                                                 className="px-6 py-4 whitespace-nowrap text-center"
                                             >
+                                                
                                                 {cell[key1]}
                                             </td>
                                         );
                                     });
-                                })}
+                                })} */}
                             </tr>
                         );
                     })}

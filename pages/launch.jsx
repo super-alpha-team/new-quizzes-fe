@@ -152,7 +152,7 @@ function HomePage() {
             });
 
             socket.on('rank', (data) => {
-                console.log('rank data', data);
+                // console.log('rank data', data);
                 let rank_list = data?.rank_list || [];
                 let rank_list_obj = {};
                 rank_list.forEach((item) => {
@@ -170,7 +170,7 @@ function HomePage() {
             });
 
             socket.on('end_question', (data) => {
-                console.log('end_question', data)
+                // console.log('end_question', data)
             })
         });
         
