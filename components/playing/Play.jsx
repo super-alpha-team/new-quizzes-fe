@@ -113,7 +113,7 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
         switch (questionData.qtype) {
             case 'choice':
             case 'true/false':
-                return questionData.answers;
+                return configData(questionData.qtype, questionData.answers);
                 break;
 
             case 'matching':

@@ -5,7 +5,6 @@ import { getCorrespondingShadowColorByHex, getDefaultColor, randomHexColor } fro
 import TeXDisplay from '../helpers/TeXDisplay';
 
 function Matching({ data, handleAnswer }) {
-    console.log(data)
     const [currentSelect, setCurrentSelect] = useState({ l: -1, r: -1 });
     const [currentColor, setCurrentColor] = useState(randomHexColor());
     const [answers, setAnswers] = useState([]);
@@ -69,7 +68,7 @@ function Matching({ data, handleAnswer }) {
     function findMatch(id) {
         let index = answers.findIndex(answer => answer.r === id);
         if (index != -1) {
-            return answers[index].l;
+            return data.stems.find(v => v.id == answers[index].l).alphabetId;
         }
         return -1;
     }
@@ -80,9 +79,9 @@ function Matching({ data, handleAnswer }) {
             <div className='w-full h-full grid grid-cols-2 justify-between gap-[5%]'>
                 <div className='w-full h-full flex flex-col justify-between content-between gap-[1rem]'>
                     {
-                        data.stems.map(({ id, answer }) =>
+                        data.stems.map(({ id, answer, alphabetId }) =>
                             <div className={'flex justify-center items-center min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md cursor-pointer ' + (isSelected(true, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(true, id), boxShadow: `0 3px ${getCorrespondingShadowColorByHex(setColor(true, id))}` }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
-                                <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center block align-middle' style={{ color: setColor(true, id) }}>{id}</div>
+                                <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center block align-middle' style={{ color: setColor(true, id) }}>{alphabetId}</div>
                                 <div className='w-full flex justify-center'>
                                     <TeXDisplay content={answer} />
                                 </div>

@@ -38,12 +38,12 @@ const mockQuestions = [
 ];
 const colors = ['#1368CE', '#D89E00', '#26890C', '#E21B3C'];
 const shadowColors = ['#1059AF', '#B88600', '#20750A', '#C01733'];
-const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering', 4: 'reading', 5: 'chatting', 6: 'wondering', 7: 'wondering' }, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually', 4: 'i like', 5: 'i hate', 6: 'i usually', 7: 'i usually' } };
+const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering'}, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually' } };
 
 
 function Kahoot() {
     const questionData = {
-        questiontext: mockQuestions[0],
+        questiontext: mockQuestions[1],
         qtype: 'choice',
         additional_info: {},
         answers: mock,
@@ -87,7 +87,7 @@ function Kahoot() {
                     <div className='w-full h-full py-4 flex flex-wrap items-center'>
                         <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={1} deadTime={(new Date().getTime() / 1000 + 10) * 1000} />
                     </div>
-                    <Questionare questionType={questionData.qtype} data={mock} handleAnswer={handleAnswer} />
+                    <Questionare questionType={questionData.qtype} data={configData(questionData.qtype, mock)} handleAnswer={handleAnswer} />
                 </div>
             </div>
             <PlayFooter username={`Chloe`} sumGrade={10} />

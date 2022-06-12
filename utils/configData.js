@@ -1,3 +1,5 @@
+import { StringIdGenerator } from "./AlphabetGenerator";
+
 export function configData(questionType, data) {
     switch (questionType) {
         case 'choice':
@@ -20,15 +22,17 @@ export function configData(questionType, data) {
 }
 
 function configDataForMultichoice(data) {
-
+    const idGenerator = new StringIdGenerator();
+    return data.map(v => ({ ...v, alphabetId: idGenerator.next() }));
 }
 
 function configDataForMatching(data) {
+    const idGenerator = new StringIdGenerator();
     const choices = Object.entries(data.choices).map(arr => {
         return { id: arr[0], answer: arr[1] };
     });
     const stems = Object.entries(data.stems).map(arr => {
-        return { id: arr[0], answer: arr[1] };
+        return { id: arr[0], answer: arr[1], alphabetId: idGenerator.next() };
     });
     return { choices, stems };
 }
@@ -39,10 +43,10 @@ const mockDragDropData = Array(2).fill({ type: 0, items })
 
 function configDataForDragAndDrop(data) {
     let choices = [];
-    if(data) {
+    if (data) {
         choices = Object.entries(data?.choices)
             .map(([key, value]) => ({ type: key, items: value }))
             .map(({ type, items }) => ({ type, items: Object.entries(items).map(([key, value]) => ({ id: key, answer: value.text })) }));
     }
-    return {fragments: data?.textfragments, choices};
+    return { fragments: data?.textfragments, choices };
 }
