@@ -94,6 +94,8 @@ function ChooseQuiz() {
     const newInstance = useRef(null);
     const toggleNameInstanceModal = () => newInstance.current.toggleVisibility();
 
+    console.log('list', listInstance.reverse())
+
     return (
         <>
             <Popover ref={chooseQuiz}>
@@ -108,13 +110,13 @@ function ChooseQuiz() {
                     closeFn={toggleNameInstanceModal}
                 />
             </Popover>
-            <div className="w-screen h-screen bg-background-mid pt-4">
+            <div className="bg-background-mid w-screen h-screen pt-6">
                 {/* <Header /> */}
                 {
                     isHavingInstance == false && (
                         <>
                             <p className="w-9/12 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
-                            <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                            <div className="w-9/12 m-auto h-[85%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                                 <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                     {listQuiz.map((quizInfo, index) => (
                                         <SingleQuiz
@@ -154,15 +156,29 @@ function ChooseQuiz() {
                             {
                                 (instanceStatus === QUIZ_STATUS.EDITING || instanceStatus === QUIZ_STATUS.DONE) && (
                                     <>
-                                        <div className="w-9/12 m-auto pt-4 pb-4">
+                                        <div className="w-8/12 m-auto pt-4 pb-16">
                                             <p className="text-xl font-bold mb-4">
                                                 Các bộ câu hỏi được tạo trước đây
                                             </p>
                                             <hr className="mb-8 mt-2" />
-                                            {listInstance.map((instance, index) => (
+
+                                        
+                                            <p>Chơi ngay nếu có bộ câu hỏi đã được cài đặt </p>
+                                            <p>Hoặc</p>
+                                            <p>Tạo bộ câu hỏi mới ở đây </p>
+                                            <Button
+                                                className="w-40 text-base mt-2 mb-8"
+                                                onClick={toggleNameInstanceModal}>
+                                                     Tạo mới
+                                            </Button>
+
+                                            {/* <hr className="mb-8 " /> */}
+
+                                            {listInstance.sort((a, b) => parseInt(b.id) - parseInt(a.id))
+                                            .map((instance, index) => (
                                                 <div
                                                     key={index}
-                                                    className="flex justify-between text-lg items-center"
+                                                    className="flex justify-between text-lg items-center h-32 overflow-hidden pl-8 bg-white m-auto w-full mb-2"
                                                 >
                                                     <p>{instance.name}
                                                         {
@@ -171,24 +187,43 @@ function ChooseQuiz() {
                                                             )
                                                         }
                                                     </p>
-                                                    <p>Trạng thái: {instance.status}</p>
-                                                    {
-                                                        instance.status == QUIZ_STATUS.EDITING && (
-                                                            <Button onClick={() => handleContinueConfigTime(instance.id)}>Tiếp tục chỉnh sửa</Button>
-                                                        )
-                                                    }
-                                                    {
-                                                        instance.status == QUIZ_STATUS.DONE && (
-                                                            <Button onClick={() => handleDownloadExport(instance.id, instance.name)}>Tải dữ liệu chơi</Button>
-                                                        )
-                                                    }
+                                                    {/* <p>Trạng thái: {instance.status}</p> */}
+
+                                                    <div className="flex flex-col items-end h-full justify-between py-2 px-2">
+                                                    {instance.status == QUIZ_STATUS.DONE && (
+                                                            <span className="ml-2 bg-blue-0 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">#Done</span>
+                                                        )}
+
+                                                        {instance.status == QUIZ_STATUS.EDITING && (
+                                                            <span className="ml-2 bg-red-00 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">#Editing</span>
+                                                        )}
+
+                                                        {
+                                                            instance.status == QUIZ_STATUS.EDITING && (
+                                                                <Button 
+                                                                    className="text-sm min-w-40"
+
+                                                                    onClick={() => handleContinueConfigTime(instance.id)}>
+                                                                        Tiếp tục chỉnh sửa
+                                                                </Button>
+                                                            )
+                                                        }
+                                                        {
+                                                            instance.status == QUIZ_STATUS.DONE && (
+                                                                <Button 
+                                                                    className="text-sm w-40"
+                                                                    variants="secondary"
+                                                                    onClick={() => handleDownloadExport(instance.id, instance.name)}>
+                                                                        Tải dữ liệu chơi
+                                                                </Button>
+                                                            )
+                                                        }
+                                                        
+                                                    </div>
+                                                    
                                                 </div>
                                             ))}
-                                            <hr className="mb-8 mt-8" />
-                                            <p>Chơi ngay nếu có bộ câu hỏi đã được cài đặt </p>
-                                            <p>Hoặc</p>
-                                            <p>Tạo bộ câu hỏi mới ở đây </p>
-                                            <Button onClick={toggleNameInstanceModal}>Tạo mới</Button>
+                                            
                                         </div>
                                     </>
                                 )
