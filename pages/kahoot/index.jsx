@@ -5,7 +5,7 @@ import PlayHeader from "components/playing/PlayHeader";
 import Questionare from "components/playing/Questionare";
 import { configData } from "utils/configData";
 
-const mock = Array(8).fill(0).map((v, index) => ({ id: index + 1, answer: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.` }));
+const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.` }));
 const questionText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`;
 const mockQuestions = [
     `<p dir="ltr" style="text-align: left;"><br>
@@ -44,7 +44,7 @@ const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering', 4
 function Kahoot() {
     const questionData = {
         questiontext: mockQuestions[0],
-        qtype: 'matching',
+        qtype: 'choice',
         additional_info: {},
         answers: mock,
     };
@@ -87,12 +87,14 @@ function Kahoot() {
                     <div className='w-full h-full py-4 flex flex-wrap items-center'>
                         <Clock handleTimeUp={() => handleAnswer(null)} currentIndex={1} deadTime={(new Date().getTime() / 1000 + 10) * 1000} />
                     </div>
-                    <Questionare questionType={questionData.qtype} data={configData(questionData.qtype, mockMatching)} handleAnswer={handleAnswer} />
+                    <Questionare questionType={questionData.qtype} data={mock} handleAnswer={handleAnswer} />
                 </div>
             </div>
             <PlayFooter username={`Chloe`} sumGrade={10} />
         </>
     );
 }
+
+// configData(questionData.qtype, mockMatching)
 
 export default Kahoot;
