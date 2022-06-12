@@ -72,20 +72,15 @@ function ChooseQuiz() {
         );
         const chooseQuizData = chooseQuiz.data.data;
         const dataResponse = chooseQuizData.instance;
-        console.log('nameClickCallback')
         router.push(`/conf/${dataResponse.id}?ltik=${router.query.ltik}`);
     }
 
     async function newInstanceClickCallback(name = "UnName") {
-        console.log('create button', createInstanceApi.data.data.new_quiz_instance.id);
-        console.log('ltk', router.query.ltik);
-
         const createInstanceApi = await quizApi.createInstance(router.query.ltik, name, newQuiz.id);
         return router.push(`/conf/${createInstanceApi.data.data.new_quiz_instance.id}?ltik=${router.query.ltik}`);
     };
 
     const handleContinueConfigTime = (id) => {
-        console.log('handleContinueConfigTime ', id)
         router.push(`/conf/${id}?ltik=${router.query.ltik}`);
     };
 
@@ -115,13 +110,13 @@ function ChooseQuiz() {
                     closeFn={toggleNameInstanceModal}
                 />
             </Popover>
-            <div className="bg-background-mid pt-4">
+            <div className="bg-background-mid w-screen h-screen pt-6">
                 {/* <Header /> */}
                 {
                     isHavingInstance == false && (
                         <>
                             <p className="w-9/12 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
-                            <div className="w-9/12 m-auto h-[70%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                            <div className="w-9/12 m-auto h-[85%] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                                 <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                     {listQuiz.map((quizInfo, index) => (
                                         <SingleQuiz
@@ -161,7 +156,7 @@ function ChooseQuiz() {
                             {
                                 (instanceStatus === QUIZ_STATUS.EDITING || instanceStatus === QUIZ_STATUS.DONE) && (
                                     <>
-                                        <div className="w-8/12 m-auto pt-4 pb-4 pb-16">
+                                        <div className="w-8/12 m-auto pt-4 pb-16">
                                             <p className="text-xl font-bold mb-4">
                                                 Các bộ câu hỏi được tạo trước đây
                                             </p>
@@ -172,12 +167,12 @@ function ChooseQuiz() {
                                             <p>Hoặc</p>
                                             <p>Tạo bộ câu hỏi mới ở đây </p>
                                             <Button
-                                                className="w-40 text-base mt-2"
+                                                className="w-40 text-base mt-2 mb-8"
                                                 onClick={toggleNameInstanceModal}>
                                                      Tạo mới
                                             </Button>
 
-                                            <hr className="mb-8 mt-8" />
+                                            {/* <hr className="mb-8 " /> */}
 
                                             {listInstance.sort((a, b) => parseInt(b.id) - parseInt(a.id))
                                             .map((instance, index) => (
