@@ -72,7 +72,7 @@ export default function PlayGame() {
   }, [router.query.ltik]);
 
   return game != "done" ?
-    (username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} quizName={quizName} /> : <InputUsername usernameOnSubmit={setUsername} />)
+    (username ? <Play quizId={quizId} room_id={room_id} platformUserId={platformUserId} username={username} quizName={quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizName} />)
     : <DoneQuiz />;
 
 }

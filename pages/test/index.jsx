@@ -36,8 +36,10 @@ function Test() {
         // </>
 
         // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
-        <Loading message={'Great! Let\'s wait for your mates!'} />
+        <InputUsername quizName={'Falling for You'} usernameOnSubmit={() => {
 
+        }}
+        />
     );
 }
 
