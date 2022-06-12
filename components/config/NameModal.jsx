@@ -9,12 +9,12 @@ export default function NameModal({ nameClickCallback, closeFn, title = "Name" }
         e.preventDefault();
         nameClickCallback(nameData);
         closeFn();
-        
     }
 
     return <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
         <form
             className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
+            onSubmit={handleClick}
         >
             <div className="flex flex-row justify-between">
                 <p className="text-xl font-bold mb-1">
@@ -42,9 +42,8 @@ export default function NameModal({ nameClickCallback, closeFn, title = "Name" }
                     Hủy
                 </Button>
                 <Button
-                        type="button"
+                        type="submit"
                         variants="primary"
-                        onClick={handleClick}
                     >
                         Create
                     </Button>

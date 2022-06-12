@@ -3,16 +3,9 @@ import DoneQuiz from 'components/launch/DoneQuiz';
 import InputUsername from 'components/launch/InputUsername';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
+import { QUIZ_STATUS } from 'utils/config';
 import Loading from '../../components/launch/Loading';
 import Play from '../../components/playing/Play';
-
-const QUIZ_STATUS_ENUM = {
-  EDITING: 'editing',
-  PENDING: 'pending',
-  PLAYING: 'playing',
-  DONE: 'done',
-  array: ['editing', 'pending', 'playing', 'done']
-};
 
 export default function PlayGame() {
   const router = useRouter();
@@ -30,7 +23,7 @@ export default function PlayGame() {
     const syncLti = async () => {
       const response = await syncApi.syncLti(router.query.ltik);
       let responsedData = response.data.data;
-      const quizId = responsedData.new_quiz.id;
+      const quizId = responsedData.new_quiz?.id;
 
       let newQuizInstance = responsedData.instance;
 
@@ -55,7 +48,7 @@ export default function PlayGame() {
 
   }, [router.query.ltik]);
 
-  return quizInstance.status != QUIZ_STATUS_ENUM.DONE ?
+  return quizInstance.status != QUIZ_STATUS.DONE ?
     (username ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} platformUserId={platformUserId} username={username} quizName={quizInstance.quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizInstance.quizName} />)
     : <DoneQuiz />;
 
