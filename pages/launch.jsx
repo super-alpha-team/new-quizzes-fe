@@ -48,18 +48,63 @@ function HomePage() {
                     const syncLti = await syncApi.syncLti(router.query.ltik);
                     console.log('synclti', syncLti)
 
-                    if(syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING){
-                        setIsDisplayRankingTable(true)
-                    }
-
-                    router.push(`launch?id=${syncLti.data.data.instance.id}&ltik=${router.query.ltik}`)
-
                     const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, syncLti.data.data.instance.id);
 
                     let newQuizInstanceData =
                         newQuizInstance.data.data.new_quiz_instance;
 
                     setNewQuizInstance(newQuizInstanceData);
+
+                    
+
+                    if(syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING){
+                        setIsDisplayRankingTable(true);
+                        // getListQuestionAsColumns();
+
+                        // let newQuizInstanceData = response.data.data.new_quiz_instance;
+                        console.log('playing', syncLti);
+                        teacherJoinInClass(syncLti.data.data.new_quiz.id); 
+
+
+                        const response = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, syncLti.data.data.instance.id);
+                        console.log('quesion list',response.data.data.question_list)
+
+                        const tmpColumns = response.data.data.question_list.map(
+                            (question, index) => {
+                                const obj = Object.create({});
+                                obj['header'] = `Câu hỏi ${index + 1}`;
+                                obj['id'] = index;
+                                return obj;
+                            }
+                        );
+                        tmpColumns.unshift({
+                            header: 'Tên',
+                            id: 'name'
+                        });
+                        
+                        setColumns(tmpColumns);
+
+                        let data = {
+                            username: 'teacher',
+                            is_teacher: true
+                        };
+                        const playerRespone = await playApi.join(router.query.ltik, syncLti.data.data.new_quiz.id, data);
+                        console.log('playerresponse', playerRespone.data)
+
+                        const data_arr = Object.keys(playerRespone.data.player).map((key) => {
+                            return {
+                                id: key,
+                                name: playerRespone.data.player[key]
+                            }
+                        });
+                        
+                        setListStudentJoined(data_arr);
+
+                    }
+
+                    router.push(`launch?id=${syncLti.data.data.instance.id}&ltik=${router.query.ltik}`)
+
+                    
                 }
                 
                 else {
@@ -93,7 +138,7 @@ function HomePage() {
             }
         }
         getData();
-    }, [router.query.ltik]);
+    }, [router.query.ltik, router.query.id  ]);
 
     function handleOpenModal() {
         setIsModalVisible(true);
@@ -104,7 +149,7 @@ function HomePage() {
     }
 
     async function teacherJoinInClass(quizId) {
-        // console.log('teacher join in class');
+        console.log('teacher join in class');
         let data = {
             username: 'teacher',
             is_teacher: true
@@ -117,7 +162,7 @@ function HomePage() {
                 token: response.data.alpha_token
             });
             socket.on('data', (data) => {
-                // console.log('data', data);
+                console.log('data student', data);
                 if (data.type == 'join') {
                     const data_arr = Object.keys(data.player).map((key) => {
                         return {
