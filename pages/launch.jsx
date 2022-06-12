@@ -1,18 +1,17 @@
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Image from 'next/image';
 import SettingLaunch from '../components/modal/SettingLaunch';
 import Button from '../components/helpers/Button';
-import { LOCALHOST, QUIZ_STATUS, SERVER_URL } from '../utils/config';
+import { QUIZ_STATUS } from 'utils/config';
 import WaitingRoom from '../components/launch/WaitingRoom';
 import { socket } from '../utils/socket';
 import RankingTable from '../components/ranking/RankingTable';
 import quizApi from '../apis/quizApi';
 import playApi from '../apis/playApi';
 import syncApi from '../apis/syncApi';
-import _ from 'lodash'
+import _ from 'lodash';
 import TopMenu from 'components/config/TopMenu';
 import SoundSetup from 'components/helpers/SoundSetup';
 

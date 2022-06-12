@@ -1,4 +1,4 @@
 import { io } from 'socket.io-client';
-import { SERVER_PORT } from './config';
+import { SERVER_SOCKET_URL } from './config';
 
-export const socket = io(`http://localhost:${SERVER_PORT}`);
+export const socket = io(SERVER_SOCKET_URL);

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { LOCALHOST, SERVER_URL } from "../utils/config";
+import { SERVER_URL } from "utils/config";
 
-export const serverURL = `${SERVER_URL}` || `${LOCALHOST}`;
+export const serverURL = SERVER_URL;
 
 export function configToken(token) {
     return {

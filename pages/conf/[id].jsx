@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { Base64 } from 'js-base64';
 import Question from '../../components/config/Question';
-import { LOCALHOST, SERVER_URL } from '../../utils/config';
 import ToggleSwitch from '../../components/helpers/ToggleSwitch';
 import useCollapse from 'react-collapsed';
 import quizApi from '../../apis/quizApi';

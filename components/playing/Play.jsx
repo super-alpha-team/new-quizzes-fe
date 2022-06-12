@@ -5,19 +5,18 @@ import Questionare from './Questionare';
 import Loading from '../launch/Loading';
 import Clock from './Clock';
 import { socket } from '../../utils/socket';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import InputUsername from '../launch/InputUsername';
 import Matching from '../questionares/Matching';
 import { configData } from '../../utils/configData';
 import DragDrop from '../questionares/DragDrop';
-import { LOCALHOST } from 'utils/config';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 import Result from 'components/launch/Result';
 import ShortAnswer from 'components/questionares/ShortAnswer';
 import FinalResult from 'components/launch/FinalResult';
 import PlayHeader from './PlayHeader';
 import PlayFooter from './PlayFooter';
+import playApi from 'apis/playApi';
 
 function Play({ quizId, room_id, platformUserId, username, quizName }) {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -31,11 +30,11 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
 
     useEffect(() => {
         if (username) {
-            axios.post(`${LOCALHOST}/lti/play/${quizId}/join`, {
+            let data = {
                 "username": username,
                 "is_teacher": false
-            },
-                { headers: { Authorization: `Bearer ${router.query.ltik}` } })
+            };
+            playApi.join(router.query.ltik, quizId, data)
                 .then((response) => {
                     setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });

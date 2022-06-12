@@ -1,15 +1,13 @@
 /* eslint-disable @next/next/no-sync-scripts */
 /* eslint-disable @next/next/no-script-in-head */
 /* eslint-disable @next/next/no-unwanted-polyfillio */
-import { data } from 'autoprefixer';
-import axios from 'axios';
+import syncApi from 'apis/syncApi';
 import DoneQuiz from 'components/launch/DoneQuiz';
 import InputUsername from 'components/launch/InputUsername';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import Loading from '../../components/launch/Loading';
 import Play from '../../components/playing/Play';
-import { LOCALHOST } from '../../utils/config';
 
 const QuizStatusEnum = {
   EDITING: 'editing',
@@ -33,13 +31,8 @@ export default function PlayGame() {
 
   useEffect(() => {
     const syncLti = async () => {
-
-      const checkNewQuiz = await axios.get(
-        `${LOCALHOST}/lti/sync/lti`,
-        { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-      );
+      const checkNewQuiz = await syncApi.syncLti(router.query.ltik);
       let checkNewQuizResp = checkNewQuiz.data.data;
-      // console.log("]> check newQuiz: ", checkNewQuizResp);
 
       let newQuizInstance = checkNewQuizResp.instance;
       setQuizName(newQuizInstance.name);
@@ -56,11 +49,7 @@ export default function PlayGame() {
           setGame('done');
         }
 
-        const info = await axios.get(
-          `${LOCALHOST}/lti/sync/info`,
-          { headers: { Authorization: `Bearer ${router.query.ltik}` } }
-        );
-
+        let info = await syncApi.syncInfo(router.query.ltik);
         setPlatformUserId(info.data?.data?.platform_user_id);
       }
     };
