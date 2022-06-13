@@ -31,6 +31,7 @@ export default function PlayGame() {
         const { socket_id, status, name } = newQuizInstance;
 
         let info = await syncApi.syncInfo(router.query.ltik);
+        console.log('info>>>', info, newQuizInstance);
         setPlatformUserId(info.data?.data?.platform_user_id);
 
         setQuizInstance({

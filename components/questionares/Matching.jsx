@@ -80,7 +80,7 @@ function Matching({ data, handleAnswer }) {
                 <div className='w-full h-full flex flex-col justify-between content-between gap-[1rem]'>
                     {
                         data.stems.map(({ id, answer, alphabetId }) =>
-                            <div className={'flex justify-center items-center min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md cursor-pointer ' + (isSelected(true, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(true, id), boxShadow: `0 3px ${getCorrespondingShadowColorByHex(setColor(true, id))}` }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
+                            <div className={'flex justify-center items-center gap-2 min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md cursor-pointer ' + (isSelected(true, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(true, id), boxShadow: `0 3px ${getCorrespondingShadowColorByHex(setColor(true, id))}` }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
                                 <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center block align-middle' style={{ color: setColor(true, id) }}>{alphabetId}</div>
                                 <div className='w-full flex justify-center'>
                                     <TeXDisplay content={answer} />

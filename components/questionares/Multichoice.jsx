@@ -23,7 +23,9 @@ function Multichoice({ data, handleAnswer }) {
                 {answers.map(({ id, answer, alphabetId }, index) =>
                     <button className='w-full h-full flex justify-center items-center gap-2 py-4 px-2 text-xl text-white hover:opacity-95 rounded-sm' style={{ backgroundColor: getDefaultColor(index), boxShadow: `0 3px ${getCorrespondingShadowColor(index)}` }} onClick={() => handleAnswer(Number(id))} key={id}>
                         <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center block align-middle' style={{ color: getDefaultColor(index) }}>{alphabetId}</div>
-                        <TeXDisplay content={answer} />
+                        <div className='w-full flex justify-start'>
+                            <TeXDisplay content={answer} />
+                        </div>
                     </button>
                 )}
             </div>

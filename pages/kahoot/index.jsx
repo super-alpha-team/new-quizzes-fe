@@ -5,8 +5,7 @@ import PlayHeader from "components/playing/PlayHeader";
 import Questionare from "components/playing/Questionare";
 import { configData } from "utils/configData";
 
-const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: `Lorem Ipsum is simply dummy text of the printing and typesetting industry.` }));
-const questionText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,`;
+const mock = Array(4).fill(0).map((v, index) => ({ id: index + 1, answer: `Lorem Ipsum ` }));
 const mockQuestions = [
     `<p dir="ltr" style="text-align: left;"><br>
     <table>
