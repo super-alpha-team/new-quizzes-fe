@@ -48,7 +48,7 @@ function convertTimer(seconds) {
 
 function convertToMinutes(seconds) {
     if(seconds > 0) {
-        let m = 0;
+        let m = Math.trunc(seconds / 60);
         let s = seconds;
     
         if (m) {
