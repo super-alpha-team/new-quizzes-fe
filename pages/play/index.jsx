@@ -1,6 +1,7 @@
 import syncApi from 'apis/syncApi';
 import DoneQuiz from 'components/launch/DoneQuiz';
 import InputUsername from 'components/launch/InputUsername';
+import NotStartedQuiz from 'components/launch/NotStartedQuiz';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { QUIZ_STATUS } from 'utils/config';
@@ -49,8 +50,9 @@ export default function PlayGame() {
 
   }, [router.query.ltik]);
 
-  return quizInstance.status != QUIZ_STATUS.DONE ?
-    (username ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} platformUserId={platformUserId} username={username} quizName={quizInstance.quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizInstance.quizName} />)
-    : <DoneQuiz />;
+  return !quizInstance.status ? <NotStartedQuiz />
+    : quizInstance.status != QUIZ_STATUS.DONE ?
+      (username ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} platformUserId={platformUserId} username={username} quizName={quizInstance.quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizInstance.quizName} />)
+      : <DoneQuiz />;
 
 }

@@ -15,6 +15,7 @@ import DoneQuiz from 'components/launch/DoneQuiz';
 import PlayHeader from 'components/playing/PlayHeader';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 import PlayFooter from 'components/playing/PlayFooter';
+import NotStartedQuiz from 'components/launch/NotStartedQuiz';
 
 const answers = Array(8).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
@@ -40,7 +41,8 @@ function Test() {
         // </>
 
         // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
-        <ShortAnswer handleAnswer={handleAnswer} />
+        // <ShortAnswer handleAnswer={handleAnswer} />
+        <NotStartedQuiz />
     );
 }
 
