@@ -27,6 +27,9 @@ const quizApi = {
     updateQuizInstanceTimeAllQuestion: function (token = "", id, data) {
         return post(`${serverURL}/lti/quiz/new_quiz_instance/set_time_all_question/${id}`, data, token);
     },
+    waitQuiz: function (token = "", id) {
+        return post(`${serverURL}/lti/quiz/new_quiz/wait/${id}`, {}, token);
+    },
     startQuiz: function (token = "", id) {
         return post(`${serverURL}/lti/quiz/new_quiz/start/${id}`, {}, token);
     },

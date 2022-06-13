@@ -239,15 +239,17 @@ function HomePage() {
             // /new_quiz_instance/update/:new_quiz_instance_id
             let data = {
                 additional_info: JSON.stringify(settingData),
-                status: 'pending'
             };
-            const response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
+            let response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
+
             console.log('response start quiz', router.query.ltik)
             console.log('query id', router.query.id)
             console.log('data', data)
 
-
             let newQuizInstanceData = response.data.data.new_quiz_instance;
+            
+            await quizApi.waitQuiz(router.query.ltik, newQuizInstanceData.new_quiz_id); 
+
             teacherJoinInClass(newQuizInstanceData.new_quiz_id); 
             setNewQuizInstance(newQuizInstanceData);
 

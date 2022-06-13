@@ -16,7 +16,7 @@ function ConfigQuestion() {
     const [errorConfigTimeList, setErrorConfigTimeList] = useState([]);
     // state newQuizInstance
     const [newQuizInstance, setNewQuizInstance] = useState({});
-    const [time, setTime] = useState(0);
+    const [time, setTime] = useState(10);
     const [isExpanded, setExpanded] = useState(false);
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
