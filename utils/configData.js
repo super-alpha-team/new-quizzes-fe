@@ -22,8 +22,12 @@ export function configData(questionType, data) {
 }
 
 function configDataForMultichoice(data) {
+    let answers = data ? data : [];
+    if(!answers.length) {
+        answers = [{ id: 1, answer: 'True' }, { id: 2, answer: 'False' }]
+    }
     const idGenerator = new StringIdGenerator();
-    return data.map(v => ({ ...v, alphabetId: idGenerator.next() }));
+    return answers.map(v => ({ ...v, alphabetId: idGenerator.next() }));
 }
 
 function configDataForMatching(data) {

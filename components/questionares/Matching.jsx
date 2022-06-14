@@ -77,7 +77,7 @@ function Matching({ data, handleAnswer }) {
         <Loading message={waitingMsg} /> :
         <div className='w-full h-full flex flex-col justify-between gap-8'>
             <div className='w-full h-full grid grid-cols-2 justify-between gap-[5%]'>
-                <div className='w-full h-full flex flex-col justify-between content-between gap-[1rem]'>
+                <div className='w-full h-full flex flex-col justify-start gap-[1rem]'>
                     {
                         data.stems.map(({ id, answer, alphabetId }) =>
                             <div className={'flex justify-center items-center gap-2 min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md cursor-pointer ' + (isSelected(true, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(true, id), boxShadow: `0 3px ${getCorrespondingShadowColorByHex(setColor(true, id))}` }} onClick={(e) => leftColumnOnClick(id)} value={answer} key={id}>
@@ -89,7 +89,7 @@ function Matching({ data, handleAnswer }) {
                         )
                     }
                 </div>
-                <div className='w-full h-full flex flex-col justify-between content-between gap-[1rem]'>
+                <div className='w-full h-full flex flex-col justify-start gap-[1rem]'>
                     {
                         data.choices.map(({ id, answer }) =>
                             <button className={'flex justify-center items-center min-h-[4rem] py-1 px-2 text-left shadow-[0_4px_0_0_#D9D9D9] bg-white rounded-md ' + (isSelected(false, id) ? 'text-white' : '')} style={{ backgroundColor: setColor(false, id), boxShadow: `0 3px ${getCorrespondingShadowColorByHex(setColor(false, id))}` }} onClick={(e) => rightColumnOnClick(id)} value={answer} key={id}>

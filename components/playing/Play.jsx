@@ -36,15 +36,17 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
             };
             playApi.join(router.query.ltik, quizId, data)
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data);
                     setTotalQuestion(response.data.question_count);
                     socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
-                    if (response.data.current_question_data) {
-                        setQuestionData(response.data.current_question_data);
-                        setWaitingMsg('');
-                        setGrade(null);
-                    }
-                });
+                    // if (response.data.current_question_data) {
+                    //     setQuestionData(response.data.current_question_data);
+                    //     setWaitingMsg('');
+                    //     setGrade(null);
+                    // }
+                })
+                .catch(err => console.log(err));
+
             socket.on('question', data => {
                 const { current_question_index, question } = data;
                 setCurrentIndex(current_question_index);
@@ -59,10 +61,11 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
             });
 
             socket.on('grade_student', data => {
-                if (data?.question_index > 0) {
-                    if (data?.grade[data?.question_index - 1]) {
-                        if (Object.entries(data?.grade[data?.question_index - 1]).length) {
-                            setGrade(data?.grade[data?.question_index - 1][platformUserId]);
+                if (data?.question_index) {
+                    let gradeList = data?.grade[currentIndex];
+                    if (gradeList) {
+                        if (Object.entries(gradeList).length) {
+                            setGrade(gradeList[platformUserId]);
                         }
                     }
                     setWaitingMsg('');
