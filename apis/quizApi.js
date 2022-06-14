@@ -56,7 +56,9 @@ const quizApi = {
             FileDownload(response.data, `${name}.xlsx`);
         });
     },
-
+    saveGrade: function (token = "", id) {
+        return post(`${serverURL}/lti/quiz/new_quiz_instance/save_grade/${id}`, {}, token);
+    }
 };
 
 export default quizApi;

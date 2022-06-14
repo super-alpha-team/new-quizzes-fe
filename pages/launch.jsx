@@ -215,8 +215,8 @@ function HomePage() {
             });
 
             socket.on('end_question', (data) => {
-                // console.log('end_question', data)
-            })
+                setIsFinish(true);
+            });
         });
         
         
@@ -295,6 +295,30 @@ function HomePage() {
         router.push(`/conf?ltik=${router.query.ltik}`);
     }
 
+    async function handleSaveGrade() {
+        if (!isFinish) {
+            return alert('Chưa kết thúc bài thi');
+        }
+        try {
+            let response = await quizApi.saveGrade(router.query.ltik, newQuizInstance.id);
+            // let newQuizUpdate = response.data.data.newQuiz;
+
+            // let additional_info = JSON.parse(newQuizUpdate.additional_info || '{}');
+            // newQuizUpdate = {
+            //     ...newQuizUpdate,
+            //     ...additional_info,
+            // };
+
+            alert('Save grade success');
+        } catch (error) {
+            if (error.response) {
+                alert(error.response.data.data.message);
+            } else {
+                alert(error.message);
+            }
+        }
+    }
+
     return (
         <div className="min-w-screen min-h-screen">
             {/* <Header /> */}
@@ -330,8 +354,14 @@ function HomePage() {
                     />
                 )
             ) : (
-                <RankingTable columns={columns} data={tmp} topStudent={topStudent} listStudentJoined={listStudentJoined} />
-                // <RankingTable columns={column} data={allRowData} listStudentJoined={lst} />
+                <>
+                    <div className="flex justify-end mt-8 w-10/12 m-auto">
+                        <Button onClick={handleSaveGrade}>
+                            Save grade
+                        </Button>
+                    </div>
+                    <RankingTable columns={columns} data={tmp} topStudent={topStudent} listStudentJoined={listStudentJoined} handleSaveGrade={handleSaveGrade} />
+                </>
             )}
 
             {isModalVisible ? (

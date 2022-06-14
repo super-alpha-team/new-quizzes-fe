@@ -38,6 +38,13 @@ function ChooseQuiz() {
                     router.push(`/launch?ltik=${router.query.ltik}`)
                 }
 
+                let additional_info = JSON.parse(newQuiz.additional_info || '{}');
+
+                newQuiz = {
+                    ...newQuiz,
+                    ...additional_info,
+                };
+
                 setQuiz(newQuiz);
 
                 const listQuizInstance = await quizApi.listQuizInstance(
@@ -88,13 +95,41 @@ function ChooseQuiz() {
         await quizApi.downloadExportData(router.query.ltik, id, name);
     }
 
+    async function handleSaveGrade(id) {
+        try {
+            let response = await quizApi.saveGrade(router.query.ltik, id);
+            let newQuizUpdate = response.data.data.newQuiz;
+
+            let additional_info = JSON.parse(newQuizUpdate.additional_info || '{}');
+            newQuizUpdate = {
+                ...newQuizUpdate,
+                ...additional_info,
+            };
+
+            setQuiz(newQuizUpdate);
+
+            const listQuizInstance = await quizApi.listQuizInstance(
+                router.query.ltik,
+                newQuiz.id
+            );
+            setListInstance(
+                listQuizInstance.data.data.new_quiz_instance_list
+            );
+            alert('Save grade success');
+        } catch (error) {
+            if (error.response) {
+                alert(error.response.data.data.message);
+            } else {
+                alert(error.message);
+            }
+        }
+    }
+
     const chooseQuiz = useRef(null);
     const toggleNameModal = () => chooseQuiz.current.toggleVisibility();
 
     const newInstance = useRef(null);
     const toggleNameInstanceModal = () => newInstance.current.toggleVisibility();
-
-    console.log('list', listInstance.reverse())
 
     return (
         <>
@@ -186,6 +221,11 @@ function ChooseQuiz() {
                                                                 <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">Active</span>
                                                             )
                                                         }
+                                                        {
+                                                            instance.id == newQuiz.saved_grade_for_instance && (
+                                                                <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800">Saved grade</span>
+                                                            )
+                                                        }
                                                     </p>
                                                     {/* <p>Trạng thái: {instance.status}</p> */}
 
@@ -210,12 +250,20 @@ function ChooseQuiz() {
                                                         }
                                                         {
                                                             instance.status == QUIZ_STATUS.DONE && (
+                                                                <div className=' flex flex-row gap-2'>
+                                                                <Button 
+                                                                    className="text-sm w-40"
+                                                                    variants="secondary"
+                                                                    onClick={() => handleSaveGrade(instance.id)}>
+                                                                        Save Grade
+                                                                </Button>
                                                                 <Button 
                                                                     className="text-sm w-40"
                                                                     variants="secondary"
                                                                     onClick={() => handleDownloadExport(instance.id, instance.name)}>
                                                                         Tải dữ liệu chơi
                                                                 </Button>
+                                                                </div>
                                                             )
                                                         }
                                                         
