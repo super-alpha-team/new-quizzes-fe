@@ -48,6 +48,7 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
                 .catch(err => console.log(err));
 
             socket.on('question', data => {
+                console.log('question>>>', data);
                 const { current_question_index, question } = data;
                 setCurrentIndex(current_question_index);
                 if (current_question_index < 0) {
@@ -62,7 +63,7 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
 
             socket.on('grade_student', data => {
                 if (data?.question_index) {
-                    let gradeList = data?.grade[currentIndex];
+                    let gradeList = data?.grade[Object.entries(data?.grade).length - 1];
                     if (gradeList) {
                         if (Object.entries(gradeList).length) {
                             setGrade(gradeList[platformUserId]);
