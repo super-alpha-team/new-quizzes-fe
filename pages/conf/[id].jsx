@@ -136,9 +136,18 @@ function ConfigQuestion() {
         <>
             <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
                 {/* <Header /> */}
-                <div className='flex justify-start px-4 py-4'>
+                <div className='flex justify-between px-4 py-4'>
                     <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+                    <div
+                        onClick={handleSaveQuizWithTime}
+                    >
+                        <p className="bg-blue-lightDark max-w-[12rem] hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center">
+                            Continue
+                        </p>
+                    </div>
+
                 </div>
+
                 <div className="w-9/12 m-auto pb-12">
                     <div className="mt-6 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || "Quiz Untitle"}</p>

@@ -28,7 +28,7 @@ function Clock({ handleTimeUp, currentIndex, deadTime }) {
     }, [currentIndex]);
 
     return (
-        <div className="w-20 h-20 ml-4 flex justify-center items-center rounded-[50%] text-lg bg-qpurple text-white font-semibold">{convertToMinutes(timeRemaining)}</div>
+        <div className="w-20 h-20 ml-4 flex justify-center items-center rounded-[50%] text-lg bg-qpurple-light text-white font-semibold">{convertToMinutes(timeRemaining)}</div>
     );
 }
 

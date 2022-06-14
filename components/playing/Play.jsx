@@ -63,7 +63,8 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
 
             socket.on('grade_student', data => {
                 if (data?.question_index) {
-                    let gradeList = data?.grade[Object.entries(data?.grade).length - 1];
+                    const index = Math.max(...Object.keys(data?.grade).map(v => Number(v)));
+                    let gradeList = data?.grade[index];
                     if (gradeList) {
                         if (Object.entries(gradeList).length) {
                             setGrade(gradeList[platformUserId]);
