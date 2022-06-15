@@ -11,6 +11,8 @@ import Play from '../../components/playing/Play';
 export default function PlayGame() {
   const router = useRouter();
   const [username, setUsername] = useState(null);
+  const [history, setHistory] = useState(null);
+  const [maxGrade, setMaxGrade] = useState(0);
 
   const [platformUserId, setPlatformUserId] = useState(null);
   const [quizInstance, setQuizInstance] = useState({
@@ -32,7 +34,10 @@ export default function PlayGame() {
         const { socket_id, status, name } = newQuizInstance;
 
         let info = await syncApi.syncInfo(router.query.ltik);
-        console.log('info>>>', info, newQuizInstance);
+        setHistory(info.data?.data?.submission_data);
+        console.log('info >>>' , info.data?.data);
+        console.log('additional >>> ', JSON.parse(info.data?.data?.new_quiz?.additional_info));
+        setMaxGrade(JSON.parse(info.data?.data?.new_quiz?.additional_info).count_question);
         setPlatformUserId(info.data?.data?.platform_user_id);
 
         setQuizInstance({
@@ -53,6 +58,6 @@ export default function PlayGame() {
   return !quizInstance.status ? <NotStartedQuiz />
     : quizInstance.status != QUIZ_STATUS.DONE ?
       (username ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} platformUserId={platformUserId} username={username} quizName={quizInstance.quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizInstance.quizName} />)
-      : <DoneQuiz />;
+      : <DoneQuiz token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} />;
 
 }

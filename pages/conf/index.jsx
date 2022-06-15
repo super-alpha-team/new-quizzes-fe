@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 
-import Header from 'components/Header';
+import NameModal from 'components/config/NameModal';
 import SingleQuiz from 'components/config/SingleQuiz';
 import Popover from 'components/helpers/Popover';
-import NameModal from 'components/config/NameModal';
 
-import { QUIZ_STATUS } from 'utils/config';
-import Button from 'components/helpers/Button';
-import syncApi from 'apis/syncApi';
 import quizApi from 'apis/quizApi';
+import syncApi from 'apis/syncApi';
+import Alert from 'components/helpers/Alert';
+import Button from 'components/helpers/Button';
+import { QUIZ_STATUS } from 'utils/config';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -20,6 +20,7 @@ function ChooseQuiz() {
     const router = useRouter();
 
     const [instanceStatus, setInstanceStatus] = useState(null);
+    const [noti, setNoti] = useState({ msg: '', isError: false });
 
     useEffect(() => {
         const getAllQuizzes = async () => {
@@ -115,14 +116,24 @@ function ChooseQuiz() {
             setListInstance(
                 listQuizInstance.data.data.new_quiz_instance_list
             );
-            alert('Save grade success');
+            alertMessage('Saved successfully');
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.data.message);
+                alertError(error.response.data?.message);
             } else {
-                alert(error.message);
+                alertError(error.message);
             }
         }
+    }
+
+    function alertMessage(msg) {
+        setNoti({ ...noti, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
+    }
+
+    function alertError(msg) {
+        setNoti({ isError: true, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
 
     const chooseQuiz = useRef(null);
@@ -133,6 +144,7 @@ function ChooseQuiz() {
 
     return (
         <>
+            {noti.msg && <Alert message={noti.msg} isError={noti.isError} />}
             <div className="bg-background-mid min-w-screen min-h-screen w-full h-full">
                 <Popover ref={chooseQuiz}>
                     <NameModal
@@ -197,81 +209,81 @@ function ChooseQuiz() {
                                             </p>
                                             <hr className="mb-8 mt-2" />
 
-                                        
+
                                             <p>Chơi ngay nếu có bộ câu hỏi đã được cài đặt </p>
                                             <p>Hoặc</p>
                                             <p>Tạo bộ câu hỏi mới ở đây </p>
                                             <Button
                                                 className="w-40 text-base mt-2 mb-8"
                                                 onClick={toggleNameInstanceModal}>
-                                                     Tạo mới
+                                                Tạo mới
                                             </Button>
 
                                             {/* <hr className="mb-8 " /> */}
 
                                             {listInstance.sort((a, b) => parseInt(b.id) - parseInt(a.id))
-                                            .map((instance, index) => (
-                                                <div
-                                                    key={index}
-                                                    className="flex justify-between text-lg items-center h-32 overflow-hidden pl-8 bg-white m-auto w-full mb-2"
-                                                >
-                                                    <p>{instance.name}
-                                                        {
-                                                            instance.id == newQuiz.new_quiz_instance_active_id && (
-                                                                <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">Active</span>
-                                                            )
-                                                        }
-                                                        {
-                                                            instance.id == newQuiz.saved_grade_for_instance && (
-                                                                <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800">Saved grade</span>
-                                                            )
-                                                        }
-                                                    </p>
-                                                    {/* <p>Trạng thái: {instance.status}</p> */}
+                                                .map((instance, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="flex justify-between text-lg items-center h-32 overflow-hidden pl-8 bg-white m-auto w-full mb-2"
+                                                    >
+                                                        <p>{instance.name}
+                                                            {
+                                                                instance.id == newQuiz.new_quiz_instance_active_id && (
+                                                                    <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">Active</span>
+                                                                )
+                                                            }
+                                                            {
+                                                                instance.id == newQuiz.saved_grade_for_instance && (
+                                                                    <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800">Saved grade</span>
+                                                                )
+                                                            }
+                                                        </p>
+                                                        {/* <p>Trạng thái: {instance.status}</p> */}
 
-                                                    <div className="flex flex-col items-end h-full justify-between py-2 px-2">
-                                                    {instance.status == QUIZ_STATUS.DONE && (
-                                                            <span className="ml-2 bg-blue-0 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">#Done</span>
-                                                        )}
+                                                        <div className="flex flex-col items-end h-full justify-between py-2 px-2">
+                                                            {instance.status == QUIZ_STATUS.DONE && (
+                                                                <span className="ml-2 bg-blue-0 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">#Done</span>
+                                                            )}
 
-                                                        {instance.status == QUIZ_STATUS.EDITING && (
-                                                            <span className="ml-2 bg-red-00 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">#Editing</span>
-                                                        )}
+                                                            {instance.status == QUIZ_STATUS.EDITING && (
+                                                                <span className="ml-2 bg-red-00 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">#Editing</span>
+                                                            )}
 
-                                                        {
-                                                            instance.status == QUIZ_STATUS.EDITING && (
-                                                                <Button 
-                                                                    className="text-sm min-w-40"
+                                                            {
+                                                                instance.status == QUIZ_STATUS.EDITING && (
+                                                                    <Button
+                                                                        className="text-sm min-w-40"
 
-                                                                    onClick={() => handleContinueConfigTime(instance.id)}>
+                                                                        onClick={() => handleContinueConfigTime(instance.id)}>
                                                                         Tiếp tục chỉnh sửa
-                                                                </Button>
-                                                            )
-                                                        }
-                                                        {
-                                                            instance.status == QUIZ_STATUS.DONE && (
-                                                                <div className=' flex flex-row gap-2'>
-                                                                <Button 
-                                                                    className="text-sm w-40"
-                                                                    variants="secondary"
-                                                                    onClick={() => handleSaveGrade(instance.id)}>
-                                                                        Save Grade
-                                                                </Button>
-                                                                <Button 
-                                                                    className="text-sm w-40"
-                                                                    variants="secondary"
-                                                                    onClick={() => handleDownloadExport(instance.id, instance.name)}>
-                                                                        Tải dữ liệu chơi
-                                                                </Button>
-                                                                </div>
-                                                            )
-                                                        }
-                                                        
+                                                                    </Button>
+                                                                )
+                                                            }
+                                                            {
+                                                                instance.status == QUIZ_STATUS.DONE && (
+                                                                    <div className=' flex flex-row gap-2'>
+                                                                        <Button
+                                                                            className="text-sm w-40"
+                                                                            variants="secondary"
+                                                                            onClick={() => handleSaveGrade(instance.id)}>
+                                                                            Save Grade
+                                                                        </Button>
+                                                                        <Button
+                                                                            className="text-sm w-40"
+                                                                            variants="secondary"
+                                                                            onClick={() => handleDownloadExport(instance.id, instance.name)}>
+                                                                            Tải dữ liệu chơi
+                                                                        </Button>
+                                                                    </div>
+                                                                )
+                                                            }
+
+                                                        </div>
+
                                                     </div>
-                                                    
-                                                </div>
-                                            ))}
-                                            
+                                                ))}
+
                                         </div>
                                     </>
                                 )
