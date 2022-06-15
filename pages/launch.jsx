@@ -219,6 +219,7 @@ function HomePage() {
 
                 socket.on('end_question', (data) => {
                     setIsFinish(true);
+                    alertMessage("Quiz finished");
                 });
             });
 
@@ -321,17 +322,15 @@ function HomePage() {
     
     function alertMessage(msg) {
         setNoti({ ...noti, msg });
-        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
 
     function alertError(msg) {
         setNoti({ isError: true, msg });
-        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
 
     return (
         <>
-            {noti.msg && <Alert message={noti.msg} isError={noti.isError} />}
+        {noti.msg && <Alert message={noti.msg} isError={noti.isError} hideAlert={() => setNoti({ msg: '', isError: false })} />}
             <div className="min-w-screen min-h-screen">
                 {/* <Header /> */}
                 <div className='flex justify-between px-24 py-6 border-2 items-center sticky top-0 w-full bg-white'>

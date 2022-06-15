@@ -32,12 +32,10 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
 
     function alertMessage(msg) {
         setNoti({ ...noti, msg });
-        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
 
     function alertError(msg) {
         setNoti({ isError: true, msg });
-        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
     async function handleRegister(e) {
         e.preventDefault();
@@ -59,7 +57,7 @@ export default function LoginModal({ loginClickCallback, closeFn }) {
     }
 
     return <>
-        {noti.msg && <Alert message={noti.msg} isError={noti.isError} />}
+        {noti.msg && <Alert message={noti.msg} isError={noti.isError} hideAlert={() => setNoti({ msg: '', isError: false })} />}
 
         <div className="max-w-lg relative mx-auto mt-24 bg-gray-400 z-50">
             <form

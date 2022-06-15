@@ -29,8 +29,7 @@ function Credential({ name, onSubmit }) {
 
   function copyToClipboard(e) {
     navigator.clipboard.writeText(e.target.value);
-    setMessage('copied to your clipboard!');
-    setTimeout(() => setMessage(null), 2000);
+    setNoti("Copied to your clipboard!");
   }
 
   function handleCreate(e) {
@@ -50,9 +49,19 @@ function Credential({ name, onSubmit }) {
     }
   }
 
+  const [noti, setNoti] = useState({ msg: '', isError: false });
+
+  function alertMessage(msg) {
+    setNoti({ ...noti, msg });
+}
+
+function alertError(msg) {
+    setNoti({ isError: true, msg });
+}
+
   return (
     <div className='flex flex-col items-center justify-around gap-4 bg-white rounded-lg px-12 pt-8 pb-16'>
-      {message && <Alert message={message} />}
+        {noti.msg && <Alert message={noti.msg} isError={noti.isError} hideAlert={() => setNoti({ msg: '', isError: false })} />}
       <div className="text-lg font-mono mb-4">Configuration of <b className='after:block after:w-full after:h-3 after:bg-[#91A8ED] after:-mt-3 after:bg-opacity-60'>{name}</b></div>
       <div className='flex gap-8'>
         <div className='flex flex-col gap-4'>

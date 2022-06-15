@@ -21,7 +21,7 @@ function Multichoice({ data, handleAnswer }) {
             <div className={`w-full min-w-0 h-full grid gap-4 grid-cols-1 ` + (two ? 'lg:grid-cols-2 md:grid-cols-2' : five ? 'lg:grid-cols-5 md:grid-cols-5' : four ? 'lg:grid-cols-4 md:grid-cols-4' : three ? 'lg:grid-cols-3 md:grid-cols-3' : 'lg:grid-cols-7 md:grid-cols-7')}>
                 {data.map(({ id, answer, alphabetId }, index) =>
                     <button className='w-full h-full flex justify-center items-center gap-2 py-4 px-2 text-xl text-white hover:opacity-95 rounded-sm' style={{ backgroundColor: getDefaultColor(index), boxShadow: `0 3px ${getCorrespondingShadowColor(index)}` }} onClick={() => handleAnswer(Number(id))} key={id}>
-                        <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center block align-middle' style={{ color: getDefaultColor(index) }}>{alphabetId}</div>
+                        <div className='rounded-full bg-qgray text-black w-max h-max text-sm min-h-[1.25rem] min-w-[1.25rem] text-center flex justify-center items-center' style={{ color: getDefaultColor(index) }}>{alphabetId}</div>
                         <div className='w-full flex justify-start'>
                             <TeXDisplay content={answer} />
                         </div>
