@@ -1,15 +1,15 @@
-import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
 
-import Header from 'components/Header';
+import NameModal from 'components/config/NameModal';
 import SingleQuiz from 'components/config/SingleQuiz';
 import Popover from 'components/helpers/Popover';
-import NameModal from 'components/config/NameModal';
 
-import { QUIZ_STATUS } from 'utils/config';
-import Button from 'components/helpers/Button';
-import syncApi from 'apis/syncApi';
 import quizApi from 'apis/quizApi';
+import syncApi from 'apis/syncApi';
+import Alert from 'components/helpers/Alert';
+import Button from 'components/helpers/Button';
+import { QUIZ_STATUS } from 'utils/config';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -20,6 +20,7 @@ function ChooseQuiz() {
     const router = useRouter();
 
     const [instanceStatus, setInstanceStatus] = useState(null);
+    const [noti, setNoti] = useState({ msg: '', isError: false });
 
     useEffect(() => {
         const getAllQuizzes = async () => {
@@ -115,14 +116,24 @@ function ChooseQuiz() {
             setListInstance(
                 listQuizInstance.data.data.new_quiz_instance_list
             );
-            alert('Save grade success');
+            alertMessage('Saved successfully');
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.data.message);
+                alertError(error.response.data?.message);
             } else {
-                alert(error.message);
+                alertError(error.message);
             }
         }
+    }
+
+    function alertMessage(msg) {
+        setNoti({ ...noti, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
+    }
+
+    function alertError(msg) {
+        setNoti({ isError: true, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
     }
 
     const chooseQuiz = useRef(null);
@@ -133,6 +144,7 @@ function ChooseQuiz() {
 
     return (
         <>
+            {noti.msg && <Alert message={noti.msg} isError={noti.isError} />}
             <div className="bg-background-mid min-w-screen min-h-screen w-full h-full">
                 <Popover ref={chooseQuiz}>
                     <NameModal
@@ -268,10 +280,10 @@ function ChooseQuiz() {
                                                         }
                                                         
                                                     </div>
-                                                    
-                                                </div>
-                                            ))}
-                                            
+
+                                                    </div>
+                                                ))}
+
                                         </div>
                                     </>
                                 )

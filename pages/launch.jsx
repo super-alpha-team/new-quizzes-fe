@@ -14,6 +14,7 @@ import syncApi from '../apis/syncApi';
 import _ from 'lodash';
 import TopMenu from 'components/config/TopMenu';
 import SoundSetup from 'components/helpers/SoundSetup';
+import Alert from 'components/helpers/Alert';
 
 function HomePage() {
     const router = useRouter();
@@ -41,10 +42,12 @@ function HomePage() {
 
     const [isFinish, setIsFinish] = useState(false);
 
+    const [noti, setNoti] = useState({ msg: '', isError: false });
+
     useEffect(() => {
         async function getData() {
             try {
-                if (router.query.id == undefined){
+                if (router.query.id == undefined) {
                     const syncLti = await syncApi.syncLti(router.query.ltik);
                     console.log('synclti', syncLti)
 
@@ -55,19 +58,19 @@ function HomePage() {
 
                     setNewQuizInstance(newQuizInstanceData);
 
-                    
 
-                    if(syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING){
+
+                    if (syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING) {
                         setIsDisplayRankingTable(true);
                         // getListQuestionAsColumns();
 
                         // let newQuizInstanceData = response.data.data.new_quiz_instance;
                         console.log('playing', syncLti);
-                        teacherJoinInClass(syncLti.data.data.new_quiz.id); 
+                        teacherJoinInClass(syncLti.data.data.new_quiz.id);
 
 
                         const response = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, syncLti.data.data.instance.id);
-                        console.log('quesion list',response.data.data.question_list)
+                        console.log('quesion list', response.data.data.question_list)
 
                         const tmpColumns = response.data.data.question_list.map(
                             (question, index) => {
@@ -81,7 +84,7 @@ function HomePage() {
                             header: 'Tên',
                             id: 'name'
                         });
-                        
+
                         setColumns(tmpColumns);
 
                         let data = {
@@ -97,16 +100,16 @@ function HomePage() {
                                 name: playerRespone.data.player[key]
                             }
                         });
-                        
+
                         setListStudentJoined(data_arr);
 
                     }
 
                     router.push(`launch?id=${syncLti.data.data.instance.id}&ltik=${router.query.ltik}`)
 
-                    
+
                 }
-                
+
                 else {
                     const newQuizInstance = await quizApi.getQuizInstance(router.query.ltik, router.query.id);
 
@@ -116,9 +119,9 @@ function HomePage() {
                     //     'useEffect[], new_quiz_instance',
                     //     newQuizInstanceData
                     // );
-    
+
                     setNewQuizInstance(newQuizInstanceData);
-    
+
                     try {
                         const settingData = JSON.parse(
                             newQuizInstanceData.additional_info
@@ -132,13 +135,13 @@ function HomePage() {
                         console.log('Parse SettingJson Data error:', error);
                     }
                 }
-                
+
             } catch (err) {
                 console.log('err', err);
             }
         }
         getData();
-    }, [router.query.ltik, router.query.id  ]);
+    }, [router.query.ltik, router.query.id]);
 
     function handleOpenModal() {
         setIsModalVisible(true);
@@ -155,72 +158,71 @@ function HomePage() {
             is_teacher: true
         };
         playApi.join(router.query.ltik, quizId, data)
-        .then((response) => {
-            socket.emit('join', {
-                username: 'teacher',
-                room: newQuizInstance.socket_id,
-                token: response.data.alpha_token
-            });
-            socket.on('data', (data) => {
-                console.log('data student', data);
-                if (data.type == 'join') {
-                    const data_arr = Object.keys(data.player).map((key) => {
-                        return {
-                            id: key,
-                            name: data.player[key]
-                        }
-                    });
-                    
-                    setListStudentJoined(data_arr);
+            .then((response) => {
+                socket.emit('join', {
+                    username: 'teacher',
+                    room: newQuizInstance.socket_id,
+                    token: response.data.alpha_token
+                });
+                socket.on('data', (data) => {
+                    console.log('data student', data);
+                    if (data.type == 'join') {
+                        const data_arr = Object.keys(data.player).map((key) => {
+                            return {
+                                id: key,
+                                name: data.player[key]
+                            }
+                        });
 
-                    const idStudentArray = Object.keys(data.player).map((key) => {
-                        return {
-                            id: Number(key)
-                        }
-                    })
+                        setListStudentJoined(data_arr);
 
-                    setAllRowData(idStudentArray)
+                        const idStudentArray = Object.keys(data.player).map((key) => {
+                            return {
+                                id: Number(key)
+                            }
+                        })
 
-                }
-            });
-            socket.on('grade', (data) => {
-                console.log('data', data);
-                // console.log('grade', data.grade_data)
-                if(data.grade_data){
-                    const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({id: student[0], [key]: student[1]}))));
-                    const gradeByNum = [].concat(...temp);
-                    const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
-                    gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
-                    console.log('>>>',gradeByUser);
-                    setTmp(gradeByUser);
-                }
-            });
+                        setAllRowData(idStudentArray)
 
-            socket.on('rank', (data) => {
-                // console.log('rank data', data);
-                let rank_list = data?.rank_list || [];
-                let rank_list_obj = {};
-                rank_list.forEach((item) => {
-                    if (item.rank == 1) {
-                        rank_list_obj['1'] = item;
-                    }
-                    if (item.rank == 2) {
-                        rank_list_obj['2'] = item;
-                    }
-                    if (item.rank == 3) {
-                        rank_list_obj['3'] = item;
                     }
                 });
-                setTopStudent(rank_list_obj);
+                socket.on('grade', (data) => {
+                    console.log('data', data);
+                    // console.log('grade', data.grade_data)
+                    if (data.grade_data) {
+                        const temp = Object.entries(data.grade_data).map(([key, value]) => (Object.entries(value).map((student) => ({ id: student[0], [key]: student[1] }))));
+                        const gradeByNum = [].concat(...temp);
+                        const gradeByUser = _.mapValues(_.groupBy(gradeByNum, 'id'),
+                            gradeByNum => gradeByNum.map(v => _.omit(v, 'id')));
+                        console.log('>>>', gradeByUser);
+                        setTmp(gradeByUser);
+                    }
+                });
+
+                socket.on('rank', (data) => {
+                    // console.log('rank data', data);
+                    let rank_list = data?.rank_list || [];
+                    let rank_list_obj = {};
+                    rank_list.forEach((item) => {
+                        if (item.rank == 1) {
+                            rank_list_obj['1'] = item;
+                        }
+                        if (item.rank == 2) {
+                            rank_list_obj['2'] = item;
+                        }
+                        if (item.rank == 3) {
+                            rank_list_obj['3'] = item;
+                        }
+                    });
+                    setTopStudent(rank_list_obj);
+                });
+
+                socket.on('end_question', (data) => {
+                    setIsFinish(true);
+                });
             });
 
-            socket.on('end_question', (data) => {
-                console.log('endquestion', data)
-                setIsFinish(true);
-            });
-        });
-        
-        
+
         return () => socket.disconnect();
     }
 
@@ -244,10 +246,10 @@ function HomePage() {
             let response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
 
             let newQuizInstanceData = response.data.data.new_quiz_instance;
-            
-            await quizApi.waitQuiz(router.query.ltik, newQuizInstanceData.new_quiz_id); 
 
-            teacherJoinInClass(newQuizInstanceData.new_quiz_id); 
+            await quizApi.waitQuiz(router.query.ltik, newQuizInstanceData.new_quiz_id);
+
+            teacherJoinInClass(newQuizInstanceData.new_quiz_id);
             setNewQuizInstance(newQuizInstanceData);
 
             // update quiz, pending until student join or when teacher want to start
@@ -284,7 +286,7 @@ function HomePage() {
             header: 'Tên',
             id: 'name'
         });
-        
+
         setColumns(tmpColumns);
     }
 
@@ -294,7 +296,7 @@ function HomePage() {
 
     async function handleSaveGrade() {
         if (!isFinish) {
-            return alert('Chưa kết thúc bài thi');
+            alertError('Chưa kết thúc bài thi');
         }
         try {
             let response = await quizApi.saveGrade(router.query.ltik, newQuizInstance.id);
@@ -306,71 +308,85 @@ function HomePage() {
             //     ...additional_info,
             // };
 
-            alert('Save grade success');
+            alertMessage('Saved successfully');
         } catch (error) {
             if (error.response) {
-                alert(error.response.data.data.message);
+                alertError(error.response.data?.message);
             } else {
-                alert(error.message);
+                alertError(error.message);
             }
         }
     }
 
+    
+    function alertMessage(msg) {
+        setNoti({ ...noti, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
+    }
+
+    function alertError(msg) {
+        setNoti({ isError: true, msg });
+        setTimeout(() => setNoti({ msg: '', isError: false }), 3000);
+    }
+
     return (
-        <div className="min-w-screen min-h-screen">
-            {/* <Header /> */}
-            <div className='flex justify-between px-24 py-6 border-2 items-center sticky top-0 w-full bg-white'>
-                <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
-                <SoundSetup />
-            </div>
-            {!isDisplayRankingTable ? (
-                !isStart ? (
-                    <div className="flex justify-center items-center mt-16">
-                        <div className="flex flex-col justify-center items-center">
-                            <Image
-                                src="/image/18915856.jpg"
-                                width={400}
-                                height={400}
-                                alt="team"
-                                className="cursor-pointer"
-                            />
-                            <Button
-                                type="button"
-                                variants="primary"
-                                onClick={handleOpenModal}
-                                className="w-32"
-                            >
-                                Start quiz
+        <>
+            {noti.msg && <Alert message={noti.msg} isError={noti.isError} />}
+            <div className="min-w-screen min-h-screen">
+                {/* <Header /> */}
+                <div className='flex justify-between px-24 py-6 border-2 items-center sticky top-0 w-full bg-white'>
+                    <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+                    <SoundSetup />
+                </div>
+                {!isDisplayRankingTable ? (
+                    !isStart ? (
+                        <div className="flex justify-center items-center">
+                            <div className="flex flex-col justify-center items-center">
+                                <Image
+                                    src="/image/18915856.jpg"
+                                    width={400}
+                                    height={400}
+                                    alt="team"
+                                    className="cursor-pointer"
+                                />
+                                <Button
+                                    type="button"
+                                    variants="primary"
+                                    onClick={handleOpenModal}
+                                    className="w-32"
+                                >
+                                    Start quiz
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <WaitingRoom
+                            listStudentJoined={listStudentJoined}
+                            startGameFn={handleStartGame}
+                        />
+                    )
+                ) : (
+                    <>
+                        <div className="flex justify-end mt-8 w-10/12 m-auto">
+                            <Button onClick={handleSaveGrade}>
+                                Save grade
                             </Button>
                         </div>
-                    </div>
-                ) : (
-                    <WaitingRoom
-                        listStudentJoined={listStudentJoined}
-                        startGameFn={handleStartGame}
-                    />
-                )
-            ) : (
-                <>
-                    <div className="flex justify-end mt-8 w-10/12 m-auto">
-                        <Button onClick={handleSaveGrade}>
-                            Save grade
-                        </Button>
-                    </div>
-                    <RankingTable columns={columns} data={tmp} topStudent={topStudent} listStudentJoined={listStudentJoined} handleSaveGrade={handleSaveGrade} />
-                </>
-            )}
+                        <RankingTable columns={columns} data={tmp} topStudent={topStudent} listStudentJoined={listStudentJoined} handleSaveGrade={handleSaveGrade} />
+                    </>
+                )}
 
-            {isModalVisible ? (
-                <SettingLaunch
-                    data={settingData}
-                    closeModal={handleCloseModal}
-                    settingStartQuiz={settingStartQuiz}
-                />
-            ) : (
-                ''
-            )}
-        </div>
+                {isModalVisible ? (
+                    <SettingLaunch
+                        data={settingData}
+                        closeModal={handleCloseModal}
+                        settingStartQuiz={settingStartQuiz}
+                    />
+                ) : (
+                    ''
+                )}
+            </div>
+        </>
     );
 }
 

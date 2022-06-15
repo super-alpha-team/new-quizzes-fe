@@ -42,7 +42,9 @@ function Test() {
 
         // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
         // <ShortAnswer handleAnswer={handleAnswer} />
-        <Clock handleTimeUp={() => { }} currentIndex={0} deadTime={(Date.now() / 1000 + 900) * 1000} />
+        // <Clock handleTimeUp={() => { }} currentIndex={0} deadTime={(Date.now() / 1000 + 900) * 1000} />
+        // <Loading message={'Great, let wait for your mates!'} />
+        <></>
     );
 }
 
