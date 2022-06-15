@@ -4,7 +4,7 @@ import JoiningCard from './JoiningCard';
 
 function WaitingRoom({ listStudentJoined, startGameFn }) {
     const [listStudentName, setListStudentName] = useState([]);
-    console.log(listStudentJoined);
+    console.log('liststudentjoid', listStudentJoined);
 
     useEffect(() => {
         setListStudentName(listStudentJoined);
@@ -17,11 +17,11 @@ function WaitingRoom({ listStudentJoined, startGameFn }) {
     return (
         <div>
             <p className="text-2xl text-center p-4">
-                Tìm kiếm tên bạn trên đây nhé{' '}
+                Do you see your name ???
             </p>
             <div className='flex justify-end mr-32 mb-4'>
                 <Button variants='primary' onClick={handleStartGame}>
-                    Chơi game
+                    Let`s play
                 </Button>
             </div>
             <div className="flex justify-center">

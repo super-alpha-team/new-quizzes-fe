@@ -2,6 +2,23 @@ import React from 'react';
 import TopCard from './TopCard';
 
 function RankingTable({ columns, data, topStudent, listStudentJoined }) {
+    console.log("ranking data", data)
+
+    Object.keys(data).map((key, index) => {
+    columns.filter((col) => col.id != 'name').map((column, index) => {
+        
+             console.log(   data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
+                ? 'p' : 
+                data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
+                .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
+                
+                )
+             )
+                
+                
+    })
+})
+
     return (
         <div className="w-10/12 m-auto">
             <div className="grid grid-cols-3 mt-8">
@@ -51,7 +68,7 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                                                 >
                                                     {/* {data[key].map((cell, ind) => Object.keys(cell).find(key => key == index))} */}
                                                     {data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
-                                                    ? 0 : 
+                                                    ? 'p' : 
                                                     data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
                                                     .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
                                                     

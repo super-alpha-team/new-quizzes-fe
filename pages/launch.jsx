@@ -215,6 +215,7 @@ function HomePage() {
             });
 
             socket.on('end_question', (data) => {
+                console.log('endquestion', data)
                 setIsFinish(true);
             });
         });
@@ -241,10 +242,6 @@ function HomePage() {
                 additional_info: JSON.stringify(settingData),
             };
             let response = await quizApi.updateQuizInstance(router.query.ltik, router.query.id, data);
-
-            console.log('response start quiz', router.query.ltik)
-            console.log('query id', router.query.id)
-            console.log('data', data)
 
             let newQuizInstanceData = response.data.data.new_quiz_instance;
             
@@ -322,13 +319,13 @@ function HomePage() {
     return (
         <div className="min-w-screen min-h-screen">
             {/* <Header /> */}
-            <div className='w-10/12 m-auto pt-8 flex justify-between'>
+            <div className='flex justify-between px-24 py-6 border-2 items-center sticky top-0 w-full bg-white'>
                 <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                 <SoundSetup />
             </div>
             {!isDisplayRankingTable ? (
                 !isStart ? (
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center mt-16">
                         <div className="flex flex-col justify-center items-center">
                             <Image
                                 src="/image/18915856.jpg"

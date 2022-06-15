@@ -150,7 +150,7 @@ function ChooseQuiz() {
                 {
                     isHavingInstance == false && (
                         <>
-                            <p className="w-9/12 py-8 m-auto text-xl font-bold">Chọn bộ câu hỏi</p>
+                            <p className="w-9/12 py-8 m-auto text-xl font-bold">Choose your quiz</p>
                             <div className="w-9/12 m-auto h-full min-h-[75vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                                 <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                     {listQuiz.map((quizInfo, index) => (
@@ -173,11 +173,11 @@ function ChooseQuiz() {
                                         onClick={toggleNameModal}
                                         className="w-32"
                                     >
-                                        Tiếp tục
+                                        Continue
                                     </Button>
                                 ) : (
                                     <div className="bg-gray-300 text-white font-bold py-2 px-4 rounded duration-300 w-32 flex justify-center">
-                                        Tiếp tục
+                                        Continue
                                     </div>
                                 )}
                             </div>
@@ -193,18 +193,18 @@ function ChooseQuiz() {
                                     <>
                                         <div className="w-8/12 m-auto pt-4 pb-16">
                                             <p className="text-xl font-bold mb-4">
-                                                Các bộ câu hỏi được tạo trước đây
+                                                Previous created question sets
                                             </p>
                                             <hr className="mb-8 mt-2" />
 
                                         
-                                            <p>Chơi ngay nếu có bộ câu hỏi đã được cài đặt </p>
-                                            <p>Hoặc</p>
-                                            <p>Tạo bộ câu hỏi mới ở đây </p>
+                                            <p>Play now if your quiz has already created </p>
+                                            <p>Or</p>
+                                            <p>Create new !!!</p>
                                             <Button
                                                 className="w-40 text-base mt-2 mb-8"
                                                 onClick={toggleNameInstanceModal}>
-                                                     Tạo mới
+                                                     Create
                                             </Button>
 
                                             {/* <hr className="mb-8 " /> */}
@@ -244,7 +244,7 @@ function ChooseQuiz() {
                                                                     className="text-sm min-w-40"
 
                                                                     onClick={() => handleContinueConfigTime(instance.id)}>
-                                                                        Tiếp tục chỉnh sửa
+                                                                        Continue editing
                                                                 </Button>
                                                             )
                                                         }
@@ -261,7 +261,7 @@ function ChooseQuiz() {
                                                                     className="text-sm w-40"
                                                                     variants="secondary"
                                                                     onClick={() => handleDownloadExport(instance.id, instance.name)}>
-                                                                        Tải dữ liệu chơi
+                                                                        Download play data
                                                                 </Button>
                                                                 </div>
                                                             )

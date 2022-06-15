@@ -39,7 +39,7 @@ export default function NameModal({ nameClickCallback, closeFn, title = "Name" }
                     variants="secondary"
                     onClick={closeFn}
                 >
-                    Hủy
+                    Cancel
                 </Button>
                 <Button
                         type="submit"
