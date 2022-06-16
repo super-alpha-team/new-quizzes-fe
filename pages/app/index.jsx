@@ -11,6 +11,7 @@ import platformApi from 'apis/platformApi';
 import { userApi } from 'apis/userApi';
 import Alert from 'components/helpers/Alert';
 import { get_accessToken_localStorage, save_accessToken_localStorage } from 'utils/localStore';
+import PlatformHeader from 'components/app/platform/Header';
 
 function App() {
     const [credentials, setCredentials] = useState([]);
@@ -187,7 +188,7 @@ function App() {
             <p onClick={deleteCredentialConfirm}>Confirm</p>
         </Popover> */}
             <div className='min-w-screen min-h-screen bg-gray-100 flex flex-col'>
-                <Header />
+                <PlatformHeader />
                 <div className='w-full lg:w-5/6 self-center mb-20 mt-8'>
                     <div className='mt-7 flex flex-col gap-2'>
                         {

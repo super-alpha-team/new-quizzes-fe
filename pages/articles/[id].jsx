@@ -1,10 +1,10 @@
+import PlatformHeader from 'components/app/platform/Header';
 import React from 'react';
-import Header from '../../components/Header';
 
 function LTIConfig() {
     return (
         <div className=''>
-            <Header />
+            <PlatformHeader />
             <div className='px-12'>
                 <div className='top-24 absolute after:block after:w-full after:h-4 text-blue-dark after:bg-[#91A8ED] after:-mt-3 after:bg-opacity-60 text-4xl font-bold'>Configuring LTI Pro 1.3 for Moodle</div>
                 <p className="text-gray-400 italic text-sm mt-36">Last updated: Mar 16 2022</p>
