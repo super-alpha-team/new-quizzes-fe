@@ -65,7 +65,7 @@ function Question({
                         <TeXDisplay content={questionText} />
                     </div>
                     {isSetTimeError ? (
-                        <p className="text-red-600 italic text-sm pb-8">
+                        <p className="text-qred italic text-sm pb-8">
                             * Chưa thêm thời gian cho câu hỏi (thời gian phải
                             lớn hơn 0)!!
                         </p>
@@ -79,7 +79,7 @@ function Question({
                                     className="flex flex-row gap-2"
                                     key={answer.id}
                                 >
-                                    <div className="w-6 h-6 p-4 bg-green-light rounded-full flex justify-center items-center">
+                                    <div className="w-6 h-6 p-4 bg-qgreen-light rounded-full flex justify-center items-center">
                                         {ids.next()}
                                     </div>
                                     <TeXDisplay content={answer.answer} />
@@ -92,7 +92,7 @@ function Question({
                                 <div
                                     className="flex flex-row gap-2"
                                 >
-                                    <div className="w-6 h-6 p-4 bg-green-light rounded-full flex justify-center items-center">
+                                    <div className="w-6 h-6 p-4 bg-qgreen-light rounded-full flex justify-center items-center">
                                         {ids.next()}
                                     </div>
                                     <TeXDisplay content={'True'} />
@@ -101,7 +101,7 @@ function Question({
                                 <div
                                     className="flex flex-row gap-2"
                                 >
-                                    <div className="w-6 h-6 p-4 bg-green-light rounded-full flex justify-center items-center">
+                                    <div className="w-6 h-6 p-4 bg-qgreen-light rounded-full flex justify-center items-center">
                                         {ids.next()}
                                     </div>
                                     <TeXDisplay content={'False'} />
@@ -147,7 +147,7 @@ function Question({
                         </div>
                     ) : isChoosing == id && isEdit ? (
                         <div
-                            className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                            className="w-8 h-8 bg-qgreen hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
                             onClick={handleSaveTime}
                         >
                             <svg
@@ -165,7 +165,7 @@ function Question({
                         </div>
                     ) : (
                         <div
-                            className="w-8 h-8 bg-blue-lightDark hover:bg-blue-dark duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                            className="w-8 h-8 bg-qpurple-light hover:bg-qpurple duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
                             onClick={handleChooseQuestion}
                         >
                             <svg
