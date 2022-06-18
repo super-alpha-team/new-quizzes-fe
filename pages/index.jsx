@@ -45,6 +45,6 @@ export default function Home() {
   }, [router.query.ltik]);
 
   return (
-    <p>Loading</p>
+    <Loading message={'Loading...'} />
   );
 }

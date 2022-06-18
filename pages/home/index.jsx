@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import PlatformHeader from 'components/app/platform/Header';
-import Router, { useRouter } from 'next/router';
-import React from 'react';
+import PlatformHeader from 'components/app/platform/PlatformHeader';
+import { useRouter } from 'next/router';
 
 function Application() {
     const router = useRouter();
@@ -21,9 +20,9 @@ function Application() {
                         <div className="flex w-full justify-center items-end">
                             <div className="relative mr-4 lg:w-full xl:w-1/2 w-2/4 md:w-full text-left">
                                 <label htmlFor="hero-field" className="leading-7 text-sm text-gray-600">Receive our news</label>
-                                <input type="text" id="hero-field" name="hero-field" className="w-full bg-gray-100 bg-opacity-50 rounded focus:ring-2 focus:ring-indigo-200 focus:bg-transparent border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+                                <input type="text" id="hero-field" name="hero-field" className="w-full bg-gray-100 bg-opacity-50 rounded focus:ring-2 focus:ring-qpurple-light focus:bg-transparent border border-gray-300 focus:border-qpurple text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
                             </div>
-                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Subcribe</button>
+                            <button className="inline-flex text-white bg-qpurple border-0 py-2 px-6 focus:outline-none hover:bg-qpurple-light rounded text-lg">Subcribe</button>
                         </div>
                         <p className="text-sm mt-2 text-gray-500 mb-8 w-full">Download Mobile app now.</p>
                         <div className="flex">
@@ -58,7 +57,7 @@ function Application() {
                                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">#HowTo</h2>
                                 <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">Configuring LTI Pro 1.3 for Moodle</h1>
                                 <p className="leading-relaxed mb-3">Detailed instructions on how to configuaration LTI Pro 1.3 New Quizzes for Moodle LMS.</p>
-                                <a className="text-indigo-500 inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
+                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5l7 7-7 7"></path>
@@ -84,7 +83,7 @@ function Application() {
                                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">#More</h2>
                                 <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">About Us</h1>
                                 <p className="leading-relaxed mb-3">Get to know more about our team and how we make this New Quizzes.</p>
-                                <a className="text-indigo-500 inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
+                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5l7 7-7 7"></path>
