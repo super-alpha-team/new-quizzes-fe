@@ -28,18 +28,18 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index, ...rest }) {
                 <div
                     className={
                         isChoosing == id
-                            ? 'h-16 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center bg-[#C4CFEB] duration-300'
-                            : 'h-14 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center hover:bg-[#C4CFEB] hover:h-16 duration-300'
+                            ? 'h-16 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center bg-qpurple-light duration-300'
+                            : 'h-14 mb-2 rounded-lg flex justify-between pl-4 pr-4 items-center hover:bg-qpurple-lighter hover:h-16 duration-300'
                     }
                     {...getToggleProps({ onClick: handleChoosingQuiz })}
                 >
-                    <p className="text-lg">
+                    <p className={ isChoosing == id ? "text-lg text-white" : "text-lg"}>
                         {index + 1}. {title}
                     </p>
                     {isExpanded ? (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-blue-dark"
+                            className={isChoosing == id ? "h-6 w-6 text-white" : "h-6 w-6 "}
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >
@@ -52,7 +52,7 @@ function SingleQuiz({ id, isChoosing, setIsChoosing, title, index, ...rest }) {
                     ) : (
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-blue-dark"
+                            className={isChoosing == id ? "h-6 w-6 text-white" : "h-6 w-6 "}
                             viewBox="0 0 20 20"
                             fill="currentColor"
                         >

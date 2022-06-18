@@ -10,8 +10,8 @@ export default function Button({
         <button
             {...rest}
             className={clsx(
-                'py-2 px-4 rounded font-bold hover:text-primary-400 animated-underline',
-                'border duration-300',
+                'inline-block p-1 rounded-sm hover:text-primary-400 animated-underline capitalize font-semibold hover:opacity-80',
+                ' duration-100',
                 'focus:outline-none focus-visible:text-primary-400 focus:shadow-outline',
                 {
                     'bg-blue-lightDark text-white hover:bg-blue-dark ':
@@ -19,7 +19,9 @@ export default function Button({
                     'bg-red-500 text-white hover:bg-red-600 ':
                         variants === 'error',
                     'bg-white text-gray-600 hover:bg-gray-200 hover:text-dark focus-visible:text-dark':
-                        variants === 'secondary'
+                        variants === 'secondary',
+                    'bg-qpurple-light text-white shadow-[0_3px_0_0_#46178f] ':
+                    variants === 'qpurple',
                 },
                 className
             )}
