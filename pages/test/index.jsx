@@ -1,5 +1,5 @@
 import DragDrop from 'components/questionares/DragDrop';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Clock from '../../components/playing/Clock';
 import InputUsername from '../../components/launch/InputUsername';
 import Essay from '../../components/questionares/Essay';
@@ -16,6 +16,8 @@ import PlayHeader from 'components/playing/PlayHeader';
 import TeXDisplay from 'components/helpers/TeXDisplay';
 import PlayFooter from 'components/playing/PlayFooter';
 import NotStartedQuiz from 'components/launch/NotStartedQuiz';
+import Popover from 'components/helpers/Popover';
+import NameModal from 'components/config/NameModal';
 
 const answers = Array(8).fill({ answer: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.', id: 0 })
     .map((e, i) => ({ ...e, id: i }));
@@ -32,6 +34,12 @@ function Test() {
     function handleAnswer(answer) {
         console.log(answer);
     }
+    const ref = useRef();
+    const toggleNameModal = () => ref.current.toggleVisibility();
+    const nameClickCallback = () => {};
+    useEffect(() => {
+        toggleNameModal();
+    }, []);
 
     return (
         // <>
@@ -44,7 +52,14 @@ function Test() {
         // <ShortAnswer handleAnswer={handleAnswer} />
         // <Clock handleTimeUp={() => { }} currentIndex={0} deadTime={(Date.now() / 1000 + 900) * 1000} />
         // <Loading message={'Great, let wait for your mates!'} />
-        <></>
+        <>
+            <Popover ref={ref}>
+                <NameModal
+                    nameClickCallback={nameClickCallback}
+                    closeFn={toggleNameModal}
+                />
+            </Popover>
+        </>
     );
 }
 
