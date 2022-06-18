@@ -57,7 +57,6 @@ function PlatformHeader() {
             accessToken,
             account: response.data.data.account,
           });
-          alertMessage(`Good day ${response.data.data.account.username}!`);
         })
         .catch(error => {
           catchError(error);
@@ -73,6 +72,7 @@ function PlatformHeader() {
 
   async function loginClickCallback(loginData) {
     save_accessToken_localStorage(loginData.accessToken);
+    alertMessage(`Good day ${loginData.account.username}!`);
     init();
   }
 
@@ -99,6 +99,7 @@ function PlatformHeader() {
         <LoginModal
           loginClickCallback={loginClickCallback}
           togglePopup={toggleLogin}
+          catchError={catchError}
         />
       </Popover>
       <div className='fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 px-4 w-full font-display font-semibold'>

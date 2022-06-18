@@ -130,9 +130,8 @@ function App() {
             <Popover ref={editCredentialRef}>
                 <PlatformEditModal
                     platformData={credential}
-                    closeFn={toggleEditCredential}
+                    togglePopup={toggleEditCredential}
                     callBackFn={editCredentialCallback}
-                    toggleLogin={toggleLogin}
                 />
             </Popover>
             {/* <Popover ref={deleteCredentialRef}>

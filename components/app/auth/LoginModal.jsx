@@ -5,15 +5,13 @@ import ToggleSwitch from "components/helpers/ToggleSwitch";
 import { userApi } from 'apis/userApi';
 import Alert from 'components/helpers/Alert';
 
-export default function LoginModal({ loginClickCallback, togglePopup }) {
-
+export default function LoginModal({ loginClickCallback, togglePopup, catchError }) {
     const [loginData, setLoginData] = useState({
         username: '',
         password: '',
     });
 
     const [isLogin, setIsLogin] = useState(true);
-    const [noti, setNoti] = useState({ msg: '', isError: false });
 
     function handleLogin() {
         userApi.login(loginData)
@@ -38,22 +36,6 @@ export default function LoginModal({ loginClickCallback, togglePopup }) {
         }
     }
 
-    function catchError(error) {
-        if (error.response) {
-            alertError(error.response.data?.message);
-        } else {
-            alertError(error.message);
-        }
-    }
-
-    function alertMessage(msg) {
-        setNoti({ ...noti, msg });
-    }
-
-    function alertError(msg) {
-        setNoti({ isError: true, msg });
-    }
-
     function formOnSubmit(e) {
         e.preventDefault();
         if (isLogin) {
@@ -64,7 +46,6 @@ export default function LoginModal({ loginClickCallback, togglePopup }) {
         togglePopup();
     }
     return <>
-        {noti.msg && <Alert message={noti.msg} isError={noti.isError} hideAlert={() => setNoti({ msg: '', isError: false })} />}
         <div className='relative w-max h-max min-h-[16rem] min-w-[18rem] p-4 shadow-sm shadow-qpurple-light bg-white rounded-lg flex flex-col justify-between'>
             <p className='w-max text-qpurple-dark after:block after:w-full after:h-3 after:bg-qpurple-light after:-mt-3 after:bg-opacity-60 tracking-tight font-mono text-lg font-bold py-2'>{isLogin ? "Log in" : "Register"}</p>
             <button className='absolute top-0 right-0 text-sm text-qpurple-light hover:text-qpurple p-2' onClick={togglePopup}>
