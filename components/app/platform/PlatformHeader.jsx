@@ -122,7 +122,7 @@ function PlatformHeader() {
                   </li>
                 </ul>
               </div>
-              : <Button onSubmit={toggleLogin}>Login</Button>
+              : <Button onSubmit={toggleLogin} >Login</Button>
           }
         </div>
       </div>

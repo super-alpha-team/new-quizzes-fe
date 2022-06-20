@@ -7,6 +7,7 @@ import ToggleSwitch from '../../components/helpers/ToggleSwitch';
 import useCollapse from 'react-collapsed';
 import quizApi from '../../apis/quizApi';
 import TopMenu from 'components/config/TopMenu';
+import Button from 'components/helpers/Button';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -31,7 +32,11 @@ function ConfigQuestion() {
             time_answer: time
         };
 
-        const response = await quizApi.updateQuestion(router.query.ltik, listQuestions[index].id, data);
+        const response = await quizApi.updateQuestion(
+            router.query.ltik,
+            listQuestions[index].id,
+            data
+        );
 
         let newReturnList = returnListWithTime.slice();
         newReturnList[index]['time_answer'] = time;
@@ -56,15 +61,21 @@ function ConfigQuestion() {
             const question_string_encoded = Base64.encode(question_string);
             const dataSend = {
                 new_quiz_id: router.query.id,
-                question_string_encoded: question_string_encoded,
+                question_string_encoded: question_string_encoded
             };
 
-            const setInstanceActive = await quizApi.setNewInstanceActive(router.query.ltik, newQuizInstance.id);
+            const setInstanceActive = await quizApi.setNewInstanceActive(
+                router.query.ltik,
+                newQuizInstance.id
+            );
             console.log('setinstance active', setInstanceActive);
 
             router.push({
                 pathname: `/launch`,
-                query: { id: `${router.query.id}`, ltik: `${router.query.ltik}` }
+                query: {
+                    id: `${router.query.id}`,
+                    ltik: `${router.query.ltik}`
+                }
             });
         }
         setErrorConfigTimeList(errorCheckList);
@@ -77,7 +88,11 @@ function ConfigQuestion() {
     useEffect(() => {
         const getQuizzData = async () => {
             try {
-                const newQuizInstance = await quizApi.getQuizInstanceAndQuestion(router.query.ltik, router.query.id);
+                const newQuizInstance =
+                    await quizApi.getQuizInstanceAndQuestion(
+                        router.query.ltik,
+                        router.query.id
+                    );
 
                 let newQuizInstanceData = newQuizInstance.data.data;
 
@@ -90,8 +105,7 @@ function ConfigQuestion() {
                 //                                 .map((question) => question.id)
                 // console.log(errorTmp);
                 // setErrorConfigTimeList(errorTmp);
-                console.log("newQuizInstance", newQuizInstance);
-
+                console.log('newQuizInstance', newQuizInstance);
             } catch (err) {
                 console.log('err: ', err);
             }
@@ -108,9 +122,13 @@ function ConfigQuestion() {
     async function handleSaveTimeForAllQuestion() {
         try {
             const data = {
-                "time_answer": time
+                time_answer: time
             };
-            const response = await quizApi.updateQuizInstanceTimeAllQuestion(router.query.ltik, newQuizInstance.id, data);
+            const response = await quizApi.updateQuizInstanceTimeAllQuestion(
+                router.query.ltik,
+                newQuizInstance.id,
+                data
+            );
             console.log('response ', response);
 
             setListQuestions(response.data.data.question_list);
@@ -119,13 +137,14 @@ function ConfigQuestion() {
             if (time != 0) {
                 setErrorConfigTimeList([]);
             } else {
-                const errorTmp = response.data.data.question_list.map((error) => error.id);
+                const errorTmp = response.data.data.question_list.map(
+                    (error) => error.id
+                );
                 setErrorConfigTimeList(errorTmp);
             }
         } catch (err) {
             console.log('err', err);
         }
-
     }
 
     function goToChooseQuizPage() {
@@ -136,33 +155,38 @@ function ConfigQuestion() {
         <>
             <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
                 {/* <Header /> */}
-                <div className='flex justify-between px-24 py-4 border-2 items-center sticky top-0 w-full bg-white z-50'>
+                <div className="fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 px-4 w-full font-display font-semibold flex justify-between border-2 items-center">
                     <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
-                    <div
-                        onClick={handleSaveQuizWithTime}
-                    >
-                        <p className="bg-blue-lightDark max-w-[12rem] hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center">
+                    <div onClick={handleSaveQuizWithTime}>
+                        <Button
+                            type="button"
+                            variants="qpurple"
+                            className="w-32"
+                        >
                             Continue
-                        </p>
+                        </Button>
                     </div>
-
                 </div>
 
-                <div className="w-9/12 m-auto pb-12">
+                <div className="w-9/12 mt-16 m-auto pb-12">
                     <div className="mt-4 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
-                        <p>{newQuizInstance.name || "Quiz Untitle"}</p>
+                        <p>{newQuizInstance.name || 'Quiz Untitle'}</p>
                     </div>
                     <p className="mb-4 mt-2">
-                        * Add time for each question or add all questions with same time
+                        * Add time for each question or add all questions with
+                        same time
                     </p>
 
-                    <div className='flex gap-2 mb-2'>
-                        <ToggleSwitch isToggle={isExpanded} setIsToggle={setExpanded} />
+                    <div className="flex gap-2 mb-2">
+                        <ToggleSwitch
+                            isToggle={isExpanded}
+                            setIsToggle={setExpanded}
+                        />
                         <p>Add time for all questions</p>
                     </div>
 
                     <div {...getCollapseProps()}>
-                        <div className='flex gap-2 items-center mb-4' >
+                        <div className="flex gap-2 items-center mb-4">
                             <input
                                 placeholder="thời gian (s)"
                                 className="p-2 w-32 outline-none border border-gray-200 shadow-input focus:border-gray-light transition rounded-md"
@@ -171,7 +195,7 @@ function ConfigQuestion() {
                                 onChange={(e) => onChangeTime(e)}
                             />
                             <div
-                                className="w-8 h-8 bg-green-600 hover:bg-green-700 duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
+                                className="w-8 h-8 bg-qgreen hover:bg-qgreen-dark duration-200 flex justify-center items-center hover:cursor-pointer rounded-md"
                                 onClick={handleSaveTimeForAllQuestion}
                             >
                                 <svg
@@ -186,11 +210,9 @@ function ConfigQuestion() {
                                         clipRule="evenodd"
                                     />
                                 </svg>
-
                             </div>
                         </div>
                     </div>
-
 
                     {listQuestions.map((question, index) => (
                         <Question
@@ -202,19 +224,26 @@ function ConfigQuestion() {
                             number={index}
                             answerList={question.answers}
                             setTimeFn={setTimeToSingleQuestion}
-                            isSetTimeError={checkIfQuestionWithNoTime(question.id)}
+                            isSetTimeError={checkIfQuestionWithNoTime(
+                                question.id
+                            )}
                             timeAnswer={question.time_answer}
                             isDisableEditTime={isExpanded}
                             qtype={question.qtype}
                         />
                     ))}
 
-                    <div
+                    <Button
+                        type="button"
+                        variants="qpurple"
+                        className="w-32 flex justify-center mr-0 ml-auto mt-4"
                         onClick={handleSaveQuizWithTime}
-                        className="bg-blue-lightDark mt-4 w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center"
                     >
+                        Continue
+                    </Button>
+                    {/* <div className="bg-blue-lightDark mt-4 w-32 mr-0 ml-auto hover:bg-blue-dark text-white font-bold py-2 px-4 rounded duration-300 cursor-pointer flex justify-center">
                         <p>Done</p>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
