@@ -1,7 +1,7 @@
 
 function Alert({ message, isError = false, hideAlert }) {
     return (
-        <div className={"border px-4 py-3 rounded fixed z-50 top-4 left-1/2 -translate-x-1/2 flex justify-between cursor-pointer" + (isError ? " border-qred-light text-qred bg-qgray-light" : " border-qgreen-light text-qgreen bg-qgray-light")} role="alert">
+        <div className={"border px-4 py-3 rounded fixed z-[100] top-4 left-1/2 -translate-x-1/2 flex justify-between cursor-pointer" + (isError ? " border-qred-light text-qred bg-qgray-light" : " border-qgreen-light text-qgreen bg-qgray-light")} role="alert">
             <strong className="font-bold mr-1">{isError ? '🙈' : '🎉'}</strong>
             <span className="">{message}</span>
             <span className="ml-3 flex justify-center items-center" onClick={hideAlert}>
