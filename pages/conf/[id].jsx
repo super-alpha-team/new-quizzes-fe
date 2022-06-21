@@ -169,7 +169,7 @@ function ConfigQuestion() {
     return (
         <>
             <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
-                <div className="fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 px-4 w-full font-display font-semibold flex justify-between border-2 items-center">
+                <div className="fixed px-24 top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 w-full font-display font-semibold flex justify-between border-2 items-center">
                     <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                     <div onClick={handleSaveQuizWithTime}>
                         <Button
@@ -181,11 +181,9 @@ function ConfigQuestion() {
                         </Button>
                     </div>
                 </div>
-
                 <div className=' flex items-center justify-center mt-16'>
                     <Breadcrumb token={router.query.ltik} actions={['Config time']} />
                 </div>
-
                 <div className="w-9/12 mt-2 m-auto pb-12">
                     <div className="mt-4 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || 'Loading...'}</p>

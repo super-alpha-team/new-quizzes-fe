@@ -12,6 +12,7 @@ import Button from 'components/helpers/Button';
 import { QUIZ_STATUS } from 'utils/config';
 import PlatformHeader from 'components/app/platform/PlatformHeader';
 import Breadcrumb from 'components/helpers/Breadcrumb';
+import TopMenu from 'components/config/TopMenu';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -165,14 +166,29 @@ function ChooseQuiz() {
                 />
             )}
             <div className="bg-background-mid min-w-screen min-h-screen w-full h-full">
-                <PlatformHeader />
+                {/* <PlatformHeader /> */}
+                {/* <div className="fixed px-24 top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 w-full font-display font-semibold flex justify-between border-2 items-center">
+                    <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
+                    <div onClick={handleSaveQuizWithTime}>
+                        <Button
+                            type="button"
+                            variants="qpurple"
+                            className="w-32"
+                        >
+                            Continue
+                        </Button>
+                    </div>
+                </div> */}
+                <div className=' flex items-center justify-center mt-16'>
+                    <Breadcrumb token={router.query.ltik} actions={['Manage instances']} />
+                </div>
                 <Popover ref={chooseQuiz}>
                     <NameModal
                         nameClickCallback={nameClickCallback}
                         closeFn={toggleNameModal}
                         title={`New Quizzes' Name`}
                     />
-            </Popover>
+                </Popover>
                 <Popover ref={newInstance}>
                     <NameModal
                         nameClickCallback={newInstanceClickCallback}
@@ -195,7 +211,7 @@ function ChooseQuiz() {
                             <Breadcrumb token={router.query.ltik} actions={['Choose quiz']} />
 
                         </div>
-                        
+
 
                         <div className="w-9/12 m-auto mt-2 h-[70vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                             <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
@@ -234,120 +250,122 @@ function ChooseQuiz() {
                     <>
                         {(instanceStatus === QUIZ_STATUS.EDITING ||
                             instanceStatus === QUIZ_STATUS.DONE) && (
-                            <>
-                                <div className="w-8/12 m-auto pt-4 pb-16">
-                                    <p className="text-xl font-bold mb-4">
-                                        Previous created question sets
-                                    </p>
-                                    <hr className="mb-8 mt-2" />
+                                <>
+                                    <div className="w-8/12 m-auto py-4">
+                                        {/* <hr className="my-2" />
 
                                     <p>
                                         Play now if your quiz has already
                                         created{' '}
                                     </p>
                                     <p>Or</p>
-                                    <p>Create new!!!</p>
-                                    <Button
-                                        className="w-max text-base mt-2 mb-8"
-                                        variants="qpurple"
-                                        onClick={toggleNameInstanceModal}
-                                    >
-                                        Create
-                                    </Button>
-
-                                    {/* <hr className="mb-8 " /> */}
-
-                                    {listInstance
-                                        .sort(
-                                            (a, b) =>
-                                                parseInt(b.id) - parseInt(a.id)
-                                        )
-                                        .map((instance, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex justify-between text-lg items-center h-32 overflow-hidden pl-8 bg-white m-auto w-full mb-2"
+                                    <p>Create new!!!</p> */}
+                                        <div className='flex justify-between items-end pb-4'>
+                                            <p className="text-xl font-bold">
+                                                Latest instances
+                                            </p>
+                                            <Button
+                                                className="w-max text-base"
+                                                variants="qpurple"
+                                                onClick={toggleNameInstanceModal}
                                             >
-                                                <p>
-                                                    {instance.name}
-                                                    {instance.id ==
-                                                        newQuiz.new_quiz_instance_active_id && (
-                                                        <span className="ml-2 bg-green-100 text-qgreen-dark text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                                            Active
-                                                        </span>
-                                                    )}
-                                                    {instance.id ==
-                                                        newQuiz.saved_grade_for_instance && (
-                                                        <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800">
-                                                            Saved grade
-                                                        </span>
-                                                    )}
-                                                </p>
-                                                {/* <p>Trạng thái: {instance.status}</p> */}
+                                                Create new
+                                            </Button>
+                                        </div>
 
-                                                <div className="flex flex-col items-end h-full justify-between py-2 px-2">
-                                                    {instance.status ==
-                                                        QUIZ_STATUS.DONE && (
-                                                        <span className="ml-2 bg-blue-0 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
-                                                            #Done
-                                                        </span>
-                                                    )}
+                                        {/* <hr className="mb-8 " /> */}
 
-                                                    {instance.status ==
-                                                        QUIZ_STATUS.EDITING && (
-                                                        <span className="ml-2 bg-red-00 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">
-                                                            #Editing
-                                                        </span>
-                                                    )}
+                                        {listInstance
+                                            .sort(
+                                                (a, b) =>
+                                                    parseInt(b.id) - parseInt(a.id)
+                                            )
+                                            .map((instance, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex justify-between text-lg items-center h-32 overflow-hidden pl-8 bg-white m-auto w-full mb-2"
+                                                >
+                                                    <p>
+                                                        {instance.name}
+                                                        {instance.id ==
+                                                            newQuiz.new_quiz_instance_active_id && (
+                                                                <span className="ml-2 bg-green-100 text-qgreen-dark text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                                                    Active
+                                                                </span>
+                                                            )}
+                                                        {instance.id ==
+                                                            newQuiz.saved_grade_for_instance && (
+                                                                <span className="ml-2 bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800">
+                                                                    Saved grade
+                                                                </span>
+                                                            )}
+                                                    </p>
+                                                    {/* <p>Trạng thái: {instance.status}</p> */}
 
-                                                    {instance.status ==
-                                                        QUIZ_STATUS.EDITING && (
-                                                        <Button
-                                                            className="text-sm min-w-40"
-                                                            onClick={() =>
-                                                                handleContinueConfigTime(
-                                                                    instance.id
-                                                                )
-                                                            }
-                                                            variants="qgreen"
-                                                        >
-                                                            Continue editing
-                                                        </Button>
-                                                    )}
-                                                    {instance.status ==
-                                                        QUIZ_STATUS.DONE && (
-                                                        <div className=" flex flex-row gap-2">
-                                                            <Button
-                                                                className="text-sm w-max"
-                                                                variants="secondary"
-                                                                onClick={() =>
-                                                                    handleSaveGrade(
-                                                                        instance.id
-                                                                    )
-                                                                }
-                                                            >
-                                                                Save Grade
-                                                            </Button>
-                                                            <Button
-                                                                className="text-sm w-max"
-                                                                variants="secondary"
-                                                                onClick={() =>
-                                                                    handleDownloadExport(
-                                                                        instance.id,
-                                                                        instance.name
-                                                                    )
-                                                                }
-                                                            >
-                                                                Download play
-                                                                data
-                                                            </Button>
-                                                        </div>
-                                                    )}
+                                                    <div className="flex flex-col items-end h-full justify-between py-2 px-2">
+                                                        {instance.status ==
+                                                            QUIZ_STATUS.DONE && (
+                                                                <span className="ml-2 bg-blue-0 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                                                    #Done
+                                                                </span>
+                                                            )}
+
+                                                        {instance.status ==
+                                                            QUIZ_STATUS.EDITING && (
+                                                                <span className="ml-2 bg-red-00 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">
+                                                                    #Editing
+                                                                </span>
+                                                            )}
+
+                                                        {instance.status ==
+                                                            QUIZ_STATUS.EDITING && (
+                                                                <Button
+                                                                    className="text-sm min-w-40"
+                                                                    onClick={() =>
+                                                                        handleContinueConfigTime(
+                                                                            instance.id
+                                                                        )
+                                                                    }
+                                                                    variants="qgreen"
+                                                                >
+                                                                    Continue editing
+                                                                </Button>
+                                                            )}
+                                                        {instance.status ==
+                                                            QUIZ_STATUS.DONE && (
+                                                                <div className=" flex flex-row gap-2">
+                                                                    <Button
+                                                                        className="text-sm w-max"
+                                                                        variants="secondary"
+                                                                        onClick={() =>
+                                                                            handleSaveGrade(
+                                                                                instance.id
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Save Grade
+                                                                    </Button>
+                                                                    <Button
+                                                                        className="text-sm w-max"
+                                                                        variants="secondary"
+                                                                        onClick={() =>
+                                                                            handleDownloadExport(
+                                                                                instance.id,
+                                                                                instance.name
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        Download play
+                                                                        data
+                                                                    </Button>
+                                                                </div>
+                                                            )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                </div>
-                            </>
-                        )}
+                                            ))}
+                                    </div>
+                                </>
+                            )}
                         {/* {
                                 (instanceStatus === QUIZ_STATUS.PENDING || instanceStatus === QUIZ_STATUS.PLAYING) && (
                                     <div className='w-9/12 m-auto pt-4 pb-4'>
