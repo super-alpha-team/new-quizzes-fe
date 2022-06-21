@@ -10,7 +10,7 @@ export default function Button({
         <button
             {...rest}
             className={clsx(
-                'inline-block p-1 rounded-sm hover:text-primary-400 animated-underline capitalize font-semibold hover:opacity-80',
+                'inline-block py-1 px-2 rounded-sm hover:text-primary-400 animated-underline font-semibold hover:opacity-80',
                 ' duration-100',
                 'focus:outline-none focus-visible:text-primary-400 focus:shadow-outline',
                 {

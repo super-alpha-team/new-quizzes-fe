@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+import { BigHead } from '@bigheads/core';
 import PlatformHeader from 'components/app/platform/PlatformHeader';
 import { useRouter } from 'next/router';
+import { getRandomOptions } from 'utils/bigheads';
 
 function Application() {
     const router = useRouter();
@@ -12,7 +14,14 @@ function Application() {
             <PlatformHeader />
             <section className="text-gray-600 body-font">
                 <div className="container mx-auto flex flex-col px-5 pt-24 justify-center items-center">
-                    <img className="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded border-2 border-qgray" alt="hero" src="/image/demo2.png" />
+                    {/* <img className="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded border-2 border-qgray" alt="hero" src="/image/demo2.png" /> */}
+                    <div className='flex flex-wrap w-2/3 my-4 justify-center pb-5'>
+                        {[...Array(12)].map((e, i) => {
+                            return <div className='w-24 h-24' key={i}>
+                                <BigHead {...getRandomOptions()} />
+                            </div>;
+                        })}
+                    </div>
                     <div className="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
                         <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">New Quizzes - Play quizzes in a whole new exciting way.</h1>
                         <p className="mb-8 leading-relaxed text-justify">A real-time interactive multiple-choice Web application for learners with a variety of question types. At the same time, it helps the teacher in customizing the configuration of the questions, monitoring the game play as well as viewing the achieved results and exporting the report.

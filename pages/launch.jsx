@@ -17,6 +17,8 @@ import SoundSetup from 'components/helpers/SoundSetup';
 import Alert from 'components/helpers/Alert';
 import { getRandomOptions } from '../utils/bigheads';
 import ToggleSwitch from 'components/helpers/ToggleSwitch';
+import { BigHead } from '@bigheads/core';
+import Breadcrumb from 'components/helpers/Breadcrumb';
 
 function HomePage() {
     const router = useRouter();
@@ -163,6 +165,13 @@ function HomePage() {
         }
         getData();
     }, [router.query.ltik, router.query.id]);
+
+    useEffect(() => {
+        syncApi.syncInfo(router.query.ltik)
+            .then((res) => {
+                console.log('syncinfo', res);
+            });
+    }, []);
 
     function handleOpenModal() {
         settingStartQuiz({ shuffleAnswerSetting });
@@ -386,24 +395,26 @@ function HomePage() {
             )}
             <div className="min-w-screen min-h-screen">
                 {/* <Header /> */}
-                <div className="flex justify-between px-24 py-6 border-2 items-center sticky top-0 w-full bg-white">
+                <div className="flex justify-between px-24 py-4 border-2 items-center sticky top-0 w-full bg-white">
                     <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                     <SoundSetup />
                 </div>
                 {!isDisplayRankingTable ? (
                     !isStart ? (
-                        <div className="flex flex-col justify-center items-center">
+                        <div className="flex flex-col justify-center items-center pb-10">
                             <div className=' flex items-center justify-center mt-6 w-full'>
-                                <div className='cursor-pointer text-left w-9/12'> Choose quiz / Config time / Start game</div>
+                                <Breadcrumb token={router.query.ltik} actions={['Config time', 'Start game']} />
                             </div>
                             <div className="flex flex-col justify-center items-center">
-                                <Image
-                                    src="/image/18915856.jpg"
-                                    width={400}
-                                    height={400}
-                                    alt="team"
-                                    className="cursor-pointer"
-                                />
+                                <div className='flex flex-wrap w-9/12 my-4 justify-center'>
+                                    {[...Array(6)].map((e, i) => {
+                                        return <div className='w-24 h-24' key={i}>
+                                            <BigHead {...getRandomOptions()} />
+                                        </div>;
+                                    })}
+                                </div>
+
+
 
                                 <div className="overflow-x-hidden overflow-y-auto inset-0">
                                     <div className="w-max py-4 m-auto text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
@@ -434,10 +445,15 @@ function HomePage() {
                             </div>
                         </div>
                     ) : (
-                        <WaitingRoom
-                            listStudentJoined={listStudentJoined}
-                            startGameFn={handleStartGame}
-                        />
+                        <>
+                            <div className=' flex items-center justify-center mt-6 w-full'>
+                                <Breadcrumb token={router.query.ltik} actions={['Config time', 'Start game']} />
+                            </div>
+                            <WaitingRoom
+                                listStudentJoined={listStudentJoined}
+                                startGameFn={handleStartGame}
+                            />
+                        </>
                     )
                 ) : (
                     <>

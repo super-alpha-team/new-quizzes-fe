@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import { useRouter } from 'next/router';
@@ -8,6 +9,7 @@ import useCollapse from 'react-collapsed';
 import quizApi from '../../apis/quizApi';
 import TopMenu from 'components/config/TopMenu';
 import Button from 'components/helpers/Button';
+import Breadcrumb from 'components/helpers/Breadcrumb';
 
 function ConfigQuestion() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -22,7 +24,7 @@ function ConfigQuestion() {
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
     async function setTimeToSingleQuestion(id, time) {
-        if(time == null){
+        if (time == null) {
             return;
         }
 
@@ -152,10 +154,21 @@ function ConfigQuestion() {
         router.push(`/conf?ltik=${router.query.ltik}`);
     }
 
+    // const [context, setContext] = useState({ courseName: '', quizzesName: '', action: '' });
+    // useEffect(() => {
+    //     syncApi.syncInfo(router.query.ltik)
+    //         .then(res => {
+    //             setContext({...context, quizzesName: res.data?.data?.instance?.name, courseName: res.data?.data?.context?.context?.title});
+    //             console.log('sync info>>>', res);
+    //         })
+    //         .catch(err => {
+    //             console.log(err);
+    //         });
+    // }, []);
+
     return (
         <>
             <div className="w-screen h-screen overflow-scroll overflow-x-hidden bg-background-mid">
-                {/* <Header /> */}
                 <div className="fixed top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 px-4 w-full font-display font-semibold flex justify-between border-2 items-center">
                     <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
                     <div onClick={handleSaveQuizWithTime}>
@@ -170,12 +183,12 @@ function ConfigQuestion() {
                 </div>
 
                 <div className=' flex items-center justify-center mt-16'>
-                    <div className='cursor-pointer text-left w-9/12'> Choose quiz / Config time </div>
+                    <Breadcrumb token={router.query.ltik} actions={['Config time']} />
                 </div>
 
                 <div className="w-9/12 mt-2 m-auto pb-12">
                     <div className="mt-4 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
-                        <p>{newQuizInstance.name || 'Quiz Untitle'}</p>
+                        <p>{newQuizInstance.name || 'Loading...'}</p>
                     </div>
                     <p className="mb-4 mt-2">
                         * Add time for each question or add all questions with

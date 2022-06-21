@@ -11,6 +11,7 @@ import Alert from 'components/helpers/Alert';
 import Button from 'components/helpers/Button';
 import { QUIZ_STATUS } from 'utils/config';
 import PlatformHeader from 'components/app/platform/PlatformHeader';
+import Breadcrumb from 'components/helpers/Breadcrumb';
 
 function ChooseQuiz() {
     const [isChoosing, setIsChoosing] = useState(-1);
@@ -169,23 +170,30 @@ function ChooseQuiz() {
                     <NameModal
                         nameClickCallback={nameClickCallback}
                         closeFn={toggleNameModal}
+                        title={`New Quizzes' Name`}
                     />
             </Popover>
                 <Popover ref={newInstance}>
                     <NameModal
                         nameClickCallback={newInstanceClickCallback}
                         closeFn={toggleNameInstanceModal}
+                        title={`New Quizzes' Name`}
                     />
                 </Popover>
                 {/* <Header /> */}
                 {isHavingInstance == false && (
                     <>
+                        <div className='flex items-center justify-center mt-4'>
+                            <Breadcrumb token={router.query.ltik} actions={['Choose quiz']} />
+                        </div>
                         <div className="w-max  m-auto pt-20 pb-2 text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
                             Choose your quiz
                         </div>
                         <p className='cursor-pointer text-center'> Choose the quiz that you want your student to play</p>
                         <div className=' flex items-center justify-center mt-4'>
-                            <div className='cursor-pointer text-left w-9/12'> Choose quiz / </div>
+                            {/* <div className='cursor-pointer text-left w-9/12'> Choose quiz / </div> */}
+                            <Breadcrumb token={router.query.ltik} actions={['Choose quiz']} />
+
                         </div>
                         
 
@@ -238,9 +246,9 @@ function ChooseQuiz() {
                                         created{' '}
                                     </p>
                                     <p>Or</p>
-                                    <p>Create new !!!</p>
+                                    <p>Create new!!!</p>
                                     <Button
-                                        className="w-40 text-base mt-2 mb-8"
+                                        className="w-max text-base mt-2 mb-8"
                                         variants="qpurple"
                                         onClick={toggleNameInstanceModal}
                                     >
@@ -309,7 +317,7 @@ function ChooseQuiz() {
                                                         QUIZ_STATUS.DONE && (
                                                         <div className=" flex flex-row gap-2">
                                                             <Button
-                                                                className="text-sm w-40"
+                                                                className="text-sm w-max"
                                                                 variants="secondary"
                                                                 onClick={() =>
                                                                     handleSaveGrade(
@@ -320,7 +328,7 @@ function ChooseQuiz() {
                                                                 Save Grade
                                                             </Button>
                                                             <Button
-                                                                className="text-sm w-40"
+                                                                className="text-sm w-max"
                                                                 variants="secondary"
                                                                 onClick={() =>
                                                                     handleDownloadExport(

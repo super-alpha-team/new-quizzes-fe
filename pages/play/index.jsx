@@ -41,7 +41,7 @@ export default function PlayGame() {
         setTotalQuestion(info.data?.data?.new_quiz?.new_quiz_instance?.question_count);
         setMaxGrade(info.data?.data?.new_quiz?.new_quiz_instance?.sum_grade);
         setUserId(info.data?.data?.new_user?.id);
-        setUsername(info.data?.data?.user_info?.given_name);
+        setUsername(info.data?.data?.user_info?.name);
 
         setQuizInstance({
           quizId,

@@ -5,7 +5,7 @@ export default function TopMenu({ goToChooseQuizPage }) {
                 <div className="" onClick={goToChooseQuizPage}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 cursor-pointer scale-150 hover:text-qpurple-dark text-qpurple-light duration-200"
+                        className="h-4 w-4 cursor-pointer scale-150 hover:text-qpurple-light text-black duration-200"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                     >

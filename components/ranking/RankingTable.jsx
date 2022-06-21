@@ -1,9 +1,8 @@
-import React from 'react';
 import TopCard from './TopCard';
 
 function RankingTable({ columns, data, topStudent, listStudentJoined }) {
-    console.log("ranking topstudnet", topStudent)
-    console.log("randking lsit student", listStudentJoined)
+    console.log("ranking topstudnet", topStudent);
+    console.log("randking lsit student", listStudentJoined);
 
 //     Object.keys(data).map((key, index) => {
 //     columns.filter((col) => col.id != 'name').map((column, index) => {
@@ -26,8 +25,8 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                         <div></div>
                     </div>
             <div className="flex gap-8 justify-center">
-                <TopCard data={topStudent["1"]} listStudentJoined={listStudentJoined}/>
                 <TopCard data={topStudent["2"]} listStudentJoined={listStudentJoined}/>
+                <TopCard data={topStudent["1"]} listStudentJoined={listStudentJoined}/>
                 <TopCard data={topStudent["3"]} listStudentJoined={listStudentJoined}/>
             </div>
             <table className="min-w-full divide-y divide-gray-200 mt-12">
