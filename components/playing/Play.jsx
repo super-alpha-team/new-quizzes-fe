@@ -22,7 +22,7 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
     const [finish, setFinish] = useState(false);
-    const [waitingMsg, setWaitingMsg] = useState('Loading...');
+    const [waitingMsg, setWaitingMsg] = useState('Waiting for the teacher to start...');
     const router = useRouter();
     const [grade, setGrade] = useState(null);
     const [rank, setRank] = useState(null);
@@ -34,16 +34,10 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
         playApi.join(router.query.ltik, quizId, data)
             .then((response) => {
                 socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
-                // if (response.data.current_question_data) {
-                //     setQuestionData(response.data.current_question_data);
-                //     setWaitingMsg('');
-                //     setGrade(null);
-                // }
             })
             .catch(err => console.log(err));
 
         socket.on('question', data => {
-            console.log('question>>>', data);
             const { current_question_index, question } = data;
             setCurrentIndex(current_question_index);
             if (current_question_index < 0) {
@@ -57,7 +51,6 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
         });
 
         socket.on('grade_student', data => {
-            console.log('[socket] grade_student >>> ', data);
             if (data?.question_index) {
                 const index = Math.max(...Object.keys(data?.grade).map(v => Number(v)));
                 let gradeList = data?.grade[index];
@@ -73,7 +66,6 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
         });
 
         socket.on('rank', data => {
-            console.log('[socket] rank >>> ', data);
             setRank(data.rank_list.filter(user => user.id == userId)[0]);
         });
 
@@ -150,9 +142,9 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
                                 <Questionare questionType={questionData.qtype} data={config(questionData)} handleAnswer={handleAnswer} />
                             </div>
                         </div>}
-                    <PlayFooter username={username} sumGrade={rank?.sum_grade} />
                 </>
         }
+        <PlayFooter username={username} sumGrade={rank?.sum_grade} />
     </>;
 }
 

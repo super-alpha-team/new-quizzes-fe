@@ -1,5 +1,6 @@
 import PlayFooter from 'components/playing/PlayFooter';
 import React from 'react';
+import { setRankColor } from 'utils/helpers';
 
 function FinalResult({ data }) {
     return (
@@ -8,7 +9,7 @@ function FinalResult({ data }) {
                 <p className='font-extrabold text-3xl text-white'>
                     Congrats!
                 </p>
-                <div className={"text-4xl lg:text-5xl md:text-4xl h-28 w-28 text-white font-extrabold border-4 border-qyellow-light flex justify-center items-center bg-qyellow rounded-full"}>
+                <div className={"text-4xl lg:text-5xl md:text-4xl h-28 w-28 text-white font-extrabold border-4 flex justify-center items-center rounded-full"+(data?.rank == 1 ? ' bg-qyellow border-qyellow-light' : data?.rank == 2 ? ' text-white bg-[#7E8283] border-qgray' : data?.rank == 3 ? ' text-white bg-qorange border-qorange-light' : ' text-black bg-qgray border-qgray-light')}>
                     <span className='text-3xl lg:text-4xl md:text-3xl'>#</span>{data?.rank || 0}
                 </div>
                 <div>

@@ -5,13 +5,6 @@ import React, { useEffect, useState } from 'react';
 function DoneQuiz({ token, history, quizId = 1, maxGrade = 10 }) {
     const [data, setData] = useState([]);
     useEffect(() => {
-        // playApi.getResult(token, quizId)
-        //     .then(res => {
-        //         console.log(res.data.data);
-        //         console.log(JSON.parse(res.data.data.list_answer[0].additional_info));
-        //         console.log(JSON.parse(res.data.data.list_answer[0].answer_data));
-        //     })
-        //     .catch(err => console.log(err));
         setData(history.map(v => ({ ...v, correctness: (v.grade / maxGrade) })));
     }, []);
 

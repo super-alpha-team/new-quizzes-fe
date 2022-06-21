@@ -48,19 +48,19 @@ function Test() {
         //     <PlayFooter username={`Chloe`} sumGrade={10} />
         // </>
 
-        // <FinalResult data={({ rank: 1, username: 'Chloe', sum_grade: 10 })} />
         // <ShortAnswer handleAnswer={handleAnswer} />
         // <Clock handleTimeUp={() => { }} currentIndex={0} deadTime={(Date.now() / 1000 + 900) * 1000} />
         // <Loading message={'Great, let wait for your mates!'} />
         <>
+            <FinalResult data={({ rank: 4, username: 'Chloe', sum_grade: 10 })} />
             {/* <Popover ref={ref}>
                 <NameModal
                     nameClickCallback={nameClickCallback}
                     closeFn={toggleNameModal}
                 />
             </Popover> */}
-            <PlayHeader currentIndex={1} totalQuestion={10} quizName={'quiz'} />
-            <Loading message={'Loading'} />
+            {/* <PlayHeader currentIndex={1} totalQuestion={10} quizName={'quiz'} />
+            <Loading message={'Loading'} /> */}
         </>
     );
 }

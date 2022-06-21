@@ -55,7 +55,6 @@ function HomePage() {
             try {
                 if (router.query.id == undefined) {
                     const syncLti = await syncApi.syncLti(router.query.ltik);
-                    console.log('synclti', syncLti);
 
                     const newQuizInstance = await quizApi.getQuizInstance(
                         router.query.ltik,
@@ -71,10 +70,6 @@ function HomePage() {
                         syncLti.data.data.instance.status == QUIZ_STATUS.PLAYING
                     ) {
                         setIsDisplayRankingTable(true);
-                        // getListQuestionAsColumns();
-
-                        // let newQuizInstanceData = response.data.data.new_quiz_instance;
-                        console.log('playing', syncLti);
                         teacherJoinInClass(syncLti.data.data.new_quiz.id);
 
                         const response =
@@ -82,10 +77,6 @@ function HomePage() {
                                 router.query.ltik,
                                 syncLti.data.data.instance.id
                             );
-                        console.log(
-                            'quesion list',
-                            response.data.data.question_list
-                        );
 
                         const tmpColumns = response.data.data.question_list.map(
                             (question, index) => {
@@ -111,14 +102,14 @@ function HomePage() {
                             syncLti.data.data.new_quiz.id,
                             data
                         );
-                        console.log('playerresponse', playerRespone.data);
 
                         const data_arr = Object.keys(
                             playerRespone.data.player
                         ).map((key) => {
                             return {
                                 id: key,
-                                name: playerRespone.data.player[key]
+                                name: playerRespone.data.player[key],
+                                ava: getRandomOptions()
                             };
                         });
 
@@ -136,10 +127,6 @@ function HomePage() {
 
                     let newQuizInstanceData =
                         newQuizInstance.data.data.new_quiz_instance;
-                    // console.log(
-                    //     'useEffect[], new_quiz_instance',
-                    //     newQuizInstanceData
-                    // );
 
                     setNewQuizInstance(newQuizInstanceData);
 
@@ -166,13 +153,6 @@ function HomePage() {
         getData();
     }, [router.query.ltik, router.query.id]);
 
-    useEffect(() => {
-        syncApi.syncInfo(router.query.ltik)
-            .then((res) => {
-                console.log('syncinfo', res);
-            });
-    }, []);
-
     function handleOpenModal() {
         settingStartQuiz({ shuffleAnswerSetting });
 
@@ -184,7 +164,6 @@ function HomePage() {
     // }
 
     async function teacherJoinInClass(quizId) {
-        console.log('teacher join in class');
         let data = {
             username: 'teacher',
             is_teacher: true
@@ -196,7 +175,6 @@ function HomePage() {
                 token: response.data.alpha_token
             });
             socket.on('data', (data) => {
-                console.log('data student', data);
                 if (data.type == 'join') {
                     const data_arr = Object.keys(data.player).map((key) => {
                         return {
@@ -205,8 +183,6 @@ function HomePage() {
                             ava: getRandomOptions()
                         };
                     });
-
-                    console.log('data_arr', data_arr);
 
                     setListStudentJoined(data_arr);
 
@@ -222,8 +198,6 @@ function HomePage() {
                 }
             });
             socket.on('grade', (data) => {
-                console.log('data', data);
-                // console.log('grade', data.grade_data)
                 if (data.grade_data) {
                     const temp = Object.entries(data.grade_data).map(
                         ([key, value]) =>
@@ -237,13 +211,11 @@ function HomePage() {
                         _.groupBy(gradeByNum, 'id'),
                         (gradeByNum) => gradeByNum.map((v) => _.omit(v, 'id'))
                     );
-                    console.log('>>>', gradeByUser);
                     setTmp(gradeByUser);
                 }
             });
 
             socket.on('rank', (data) => {
-                // console.log('rank data', data);
                 let rank_list = data?.rank_list || [];
                 let rank_list_obj = {};
                 rank_list.forEach((item) => {
@@ -327,7 +299,6 @@ function HomePage() {
             router.query.ltik,
             newQuizInstance.id
         );
-        // console.log('quesion list',response.data.data.question_list)
 
         const tmpColumns = response.data.data.question_list.map(
             (question, index) => {
@@ -457,8 +428,11 @@ function HomePage() {
                     )
                 ) : (
                     <>
-                        <div className="flex justify-end mt-8 w-10/12 m-auto">
-                            <Button onClick={handleSaveGrade}>
+                        <div className="flex justify-end mt-4 w-10/12 m-auto">
+                            <Button
+                                className="w-max text-base"
+                                variants="qpurple"
+                                onClick={handleSaveGrade}>
                                 Save grade
                             </Button>
                         </div>

@@ -1,5 +1,4 @@
-import { BigHead } from '@bigheads/core';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../helpers/Button';
 import JoiningCard from './JoiningCard';
 
@@ -24,7 +23,7 @@ function WaitingRoom({ listStudentJoined, startGameFn }) {
             </div>
             <div className='flex justify-end items-end px-24 my-4'>
                 <Button variants='qpurple' onClick={handleStartGame} className="w-32">
-                    {`play`}
+                    {`Start`}
                 </Button>
             </div>
             <div className="flex justify-center">

@@ -23,7 +23,6 @@ export default function Home() {
 
       let responseInfo = await syncApi.syncInfo(ltik);
       
-      // console.log(']> start up page: ', responseInfo.data);
       const data = responseInfo.data.data;
       // check is member or teacher class
       if (data.alpha_roles.indexOf(RoleEnum.ADMIN) != -1 ) {

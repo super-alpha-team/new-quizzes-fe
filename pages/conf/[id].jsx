@@ -106,10 +106,6 @@ function ConfigQuestion() {
                 const list_question = newQuizInstanceData.question_list;
                 setListQuestions(list_question);
                 setReturnListWithTime(list_question);
-                // const errorTmp = list_question.filter((question) => question.time_answer == 0)
-                //                                 .map((question) => question.id)
-                // console.log(errorTmp);
-                // setErrorConfigTimeList(errorTmp);
             } catch (err) {
                 console.log('err: ', err);
             }
@@ -153,18 +149,6 @@ function ConfigQuestion() {
     function goToChooseQuizPage() {
         router.push(`/conf?ltik=${router.query.ltik}`);
     }
-
-    // const [context, setContext] = useState({ courseName: '', quizzesName: '', action: '' });
-    // useEffect(() => {
-    //     syncApi.syncInfo(router.query.ltik)
-    //         .then(res => {
-    //             setContext({...context, quizzesName: res.data?.data?.instance?.name, courseName: res.data?.data?.context?.context?.title});
-    //             console.log('sync info>>>', res);
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //         });
-    // }, []);
 
     return (
         <>

@@ -32,6 +32,7 @@ module.exports = {
           dark: "#d89e00",
         },
         qorange: {
+          light: '#f5a23d',
           DEFAULT: "#eb670f",
           dark: "#e24104",
         },

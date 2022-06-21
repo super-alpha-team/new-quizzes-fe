@@ -77,7 +77,11 @@ function getCorrespondingShadowColorByHex(color) {
     }
 }
 
+function setRankColor(rank) {
+    return rank == 1 ? ' bg-qyellow border-qyellow-light' : rank == 2 ? ' text-blue-500 bg-blue-500 border-blue-500' : rank == 3 ? ' bg-brown-300 border-qyellow-light' : ' text-black bg-gray-100 border-qyellow-light';
+}
+
 const COLORS = ['#ffa620', '#1368ce', '#46178f', '#eb670f', '#DE1835', '#26890c', '#0aa3a3'];
 const SHADOW_COLORS = ['#d89e00', '#0542b9', '#25076b', '#e24104', '#c60929', '#106b03', '#028282'];
 
-export { shuffleArray, randomHexColor, convertTimer, convertToMinutes, getDefaultColor, getCorrespondingShadowColor, getCorrespondingShadowColorByHex };
+export { shuffleArray, randomHexColor, convertTimer, convertToMinutes, getDefaultColor, getCorrespondingShadowColor, getCorrespondingShadowColorByHex, setRankColor };

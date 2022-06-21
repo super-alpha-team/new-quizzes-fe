@@ -36,8 +36,6 @@ export default function PlayGame() {
 
         let info = await syncApi.syncInfo(router.query.ltik);
         setHistory(info.data?.data?.submission_data);
-        console.log('info >>>', info.data?.data);
-        // setMaxGrade(JSON.parse(info.data?.data?.new_quiz?.additional_info).count_question);
         setTotalQuestion(info.data?.data?.new_quiz?.new_quiz_instance?.question_count);
         setMaxGrade(info.data?.data?.new_quiz?.new_quiz_instance?.sum_grade);
         setUserId(info.data?.data?.new_user?.id);

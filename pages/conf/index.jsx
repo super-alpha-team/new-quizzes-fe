@@ -166,22 +166,7 @@ function ChooseQuiz() {
                 />
             )}
             <div className="bg-background-mid min-w-screen min-h-screen w-full h-full">
-                {/* <PlatformHeader /> */}
-                {/* <div className="fixed px-24 top-0 left-0 z-10 bg-white border-b-2 border-gray-300 py-2 w-full font-display font-semibold flex justify-between border-2 items-center">
-                    <TopMenu goToChooseQuizPage={goToChooseQuizPage} />
-                    <div onClick={handleSaveQuizWithTime}>
-                        <Button
-                            type="button"
-                            variants="qpurple"
-                            className="w-32"
-                        >
-                            Continue
-                        </Button>
-                    </div>
-                </div> */}
-                <div className=' flex items-center justify-center mt-16'>
-                    <Breadcrumb token={router.query.ltik} actions={['Manage instances']} />
-                </div>
+                <PlatformHeader />
                 <Popover ref={chooseQuiz}>
                     <NameModal
                         nameClickCallback={nameClickCallback}
@@ -196,7 +181,9 @@ function ChooseQuiz() {
                         title={`New Quizzes' Name`}
                     />
                 </Popover>
-                {/* <Header /> */}
+                <div className='flex items-center justify-center pt-16 ml-12'>
+                    <Breadcrumb token={router.query.ltik} actions={['Manage instances']} />
+                </div>
                 {isHavingInstance == false && (
                     <>
                         <div className='flex items-center justify-center mt-4'>
@@ -343,7 +330,7 @@ function ChooseQuiz() {
                                                                             )
                                                                         }
                                                                     >
-                                                                        Save Grade
+                                                                        Save grade
                                                                     </Button>
                                                                     <Button
                                                                         className="text-sm w-max"
