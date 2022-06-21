@@ -2,22 +2,21 @@ import React from 'react';
 import TopCard from './TopCard';
 
 function RankingTable({ columns, data, topStudent, listStudentJoined }) {
-    console.log("ranking data", data)
+    console.log("ranking topstudnet", topStudent)
+    console.log("randking lsit student", listStudentJoined)
 
-    Object.keys(data).map((key, index) => {
-    columns.filter((col) => col.id != 'name').map((column, index) => {
+//     Object.keys(data).map((key, index) => {
+//     columns.filter((col) => col.id != 'name').map((column, index) => {
         
-             console.log(   data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
-                ? 'p' : 
-                data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
-                .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
+//              console.log(   data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
+//                 ? 'p' : 
+//                 data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
+//                 .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
                 
-                )
-             )
-                
-                
-    })
-})
+//                 )
+//              )
+//     })
+// })
 
     return (
         <div className="w-10/12 m-auto">
@@ -27,9 +26,9 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                         <div></div>
                     </div>
             <div className="flex gap-8 justify-center">
-                <TopCard data={topStudent["1"]}/>
-                <TopCard data={topStudent["2"]}/>
-                <TopCard data={topStudent["3"]}/>
+                <TopCard data={topStudent["1"]} listStudentJoined={listStudentJoined}/>
+                <TopCard data={topStudent["2"]} listStudentJoined={listStudentJoined}/>
+                <TopCard data={topStudent["3"]} listStudentJoined={listStudentJoined}/>
             </div>
             <table className="min-w-full divide-y divide-gray-200 mt-12">
                 <thead className="bg-gray-50">

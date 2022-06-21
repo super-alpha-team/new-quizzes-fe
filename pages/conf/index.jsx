@@ -170,7 +170,7 @@ function ChooseQuiz() {
                         nameClickCallback={nameClickCallback}
                         closeFn={toggleNameModal}
                     />
-                </Popover>
+            </Popover>
                 <Popover ref={newInstance}>
                     <NameModal
                         nameClickCallback={newInstanceClickCallback}
@@ -180,11 +180,16 @@ function ChooseQuiz() {
                 {/* <Header /> */}
                 {isHavingInstance == false && (
                     <>
-                        <div className="w-max py-8 m-auto pt-16 text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
+                        <div className="w-max  m-auto pt-20 pb-2 text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
                             Choose your quiz
                         </div>
+                        <p className='cursor-pointer text-center'> Choose the quiz that you want your student to play</p>
+                        <div className=' flex items-center justify-center mt-4'>
+                            <div className='cursor-pointer text-left w-9/12'> Choose quiz / </div>
+                        </div>
+                        
 
-                        <div className="w-9/12 m-auto h-[75vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                        <div className="w-9/12 m-auto mt-2 h-[70vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                             <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                 {listQuiz.map((quizInfo, index) => (
                                     <SingleQuiz
@@ -236,6 +241,7 @@ function ChooseQuiz() {
                                     <p>Create new !!!</p>
                                     <Button
                                         className="w-40 text-base mt-2 mb-8"
+                                        variants="qpurple"
                                         onClick={toggleNameInstanceModal}
                                     >
                                         Create
@@ -257,7 +263,7 @@ function ChooseQuiz() {
                                                     {instance.name}
                                                     {instance.id ==
                                                         newQuiz.new_quiz_instance_active_id && (
-                                                        <span className="ml-2 bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                                        <span className="ml-2 bg-green-100 text-qgreen-dark text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                                             Active
                                                         </span>
                                                     )}
@@ -273,14 +279,14 @@ function ChooseQuiz() {
                                                 <div className="flex flex-col items-end h-full justify-between py-2 px-2">
                                                     {instance.status ==
                                                         QUIZ_STATUS.DONE && (
-                                                        <span className="ml-2 bg-blue-0 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                                        <span className="ml-2 bg-blue-0 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
                                                             #Done
                                                         </span>
                                                     )}
 
                                                     {instance.status ==
                                                         QUIZ_STATUS.EDITING && (
-                                                        <span className="ml-2 bg-red-00 italic text-blue-800 text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">
+                                                        <span className="ml-2 bg-red-00 italic text-qgreen-dark text-base font-semibold px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-blue-800">
                                                             #Editing
                                                         </span>
                                                     )}
@@ -294,6 +300,7 @@ function ChooseQuiz() {
                                                                     instance.id
                                                                 )
                                                             }
+                                                            variants="qgreen"
                                                         >
                                                             Continue editing
                                                         </Button>

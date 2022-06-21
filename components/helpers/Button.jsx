@@ -18,10 +18,12 @@ export default function Button({
                         variants === 'primary',
                     'bg-red-500 text-white hover:bg-red-600 ':
                         variants === 'error',
-                    'bg-white text-gray-600 hover:bg-gray-200 hover:text-dark focus-visible:text-dark':
+                    'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-dark focus-visible:text-dark':
                         variants === 'secondary',
                     'bg-qpurple-light text-white shadow-[0_3px_0_0_#46178f] ':
                     variants === 'qpurple',
+                    'bg-qgreen-light text-white shadow-[0_3px_0_0_#26890C] ':
+                    variants === 'qgreen',
                 },
                 className
             )}

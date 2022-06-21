@@ -1,11 +1,10 @@
+import { BigHead } from '@bigheads/core';
 import React, { useEffect, useState } from 'react';
 import Button from '../helpers/Button';
 import JoiningCard from './JoiningCard';
 
 function WaitingRoom({ listStudentJoined, startGameFn }) {
     const [listStudentName, setListStudentName] = useState([]);
-    console.log('liststudentjoid', listStudentJoined);
-
     useEffect(() => {
         setListStudentName(listStudentJoined);
     }, [listStudentJoined]);
@@ -20,14 +19,14 @@ function WaitingRoom({ listStudentJoined, startGameFn }) {
                 Do you see your name ???
             </p>
             <div className='flex justify-end mr-32 mb-4'>
-                <Button variants='primary' onClick={handleStartGame}>
+                <Button variants='qpurple' onClick={handleStartGame} className="w-32">
                     Let`s play
                 </Button>
             </div>
             <div className="flex justify-center">
                 <div className="flex-wrap gap-6 mt-6 flex justify-center">
                     {listStudentName.map((student, index) => (
-                        <JoiningCard name={student.name} key={index} />
+                        <JoiningCard name={student.name} key={index} ava={student.ava}/>
                     ))}
                 </div>
             </div>
