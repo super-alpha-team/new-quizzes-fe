@@ -22,6 +22,10 @@ function ConfigQuestion() {
     const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
     async function setTimeToSingleQuestion(id, time) {
+        if(time == null){
+            return;
+        }
+
         const index = returnListWithTime.findIndex(
             (question) => question.id === id
         );
@@ -52,7 +56,7 @@ function ConfigQuestion() {
 
     async function handleSaveQuizWithTime() {
         const errorCheckList = returnListWithTime
-            .filter((question) => question.time_answer == 0)
+            .filter((question) => question.time_answer == null)
             .map((question) => question.id);
 
         if (errorConfigTimeList.length == 0 && errorCheckList == 0) {
@@ -68,7 +72,6 @@ function ConfigQuestion() {
                 router.query.ltik,
                 newQuizInstance.id
             );
-            console.log('setinstance active', setInstanceActive);
 
             router.push({
                 pathname: `/launch`,
@@ -105,7 +108,6 @@ function ConfigQuestion() {
                 //                                 .map((question) => question.id)
                 // console.log(errorTmp);
                 // setErrorConfigTimeList(errorTmp);
-                console.log('newQuizInstance', newQuizInstance);
             } catch (err) {
                 console.log('err: ', err);
             }
@@ -129,7 +131,6 @@ function ConfigQuestion() {
                 newQuizInstance.id,
                 data
             );
-            console.log('response ', response);
 
             setListQuestions(response.data.data.question_list);
             setReturnListWithTime(response.data.data.question_list);
@@ -168,7 +169,11 @@ function ConfigQuestion() {
                     </div>
                 </div>
 
-                <div className="w-9/12 mt-16 m-auto pb-12">
+                <div className=' flex items-center justify-center mt-16'>
+                    <div className='cursor-pointer text-left w-9/12'> Choose quiz / Config time </div>
+                </div>
+
+                <div className="w-9/12 mt-2 m-auto pb-12">
                     <div className="mt-4 mb-6 text-xl p-4 border border-gray-200 bg-white w-full rounded-lg shadow-input">
                         <p>{newQuizInstance.name || 'Quiz Untitle'}</p>
                     </div>
