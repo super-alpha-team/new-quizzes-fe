@@ -37,7 +37,7 @@ const mockQuestions = [
 ];
 const colors = ['#1368CE', '#D89E00', '#26890C', '#E21B3C'];
 const shadowColors = ['#1059AF', '#B88600', '#20750A', '#C01733'];
-const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering'}, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually' } };
+const mockMatching = { choices: { 1: 'reading', 2: 'chatting', 3: 'wondering' }, stems: { 1: 'i like', 2: 'i hate', 3: 'i usually' } };
 
 
 function Kahoot() {
@@ -60,8 +60,7 @@ function Kahoot() {
                 break;
 
             case 'matching':
-            case 'draganddrop':
-                return configData(questionData.qtype, JSON.parse(questionData.additional_info));
+                return configData(questionData.qtype, questionData.additional_info);
                 break;
 
             case 'shortanswer':

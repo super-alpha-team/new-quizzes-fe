@@ -35,11 +35,11 @@ function Test() {
         console.log(answer);
     }
     const ref = useRef();
-    const toggleNameModal = () => ref.current.toggleVisibility();
-    const nameClickCallback = () => {};
-    useEffect(() => {
-        toggleNameModal();
-    }, []);
+    // const toggleNameModal = () => ref.current.toggleVisibility();
+    const nameClickCallback = () => { };
+    // useEffect(() => {
+    //     toggleNameModal();
+    // }, []);
 
     return (
         // <>
@@ -53,12 +53,14 @@ function Test() {
         // <Clock handleTimeUp={() => { }} currentIndex={0} deadTime={(Date.now() / 1000 + 900) * 1000} />
         // <Loading message={'Great, let wait for your mates!'} />
         <>
-            <Popover ref={ref}>
+            {/* <Popover ref={ref}>
                 <NameModal
                     nameClickCallback={nameClickCallback}
                     closeFn={toggleNameModal}
                 />
-            </Popover>
+            </Popover> */}
+            <PlayHeader currentIndex={1} totalQuestion={10} quizName={'quiz'} />
+            <Loading message={'Loading'} />
         </>
     );
 }

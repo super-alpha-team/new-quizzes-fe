@@ -18,71 +18,67 @@ import PlayHeader from './PlayHeader';
 import PlayFooter from './PlayFooter';
 import playApi from 'apis/playApi';
 
-function Play({ quizId, room_id, platformUserId, username, quizName }) {
+function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [questionData, setQuestionData] = useState(null);
     const [finish, setFinish] = useState(false);
     const [waitingMsg, setWaitingMsg] = useState('Loading...');
     const router = useRouter();
     const [grade, setGrade] = useState(null);
-    const [totalQuestion, setTotalQuestion] = useState(0);
     const [rank, setRank] = useState(null);
 
     useEffect(() => {
-        if (username) {
-            let data = {
-                "username": username,
-                "is_teacher": false
-            };
-            playApi.join(router.query.ltik, quizId, data)
-                .then((response) => {
-                    console.log(response.data);
-                    setTotalQuestion(response.data.question_count);
-                    socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
-                    // if (response.data.current_question_data) {
-                    //     setQuestionData(response.data.current_question_data);
-                    //     setWaitingMsg('');
-                    //     setGrade(null);
-                    // }
-                })
-                .catch(err => console.log(err));
+        let data = {
+            "is_teacher": false
+        };
+        playApi.join(router.query.ltik, quizId, data)
+            .then((response) => {
+                socket.emit('join', { username, room: room_id, token: response.data.alpha_token });
+                // if (response.data.current_question_data) {
+                //     setQuestionData(response.data.current_question_data);
+                //     setWaitingMsg('');
+                //     setGrade(null);
+                // }
+            })
+            .catch(err => console.log(err));
 
-            socket.on('question', data => {
-                console.log('question>>>', data);
-                const { current_question_index, question } = data;
-                setCurrentIndex(current_question_index);
-                if (current_question_index < 0) {
-                    setFinish(true);
-                } else {
-                    setFinish(false);
-                    setQuestionData(question);
-                    setWaitingMsg('');
-                    setGrade(null);
-                }
-            });
+        socket.on('question', data => {
+            console.log('question>>>', data);
+            const { current_question_index, question } = data;
+            setCurrentIndex(current_question_index);
+            if (current_question_index < 0) {
+                setFinish(true);
+            } else {
+                setFinish(false);
+                setQuestionData(question);
+                setWaitingMsg('');
+                setGrade(null);
+            }
+        });
 
-            socket.on('grade_student', data => {
-                if (data?.question_index) {
-                    const index = Math.max(...Object.keys(data?.grade).map(v => Number(v)));
-                    let gradeList = data?.grade[index];
-                    if (gradeList) {
-                        if (Object.entries(gradeList).length) {
-                            setGrade(gradeList[platformUserId]);
-                        }
+        socket.on('grade_student', data => {
+            console.log('[socket] grade_student >>> ', data);
+            if (data?.question_index) {
+                const index = Math.max(...Object.keys(data?.grade).map(v => Number(v)));
+                let gradeList = data?.grade[index];
+                if (gradeList) {
+                    if (Object.entries(gradeList).length) {
+                        setGrade(gradeList[userId]);
                     }
-                    setWaitingMsg('');
-                } else {
-                    setGrade(null);
                 }
-            });
+                setWaitingMsg('');
+            } else {
+                setGrade(null);
+            }
+        });
 
-            socket.on('rank', data => {
-                setRank(data.rank_list.filter(user => user.id == platformUserId)[0]);
-            });
+        socket.on('rank', data => {
+            console.log('[socket] rank >>> ', data);
+            setRank(data.rank_list.filter(user => user.id == userId)[0]);
+        });
 
-            return () => socket.disconnect();
-        }
-    }, [username]);
+        return () => socket.disconnect();
+    }, []);
 
     function handleAnswer(answer) {
         let answer_log_data = {
@@ -123,7 +119,7 @@ function Play({ quizId, room_id, platformUserId, username, quizName }) {
 
             case 'matching':
             case 'draganddrop':
-                return configData(questionData.qtype, JSON.parse(questionData.additional_info));
+                return configData(questionData.qtype, questionData.additional_info);
                 break;
 
             case 'shortanswer':

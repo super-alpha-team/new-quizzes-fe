@@ -10,11 +10,12 @@ import Play from '../../components/playing/Play';
 
 export default function PlayGame() {
   const router = useRouter();
-  const [username, setUsername] = useState(null);
+  const [username, setUsername] = useState('Chloe');
   const [history, setHistory] = useState(null);
   const [maxGrade, setMaxGrade] = useState(0);
+  const [totalQuestion, setTotalQuestion] = useState(0);
 
-  const [platformUserId, setPlatformUserId] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [quizInstance, setQuizInstance] = useState({
     quizId: null,
     quizName: null,
@@ -36,10 +37,11 @@ export default function PlayGame() {
         let info = await syncApi.syncInfo(router.query.ltik);
         setHistory(info.data?.data?.submission_data);
         console.log('info >>>', info.data?.data);
-        // console.log('additional >>> ', JSON.parse(info.data?.data?.new_quiz?.additional_info));
         // setMaxGrade(JSON.parse(info.data?.data?.new_quiz?.additional_info).count_question);
+        setTotalQuestion(info.data?.data?.new_quiz?.new_quiz_instance?.question_count);
         setMaxGrade(info.data?.data?.new_quiz?.new_quiz_instance?.sum_grade);
-        setPlatformUserId(info.data?.data?.platform_user_id);
+        setUserId(info.data?.data?.new_user?.id);
+        setUsername(info.data?.data?.user_info?.given_name);
 
         setQuizInstance({
           quizId,
@@ -58,7 +60,7 @@ export default function PlayGame() {
 
   return !quizInstance.status ? <NotStartedQuiz />
     : quizInstance.status != QUIZ_STATUS.DONE ?
-      (username ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} platformUserId={platformUserId} username={username} quizName={quizInstance.quizName} /> : <InputUsername usernameOnSubmit={setUsername} quizName={quizInstance.quizName} />)
+      <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} userId={userId} username={username} quizName={quizInstance.quizName} totalQuestion={totalQuestion} />
       : <DoneQuiz token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} />;
 
 }
