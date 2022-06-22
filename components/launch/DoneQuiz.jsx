@@ -36,7 +36,7 @@ function DoneQuiz({ token, history, quizId = 1, maxGrade = 10 }) {
                                         <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-left flex items-center">
                                             <span className="font-bold text-white bg-qpurple py-1 px-2">{name}</span></th>
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4"><div className="flex items-center">
-                                            <span className={"mr-2 bg-qgray px-4 min-w-[4rem] text-center rounded-full font-bold" + (correctness >= 0.5 ? ' text-qgreen' : ' text-qred')}>{parseFloat(grade.toFixed(2))}/{maxGrade}</span>
+                                            <span className={"mr-2 bg-qgray px-4 min-w-[4rem] text-center rounded-full font-bold" + (correctness >= 0.5 ? ' text-qgreen' : ' text-qred')}>{parseFloat(Number(grade).toFixed(2))}/{maxGrade}</span>
                                         </div>
                                         </td>
                                         <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4"><div className="flex items-center">

@@ -181,26 +181,16 @@ function ChooseQuiz() {
                         title={`New Quizzes' Name`}
                     />
                 </Popover>
-                <div className='flex items-center justify-center pt-16 ml-12'>
-                    <Breadcrumb token={router.query.ltik} actions={['Manage instances']} />
-                </div>
                 {isHavingInstance == false && (
                     <>
-                        <div className='flex items-center justify-center mt-4'>
+                        <div className='flex items-center justify-center pt-16'>
                             <Breadcrumb token={router.query.ltik} actions={['Choose quiz']} />
                         </div>
-                        <div className="w-max  m-auto pt-20 pb-2 text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
+                        <div className="w-max m-auto pt-4 pb-2 text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
                             Choose your quiz
                         </div>
-                        <p className='cursor-pointer text-center'> Choose the quiz that you want your student to play</p>
-                        <div className=' flex items-center justify-center mt-4'>
-                            {/* <div className='cursor-pointer text-left w-9/12'> Choose quiz / </div> */}
-                            <Breadcrumb token={router.query.ltik} actions={['Choose quiz']} />
-
-                        </div>
-
-
-                        <div className="w-9/12 m-auto mt-2 h-[70vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
+                        <p className='cursor-pointer text-center py-2'> Choose the quiz that you want your student to play</p>
+                        <div className="w-9/12 m-auto mt-4 h-[70vh] border-[#ECECEC] border-2 shadow-quiz rounded-2xl bg-white">
                             <div className="h-[100%] flex flex-col pt-8 pb-4 overflow-hidden overflow-y-scroll">
                                 {listQuiz.map((quizInfo, index) => (
                                     <SingleQuiz
@@ -238,6 +228,9 @@ function ChooseQuiz() {
                         {(instanceStatus === QUIZ_STATUS.EDITING ||
                             instanceStatus === QUIZ_STATUS.DONE) && (
                                 <>
+                                    <div className='flex items-center justify-center pt-16 ml-12'>
+                                        <Breadcrumb token={router.query.ltik} actions={['Manage instances']} />
+                                    </div>
                                     <div className="w-8/12 m-auto py-4">
                                         {/* <hr className="my-2" />
 

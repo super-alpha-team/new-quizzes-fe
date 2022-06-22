@@ -1,24 +1,21 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import Image from 'next/image';
-import SettingLaunch from '../components/modal/SettingLaunch';
-import Button from '../components/helpers/Button';
-import { QUIZ_STATUS } from 'utils/config';
-import WaitingRoom from '../components/launch/WaitingRoom';
-import { socket } from '../utils/socket';
-import RankingTable from '../components/ranking/RankingTable';
-import quizApi from '../apis/quizApi';
-import playApi from '../apis/playApi';
-import syncApi from '../apis/syncApi';
-import _ from 'lodash';
-import TopMenu from 'components/config/TopMenu';
-import SoundSetup from 'components/helpers/SoundSetup';
-import Alert from 'components/helpers/Alert';
-import { getRandomOptions } from '../utils/bigheads';
-import ToggleSwitch from 'components/helpers/ToggleSwitch';
 import { BigHead } from '@bigheads/core';
+import TopMenu from 'components/config/TopMenu';
+import Alert from 'components/helpers/Alert';
 import Breadcrumb from 'components/helpers/Breadcrumb';
+import SoundSetup from 'components/helpers/SoundSetup';
+import ToggleSwitch from 'components/helpers/ToggleSwitch';
+import _ from 'lodash';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { QUIZ_STATUS } from 'utils/config';
+import playApi from '../apis/playApi';
+import quizApi from '../apis/quizApi';
+import syncApi from '../apis/syncApi';
+import Button from '../components/helpers/Button';
+import WaitingRoom from '../components/launch/WaitingRoom';
+import RankingTable from '../components/ranking/RankingTable';
+import { getRandomOptions } from '../utils/bigheads';
+import { socket } from '../utils/socket';
 
 function HomePage() {
     const router = useRouter();
@@ -384,9 +381,6 @@ function HomePage() {
                                         </div>;
                                     })}
                                 </div>
-
-
-
                                 <div className="overflow-x-hidden overflow-y-auto inset-0">
                                     <div className="w-max py-4 m-auto text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
                                         Cài đặt chế độ hiển thị kết quả

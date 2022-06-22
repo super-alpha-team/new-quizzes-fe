@@ -21,7 +21,7 @@ const instructions = [
   },
 ];
 
-function Credential({ name, onSubmit }) {
+function Credential({ name, onSubmit, alertError, alertMessage }) {
   const [message, setMessage] = useState(null);
   const [clientId, setClientId] = useState("");
   const [accessToken, setAccessToken] = useState("");
@@ -33,7 +33,7 @@ function Credential({ name, onSubmit }) {
       navigator.clipboard.writeText(e.target.value);
       alertMessage("Copied to your clipboard!");
     }
-    alertError("Cannot copy!");
+    alertError("Oops! Cannot copy.");
   }
 
   function handleCreate(e) {
@@ -50,21 +50,13 @@ function Credential({ name, onSubmit }) {
       setClientId("");
       setPlatformId("");
       setAccessToken("");
+    } else {
+      alertError("Please fill in all required fields!");
     }
-  }
-
-
-  function alertMessage(msg) {
-    setNoti({ ...noti, msg });
-  }
-
-  function alertError(msg) {
-    setNoti({ isError: true, msg });
   }
 
   return (
     <>
-      {noti.msg && <Alert message={noti.msg} isError={noti.isError} hideAlert={() => setNoti({ msg: '', isError: false })} />}
       < div className='flex flex-col items-center justify-around gap-4 bg-white rounded-lg px-12 pt-8 pb-16' >
         <div className="text-lg font-mono mb-4">Configuration of <b className='after:block after:w-full after:h-3 after:bg-qpurple-light after:-mt-3 after:bg-opacity-60'>{name}</b></div>
         <div className='flex gap-8'>
@@ -81,15 +73,15 @@ function Credential({ name, onSubmit }) {
           <div className='flex flex-col gap-4'>
             <p className='text-gray-500 italic'>Please copy the Moodle tool <b>Client ID</b>, and paste it into the LTI Advantage <b>Client ID</b> field.</p>
             <div>
-              <p className='font-semibold'>Platform ID</p>
+              <p className='font-semibold'>Platform ID <span className='font-semibold text-red-500'>*</span></p>
               <input value={platformId} onChange={({ target }) => setPlatformId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
             </div>
             <div>
-              <p className='font-semibold'>Client ID</p>
+              <p className='font-semibold'>Client ID <span className='font-semibold text-red-500'>*</span></p>
               <input value={clientId} onChange={({ target }) => setClientId(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
             </div>
             <div>
-              <p className='font-semibold'>Access Token</p>
+              <p className='font-semibold'>Access Token <span className='font-semibold text-red-500'>*</span></p>
               <input value={accessToken} onChange={({ target }) => setAccessToken(target.value)} className='border-gray-300 border-[0.05rem] focus:outline-none rounded-sm px-2 py-1 w-full' required type="text" />
             </div>
             <button onClick={handleCreate} className='self-end text-qpurple rounded-md hover:bg-qpurple hover:text-white font-semibold text-sm px-8 py-2 border-[0.05rem] border-qpurple'>Save</button>

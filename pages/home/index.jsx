@@ -6,8 +6,8 @@ import { getRandomOptions } from 'utils/bigheads';
 
 function Application() {
     const router = useRouter();
-    function navigate() {
-        router.push('articles/0');
+    function navigate(id) {
+        router.push(`articles/${id}`);
     }
     return (
         <div>
@@ -66,7 +66,7 @@ function Application() {
                                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">#HowTo</h2>
                                 <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">Configuring LTI Pro 1.3 for Moodle</h1>
                                 <p className="leading-relaxed mb-3">Detailed instructions on how to configuaration LTI Pro 1.3 New Quizzes for Moodle LMS.</p>
-                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
+                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={() => navigate(0)}>Learn More
                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5l7 7-7 7"></path>
@@ -92,7 +92,7 @@ function Application() {
                                 <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">#More</h2>
                                 <h1 className="title-font sm:text-2xl text-xl font-medium text-gray-900 mb-3">About Us</h1>
                                 <p className="leading-relaxed mb-3">Get to know more about our team and how we make this New Quizzes.</p>
-                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={navigate}>Learn More
+                                <a className="text-qpurple hover:text-qpurple-light inline-flex items-center cursor-pointer" onClick={() => navigate(1)}>Learn More
                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M5 12h14"></path>
                                         <path d="M12 5l7 7-7 7"></path>

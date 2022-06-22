@@ -103,7 +103,7 @@ function App() {
         setNoti({ isError: true, msg });
     }
 
-    const toggleLogin = () => {};
+    const toggleLogin = () => { };
     useEffect(() => {
         getPlatformList();
     }, []);
@@ -125,7 +125,7 @@ function App() {
                 </div>
             </Popover>
             <Popover ref={credentialRef}>
-                <Credential name={title} onSubmit={createNewCredential} />
+                <Credential name={title} onSubmit={createNewCredential} alertError={alertError} alertMessage={alertMessage} />
             </Popover>
             <Popover ref={editCredentialRef}>
                 <PlatformEditModal
@@ -134,12 +134,8 @@ function App() {
                     callBackFn={editCredentialCallback}
                 />
             </Popover>
-            {/* <Popover ref={deleteCredentialRef}>
-            <p>Cancel</p>
-            <p onClick={deleteCredentialConfirm}>Confirm</p>
-        </Popover> */}
+            <PlatformHeader />
             <div className='min-w-screen min-h-screen bg-gray-100 flex flex-col'>
-                <PlatformHeader />
                 <div className='w-5/6 self-center mb-20 mt-8'>
                     <div className='mt-7 flex flex-col gap-2'>
                         <div className='flex justify-between mt-4'>
