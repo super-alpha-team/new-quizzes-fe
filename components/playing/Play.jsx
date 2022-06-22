@@ -144,7 +144,7 @@ function Play({ quizId, room_id, userId, username, quizName, totalQuestion }) {
                         </div>}
                 </>
         }
-        <PlayFooter username={username} sumGrade={rank?.sum_grade} />
+        <PlayFooter username={username} sumGrade={waitingMsg ? null : rank?.sum_grade} />
     </>;
 }
 
