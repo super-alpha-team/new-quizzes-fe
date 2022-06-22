@@ -9,13 +9,13 @@ function DoneQuiz({ token, history, quizId = 1, maxGrade = 10 }) {
     }, []);
 
     return (
-        <section className="relative py-8 bg-qgray min-h-screen">
+        <section className="relative py-8 bg-qgray min-h-screen text-sm lg:text-xl md:text-lg">
             <div className="w-full mb-12 px-4">
                 <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded bg-qpurple-dark text-white">
                     <div className="rounded-t mb-0 px-4 py-3 border-0">
                         <div className="flex flex-wrap items-center">
                             <div className="relative w-full max-w-full flex-grow flex-1">
-                                <h3 className="font-semibold text-lg text-white uppercase flex justify-center">History</h3>
+                                <h3 className="font-semibold text-white uppercase flex justify-center">History</h3>
                             </div>
                         </div>
                     </div>
