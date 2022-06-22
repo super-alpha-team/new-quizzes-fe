@@ -59,6 +59,6 @@ export default function PlayGame() {
   return !quizInstance.status ? <NotStartedQuiz />
     : quizInstance.status != QUIZ_STATUS.DONE ?
       <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} userId={userId} username={username} quizName={quizInstance.quizName} totalQuestion={totalQuestion} />
-      : <DoneQuiz token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} />;
+      : <DoneQuiz token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} username={username} />;
 
 }
