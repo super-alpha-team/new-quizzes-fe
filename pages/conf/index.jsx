@@ -210,7 +210,7 @@ function ChooseQuiz() {
                                     type="button"
                                     variants="qpurple"
                                     onClick={toggleNameModal}
-                                    className="w-32"
+                                    className="w-max"
                                 >
                                     Continue
                                 </Button>
@@ -300,7 +300,7 @@ function ChooseQuiz() {
                                                         {instance.status ==
                                                             QUIZ_STATUS.EDITING && (
                                                                 <Button
-                                                                    className="text-sm min-w-40"
+                                                                    className="text-sm w-max"
                                                                     onClick={() =>
                                                                         handleContinueConfigTime(
                                                                             instance.id

@@ -159,7 +159,7 @@ function ConfigQuestion() {
                         <Button
                             type="button"
                             variants="qpurple"
-                            className="w-32"
+                            className="w-max"
                         >
                             Continue
                         </Button>
@@ -236,7 +236,7 @@ function ConfigQuestion() {
                     <Button
                         type="button"
                         variants="qpurple"
-                        className="w-32 flex justify-center mr-0 ml-auto mt-4"
+                        className="w-max flex justify-center mr-0 ml-auto mt-4"
                         onClick={handleSaveQuizWithTime}
                     >
                         Continue

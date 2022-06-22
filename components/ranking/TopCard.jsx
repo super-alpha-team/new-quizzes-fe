@@ -29,7 +29,7 @@ function TopCard({ data, listStudentJoined }) {
                 </div>
                 <div className="px-6 py-2 flex justify-center items-center">
                     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                        Your grade: {data?.sum_grade == undefined ? unknow_field : parseFloat(Number(data?.sum_grade).toFixed(2))}
+                        Score: {data?.sum_grade == undefined ? unknow_field : parseFloat(Number(data?.sum_grade).toFixed(2))}
                     </span>
                 </div>
                 <div>
@@ -51,7 +51,7 @@ function TopCard({ data, listStudentJoined }) {
             </div>
             <div className="px-6 py-2 flex justify-center items-center">
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                    Your grade: {data?.sum_grade == undefined ? unknow_field : parseFloat(Number(data?.sum_grade).toFixed(2))}
+                    Score: {data?.sum_grade == undefined ? unknow_field : parseFloat(Number(data?.sum_grade).toFixed(2))}
                 </span>
             </div>
             <div>

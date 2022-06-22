@@ -403,7 +403,7 @@ function HomePage() {
                                     type="button"
                                     variants="qpurple"
                                     onClick={handleOpenModal}
-                                    className="w-32"
+                                    className="w-max"
                                 >
                                     Start quiz
                                 </Button>

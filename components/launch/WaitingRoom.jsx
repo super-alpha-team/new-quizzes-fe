@@ -22,7 +22,7 @@ function WaitingRoom({ listStudentJoined, startGameFn }) {
                 Waiting for students to join...
             </div>
             <div className='flex justify-end items-end px-24 my-4'>
-                <Button variants='qpurple' onClick={handleStartGame} className="w-32">
+                <Button variants='qpurple' onClick={handleStartGame} className="w-max">
                     {`Start`}
                 </Button>
             </div>
