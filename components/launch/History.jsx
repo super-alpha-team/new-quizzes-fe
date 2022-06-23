@@ -3,10 +3,11 @@ import playApi from 'apis/playApi';
 import PlayFooter from 'components/playing/PlayFooter';
 import React, { useEffect, useState } from 'react';
 
-function DoneQuiz({ token, history, quizId = 1, maxGrade = 10, username }) {
+function History({ token, history, quizId = 1, maxGrade = 10, username }) {
+    console.log('history>>>', history);
     const [data, setData] = useState([]);
     useEffect(() => {
-        setData(history.map(v => ({ ...v, correctness: (v.grade / maxGrade) })));
+        setData(history.map(v => ({ ...v, score: v.data?.total_grade, correctness: (v.data?.total_grade / maxGrade) })));
     }, []);
 
     return (
@@ -26,19 +27,19 @@ function DoneQuiz({ token, history, quizId = 1, maxGrade = 10, username }) {
                                 <thead>
                                     <tr>
                                         <th className="px-6 align-middle border border-solid py-3 uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-qpurple-dark text-pink-300 border-qpurple-light">Instance</th>
-                                        <th className="px-6 align-middle border border-solid py-3 uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-qpurple-dark text-pink-300 border-qpurple-light">Grade</th>
+                                        <th className="px-6 align-middle border border-solid py-3 uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-qpurple-dark text-pink-300 border-qpurple-light">score</th>
                                         {/* <th className="px-6 align-middle border border-solid py-3 uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-qpurple-dark text-pink-300 border-qpurple-light">Rank</th> */}
                                         <th className="px-6 align-middle border border-solid py-3 uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-qpurple-dark text-pink-300 border-qpurple-light">Correctness</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {data.map(({ id, name, grade, correctness }) =>
+                                    {data.map(({ id, name, score, correctness }) =>
                                         <tr key={id}>
                                             <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4 text-left flex items-center">
                                                 <span className="font-bold text-white bg-qpurple py-1 px-2">{name}</span></th>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4"><div className="flex items-center">
-                                                <span className={"mr-2 bg-qgray px-4 min-w-[4rem] text-center rounded-full font-bold" + (correctness >= 0.5 ? ' text-qgreen' : ' text-qred')}>{parseFloat(Number(grade).toFixed(2))}/{maxGrade}</span>
+                                                <span className={"mr-2 bg-qgray px-4 min-w-[4rem] text-center rounded-full font-bold" + (correctness >= 0.5 ? ' text-qgreen' : ' text-qred')}>{parseFloat(Number(score).toFixed(2))}/{maxGrade}</span>
                                             </div>
                                             </td>
                                             <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 whitespace-nowrap p-4"><div className="flex items-center">
@@ -63,9 +64,9 @@ function DoneQuiz({ token, history, quizId = 1, maxGrade = 10, username }) {
                     </div>
                 </div>
             </section>
-            <PlayFooter username={username} sumGrade={null} />
+            <PlayFooter username={username} sumscore={null} />
         </>
     );
 }
 
-export default DoneQuiz;
+export default History;

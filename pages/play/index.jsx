@@ -1,11 +1,9 @@
 import syncApi from 'apis/syncApi';
-import DoneQuiz from 'components/launch/DoneQuiz';
-import InputUsername from 'components/launch/InputUsername';
+import History from 'components/launch/History';
 import NotStartedQuiz from 'components/launch/NotStartedQuiz';
 import { useRouter } from 'next/router';
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { QUIZ_STATUS } from 'utils/config';
-import Loading from '../../components/launch/Loading';
 import Play from '../../components/playing/Play';
 
 export default function PlayGame() {
@@ -59,6 +57,6 @@ export default function PlayGame() {
   return !quizInstance.status ? <NotStartedQuiz />
     : quizInstance.status != QUIZ_STATUS.DONE ?
       <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} userId={userId} username={username} quizName={quizInstance.quizName} totalQuestion={totalQuestion} />
-      : <DoneQuiz token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} username={username} />;
+      : <History token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} username={username} />;
 
 }
