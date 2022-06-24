@@ -78,13 +78,13 @@ function HomePage() {
                         const tmpColumns = response.data.data.question_list.map(
                             (question, index) => {
                                 const obj = Object.create({});
-                                obj['header'] = `Câu hỏi ${index + 1}`;
+                                obj['header'] = `Question ${index + 1}`;
                                 obj['id'] = index;
                                 return obj;
                             }
                         );
                         tmpColumns.unshift({
-                            header: 'Tên',
+                            header: 'Username',
                             id: 'name'
                         });
 
@@ -300,13 +300,13 @@ function HomePage() {
         const tmpColumns = response.data.data.question_list.map(
             (question, index) => {
                 const obj = Object.create({});
-                obj['header'] = `Câu hỏi ${index + 1}`;
+                obj['header'] = `Question ${index + 1}`;
                 obj['id'] = index;
                 return obj;
             }
         );
         tmpColumns.unshift({
-            header: 'Tên',
+            header: 'Username',
             id: 'name'
         });
 
@@ -319,7 +319,7 @@ function HomePage() {
 
     async function handleSaveGrade() {
         if (!isFinish) {
-            alertError('Chưa kết thúc bài thi');
+            alertError('The quiz has not finished!');
         }
         try {
             let response = await quizApi.saveGrade(
@@ -383,12 +383,12 @@ function HomePage() {
                                 </div>
                                 <div className="overflow-x-hidden overflow-y-auto inset-0">
                                     <div className="w-max py-4 m-auto text-2xl font-bold after:block after:w-full after:h-4 text-qpurple after:bg-qpurple-light after:opacity-50 after:-mt-3 after:bg-opacity-60 ">
-                                        Cài đặt chế độ hiển thị kết quả
+                                        Setting username display mode
                                     </div>
 
                                     <div className="flex flex-col gap-4 mb-8">
                                         <div className="flex justify-between items-center">
-                                            <p>Xáo trộn câu trả lời</p>
+                                            <p>Shuffle answers</p>
                                             <ToggleSwitch
                                                 isToggle={shuffleAnswerSetting}
                                                 setIsToggle={

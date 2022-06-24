@@ -54,9 +54,9 @@ export default function PlayGame() {
 
   }, [router.query.ltik]);
 
-  return !quizInstance.status ? <NotStartedQuiz />
-    : quizInstance.status != QUIZ_STATUS.DONE ?
-      <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} userId={userId} username={username} quizName={quizInstance.quizName} totalQuestion={totalQuestion} />
-      : <History token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} username={username} />;
+  return quizInstance.status == QUIZ_STATUS.DONE ?
+      <History token={router.query.ltik} history={history} quizId={quizInstance.quizId} maxGrade={maxGrade} username={username} />
+      : quizInstance.status == QUIZ_STATUS.PLAYING || quizInstance.status == QUIZ_STATUS.PENDING ? <Play quizId={quizInstance.quizId} room_id={quizInstance.roomId} userId={userId} username={username} quizName={quizInstance.quizName} totalQuestion={totalQuestion} />
+      : <NotStartedQuiz />;
 
 }

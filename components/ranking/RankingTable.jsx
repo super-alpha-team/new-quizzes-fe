@@ -50,7 +50,7 @@ function RankingTable({ columns, data, topStudent, listStudentJoined }) {
                                                 >
                                                     {/* {data[key].map((cell, ind) => Object.keys(cell).find(key => key == index))} */}
                                                     {data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index)) == undefined 
-                                                    ? 'p' : 
+                                                    ? '_' : 
                                                     data[key].filter((cell, ind) => Object.keys(cell).find(key => key == index))
                                                     .map((res, idx) => Object.keys(res).map((key1, id1)  => res[key1])
                                                     

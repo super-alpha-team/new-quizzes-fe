@@ -46,12 +46,12 @@ function SettingLaunch({ data, closeModal, settingStartQuiz }) {
                     ref={wrapperRef}
                 >
                     <p className="text-xl font-bold mb-1">
-                        Cài đặt chế độ hiển thị kết quả{' '}
+                        Setting username display mode{' '}
                     </p>
                     <hr />
                     <div className="flex flex-col gap-4 mt-6">
                         <div className="flex justify-between items-center">
-                            <p>Hiển thị tên</p>
+                            <p>Display username</p>
                             <ToggleSwitch isToggle={showNameSetting} setIsToggle={setShowNameSetting} />
                         </div>
                         <div className="flex justify-between items-center">
@@ -59,16 +59,16 @@ function SettingLaunch({ data, closeModal, settingStartQuiz }) {
                             <ToggleSwitch isToggle={shuffleQuestionSetting} setIsToggle={setShuffleQuestionSetting}/>
                         </div>
                         <div className="flex justify-between items-center">
-                            <p>Xáo trộn câu trả lời</p>
+                            <p>Shuffle answers</p>
                             <ToggleSwitch isToggle={shuffleAnswerSetting} setIsToggle={setShuffleAnswerSetting}/>
                         </div>
                     </div>
                     <div className="flex gap-2 mt-8 justify-end">
                         <Button type="button" variants="secondary" onClick={closeModal}>
-                            Hủy
+                            Cancel
                         </Button>
                         <Button type="button" variants="primary" onClick={goToLiveResult}>
-                            Bắt đầu
+                            Start
                         </Button>
                     </div>
                 </form>
