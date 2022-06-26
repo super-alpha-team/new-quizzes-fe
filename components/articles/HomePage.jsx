@@ -9,29 +9,29 @@ function HomePage() {
             <p className="text-gray-400 italic text-sm mt-36">Last updated: Mar 16 2022</p>
             <p className="text-gray-400 text-sm italic">Author: Kim Ngan Dinh Phan</p>
             <div className='mt-4 mb-20'>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Install Moodle Plugin</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 1: Install Moodle Plugin</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Log in to Moodle as an Admin.</li>
-                    <li>Click Site administration, then Plugins.</li>
-                    <li>Click Install plugins.</li>
+                    <li>Click <b> Site administration </b>, then <b> Plugins </b>.</li>
+                    <li>Click Install <b> Plugins </b>.</li>
                     <li>Click <a className='hover:text-qpurple text-qpurple-light underline italic' href='https://drive.google.com/file/d/1EmUvGNBcLfkFyDOCL5KZ52_Jrmua09yp/view?usp=sharing' target="blank">here</a> to download .zip file and upload to Moodle.</li>
                     <li>Submit.</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Creating a new credential</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 2: Creating a new credential</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Login (or create a new account) in <a href={`/platform`} className='hover:text-qpurple text-qpurple-light underline italic' target="blank" rel="noopener noreferrer">LTI Configuration Page</a></li>
                     <li>Click Create a new LTI credential.</li>
                     <li>Enter new credential name and click Next.</li>
                     <li>Back to Moodle and follow the instructions below. (Keep this page open for further configurations)</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Creating a Client ID in Moodle</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 3: Creating a Client ID in Moodle</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Log in to Moodle as an Admin.</li>
-                    <li>Click Site administration, then Plugins.</li>
+                    <li>Click <b> Site administration </b>, then <b> Plugins </b>.</li>
                     <li>Click External tool, then Manage tools.</li>
                     <li>Click configure a tool manually.</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Configuring the external tool</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 4: Configuring the external tool</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Enter "NewQuizzes" in the Tool name field.</li>
                     <li>Copy the Target Link URL in the LTI Configuration Page, and paste it in the Tool URL field.</li>
@@ -54,9 +54,9 @@ function HomePage() {
                     </li>
                     <li>Click Save Changes.</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Continuing configure </h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 5: Continuing configure </h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
-                    <li>Find the Tool that was created earlier in the Manage tools page of Moodle.</li>
+                    <li>Find the Tool that was created (step 4) in the Manage tools page of Moodle.</li>
                     <li> 
                         <div className="flex gap-2">
                             Click <span><img alt="list icon" className='w-6 h-6' src="/list.png"/></span> to view configuration details.  
@@ -64,12 +64,12 @@ function HomePage() {
                     </li>
                     <li>Back to LTI Configuration Page, Copy Platform ID and Client ID and parse them in corresponding fields.</li>
                     <li>With Access Token field, back to Moodle.</li>
-                    <li>Click Site administration, then Server.</li>
+                    <li>Click <b> Site administration </b>, then Server.</li>
                     <li>Click Manage tokens at Web services section.</li>
                     <li>Copy the Token of Admin User and parse it in the Access Token field of LTI Configuration Page.</li>
                     <li>Click Save. Now your LTI plugin is ready!</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Adding the Tool to Moodle Course</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 5: Adding the Tool to Moodle Course</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>On Moodle go to the course that you want to add the Tool to.</li>
                     <li>Click Turn editing on, then click Add an activity or resource.</li>
@@ -78,7 +78,7 @@ function HomePage() {
                     <li>For Preconfigured tool, choose the Tool created earlier.</li>
                     <li>Click Save and return to course.</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Launching the LTI 1.3 tool</h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Step 6: Launching the LTI 1.3 tool</h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Click the link to the Tool that was just added earlier and the LTI Pro user interface should appear:</li>
                 </ol>
