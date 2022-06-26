@@ -44,8 +44,8 @@ function HomePage() {
                     <li>At Default launch container: Choose "New window"</li>
                     <li>At Services Section:
                         <br />{`IMS LTI Assignment and Grade Services: Choose "Use this service for grade sync and column manageme"`}
-                        <br />{`IMS LTI Names and Role Provisioning: Choose "Use this service for grade sync and column manageme"`}
-                        <br />{`Tool Settings: Choose "Use this service to retrieve members' information as per privacy settings"`}
+                        <br />{`IMS LTI Names and Role Provisioning: Choose "Use this service to retrieve members' information as per privacy settings"`}
+                        <br />{`Tool Settings: Choose "Use this service"`}
                     </li>
                     <li>At Privacy Section:
                         <br />{`Share launcher's name with tool: "Always"`}
