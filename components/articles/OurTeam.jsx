@@ -4,7 +4,7 @@ import { shuffleArray, TEAM_MEMBERS } from 'utils/helpers';
 
 function OurTeam() {
     return (
-        <section className="text-gray-600 body-font pt-16 px-12 w-full h-full flex flex-col bg-qgray-light">
+        <section className="text-gray-600 body-font pt-16 px-12 w-full h-full flex flex-col justify-between bg-qgray-light min-h-screen">
             <div className="w-full h-full">
                 <div className="flex flex-col text-center w-full mb-4">
                     <h1 className="text-2xl font-medium title-font mb-4 text-gray-900">OUR TEAM</h1>
@@ -42,8 +42,8 @@ function OurTeam() {
                             </div>
                         </div>)}
                 </div>
-                <div className='flex justify-center mb-4 text-black'>From Alpha team with 💖</div>
             </div>
+                <div className='flex justify-center mb-4 text-black'>From Alpha team with 💖</div>
         </section >
     );
 }
