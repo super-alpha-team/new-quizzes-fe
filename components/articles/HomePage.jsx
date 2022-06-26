@@ -54,10 +54,14 @@ function HomePage() {
                     </li>
                     <li>Click Save Changes.</li>
                 </ol>
-                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Continuing </h3>
+                <h3 className='text-2xl mt-4 mb-1 text-qpurple font-bold'>Continuing configure </h3>
                 <ol className='list-decimal pl-20 py-1 leading-7'>
                     <li>Find the Tool that was created earlier in the Manage tools page of Moodle.</li>
-                    <li>Click View configuration details.</li>
+                    <li> 
+                        <div className="flex gap-2">
+                            Click <span><img alt="list icon" className='w-6 h-6' src="/list.png"/></span> to view configuration details.  
+                        </div>
+                    </li>
                     <li>Back to LTI Configuration Page, Copy Platform ID and Client ID and parse them in corresponding fields.</li>
                     <li>With Access Token field, back to Moodle.</li>
                     <li>Click Site administration, then Server.</li>
