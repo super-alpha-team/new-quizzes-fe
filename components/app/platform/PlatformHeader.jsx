@@ -24,7 +24,7 @@ function PlatformHeader() {
   const [noti, setNoti] = useState({ msg: '', isError: false });
 
   function alertMessage(msg) {
-    setNoti({ ...noti, msg });
+    setNoti({ isError: false, msg });
   }
 
   function alertError(msg) {

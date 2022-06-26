@@ -33,7 +33,7 @@ function Credential({ name, onSubmit, alertError, alertMessage }) {
       navigator.clipboard.writeText(e.target.value);
       alertMessage("Copied to your clipboard!");
     }
-    alertError("Oops! Cannot copy.");
+    else { alertError("Oops! Cannot copy."); }
   }
 
   function handleCreate(e) {
