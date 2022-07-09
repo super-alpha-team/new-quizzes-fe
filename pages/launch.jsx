@@ -128,9 +128,8 @@ function HomePage() {
                     setNewQuizInstance(newQuizInstanceData);
 
                     try {
-                        const settingData = JSON.parse(
-                            newQuizInstanceData.additional_info
-                        );
+                        const settingData = 
+                            newQuizInstanceData.additional_info;
                         setSettingData(settingData);
                         setShuffleAnswerSetting(
                             settingData.shuffleAnswerSetting
@@ -172,7 +171,7 @@ function HomePage() {
                 token: response.data.alpha_token
             });
             socket.on('data', (data) => {
-                if (data.type == 'join') {
+                // if (data.type == 'join') {
                     const data_arr = Object.keys(data.player).map((key) => {
                         return {
                             id: key,
@@ -192,7 +191,7 @@ function HomePage() {
                     );
 
                     setAllRowData(idStudentArray);
-                }
+                // }
             });
             socket.on('grade', (data) => {
                 if (data.grade_data) {
